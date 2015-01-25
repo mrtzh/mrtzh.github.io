@@ -3,10 +3,10 @@
   <channel>
     <title>Moody Rd</title>
     <description>A blog about machine learning.</description>
-    <link>www.mrtz.org/</link>
-    <atom:link href="www.mrtz.org/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 25 Jan 2015 11:21:36 -0800</pubDate>
-    <lastBuildDate>Sun, 25 Jan 2015 11:21:36 -0800</lastBuildDate>
+    <link>blog.mrtz.org/</link>
+    <atom:link href="blog.mrtz.org/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 25 Jan 2015 15:31:21 -0800</pubDate>
+    <lastBuildDate>Sun, 25 Jan 2015 15:31:21 -0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -62,10 +62,29 @@ clear accepts, and the  other 93% are random.&lt;/li&gt;
 &lt;/ol&gt;
 </description>
         <pubDate>Mon, 15 Dec 2014 11:45:39 -0800</pubDate>
-        <link>www.mrtz.org/2014/12/15/the-nips-experiment.html</link>
-        <guid isPermaLink="true">www.mrtz.org/2014/12/15/the-nips-experiment.html</guid>
+        <link>blog.mrtz.org/2014/12/15/the-nips-experiment.html</link>
+        <guid isPermaLink="true">blog.mrtz.org/2014/12/15/the-nips-experiment.html</guid>
         
         <category>tcs</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>How big data is unfair</title>
+        <description>&lt;p&gt;Head on over to &lt;a href=&quot;https://medium.com/@mrtz/how-big-data-is-unfair-9aa544d739de&quot;&gt;Medium&lt;/a&gt;
+for a non-technical general audience piece I wrote on &lt;em&gt;why machine learning is not, by
+default, fair or just in any meaningful way.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Since I first wrote this post there’s been some interesting follow up by
+&lt;a href=&quot;https://medium.com/@hannawallach/big-data-machine-learning-and-the-social-sciences-927a8e20460d&quot;&gt;Hanna
+Wallach&lt;/a&gt;.
+Also be sure to check out the web site of the &lt;a href=&quot;www.fatml.org&quot;&gt;NIPS workshop&lt;/a&gt; on fairness,
+accountability and transparency that Solon Barocas and I organized.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 26 Sep 2014 18:02:37 -0700</pubDate>
+        <link>blog.mrtz.org/2014/09/26/how-big-data-is-unfair.html</link>
+        <guid isPermaLink="true">blog.mrtz.org/2014/09/26/how-big-data-is-unfair.html</guid>
         
         
       </item>
@@ -112,8 +131,8 @@ With this notion at hand, what DGN show is that given access to \({\delta}\)-ine
 &lt;p style=&quot;text-align: center;&quot;&gt;&lt;em&gt;To stay on top of future posts, subscribe to the &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://mrtz.org/blog/feed/&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 18 Aug 2014 12:31:57 -0700</pubDate>
-        <link>www.mrtz.org/2014/08/18/robustness-versus-acceleration.html</link>
-        <guid isPermaLink="true">www.mrtz.org/2014/08/18/robustness-versus-acceleration.html</guid>
+        <link>blog.mrtz.org/2014/08/18/robustness-versus-acceleration.html</link>
+        <guid isPermaLink="true">blog.mrtz.org/2014/08/18/robustness-versus-acceleration.html</guid>
         
         <category>algorithms</category>
         
@@ -137,11 +156,21 @@ With this notion at hand, what DGN show is that given access to \({\delta}\)-ine
       <item>
         <title>Pearson&#39;s polynomial</title>
         <description>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;em&gt;A 120 year old algorithm for learning mixtures of gaussians turns out to be optimal&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;So, how was math writing in 1894? I&#39;d imagined it to be a lot like one of Nietzsche&#39;s last diary entries except with nouns replaced by German fraktur symbols, impenetrable formalisms and mind-bending passive voice constructions. I was in for no small surprise when I started reading Karl Pearson&#39;s &lt;a href=&quot;https://archive.org/details/philtrans02543681&quot;&gt;Contributions to the Mathematical Theory of Evolution&lt;/a&gt;. The paper is quite enjoyable! The math is rigorous yet not overly formal. Examples and philosophical explanations motivate various design choices and definitions. A careful experimental evaluation gives credibility to the theory.&lt;/p&gt;
+
+&lt;p&gt;So, how was math writing in 1894? I’d imagined it to be a lot like one of Nietzsche’s last diary entries except with nouns replaced by German fraktur symbols, impenetrable formalisms and mind-bending passive voice constructions. I was in for no small surprise when I started reading Karl Pearson’s &lt;a href=&quot;https://archive.org/details/philtrans02543681&quot;&gt;Contributions to the Mathematical Theory of Evolution&lt;/a&gt;. The paper is quite enjoyable! The math is rigorous yet not overly formal. Examples and philosophical explanations motivate various design choices and definitions. A careful experimental evaluation gives credibility to the theory.&lt;/p&gt;
+
 &lt;p&gt;The utterly mind-boggling aspect of the paper however is not how well-written it is, but rather what Pearson actually did in it and how far ahead of his time he was. This is the subject of this post.&lt;/p&gt;
-&lt;p&gt;Pearson was interested in building a mathematical theory for evolutionary biology. In hindsight, his work is also one of the earliest contributions to the &lt;em&gt;computational&lt;/em&gt; theory of evolution. This already strikes me as visionary as it remains a hot research area today. The Simons Institute in Berkeley just devoted a &lt;a href=&quot;http://simons.berkeley.edu/programs/evolution2014&quot;&gt;semester-long program&lt;/a&gt; to it.&lt;/p&gt;
+
+&lt;p&gt;Pearson was interested in building a mathematical theory for evolutionary
+biology. In hindsight, his work is also one of the earliest contributions to
+the &lt;em&gt;computational&lt;/em&gt; theory of evolution. This already strikes me as
+visionary as it remains a hot research area today. The Simons Institute in
+Berkeley just devoted a &lt;a href=&quot;http://simons.berkeley.edu/programs/evolution2014&quot;&gt;semester-long program&lt;/a&gt; to it.&lt;/p&gt;
+
 &lt;p&gt;In his paper, he considers the distribution of a single measurement among a population, more concretely, the forehead width to body length ratio among a population of crabs. The crab data had been collected by zoologist Weldon and his wife during their 1892 &lt;a href=&quot;http://statprob.com/encyclopedia/WalterFrankRaphaelWeldon.html&quot;&gt;easter vacation&lt;/a&gt; on Malta. Wikipedia describes the crab (&lt;a href=&quot;http://en.wikipedia.org/wiki/Carcinus_maenas&quot;&gt;carcinus maenas&lt;/a&gt;) as one of the &quot;&lt;em&gt;world&#39;s worst alien invasive species&quot;&lt;/em&gt;, but fails to acknowledge the crab&#39;s academic contributions.&lt;/p&gt;
-&lt;p&gt;[caption id=&quot;attachment_342&quot; align=&quot;aligncenter&quot; width=&quot;547&quot;]&lt;a href=&quot;http://mrtz.org/blog/wp-content/uploads/2014/04/crab1.jpg&quot;&gt;&lt;img class=&quot;size-full wp-image-342&quot; src=&quot;http://mrtz.org/blog/wp-content/uploads/2014/04/crab1.jpg&quot; alt=&quot;The Pearson-Weldon crab: Evil alien invader or misjudged scientific apprentice?&quot; width=&quot;547&quot; height=&quot;385&quot; /&gt;&lt;/a&gt; The Pearson-Weldon crab: Evil alien invader or misjudged scientific apprentice?[/caption]&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/crab1.jpg&quot; alt=&quot;Pearson-Weldon crab&quot; /&gt;&lt;/p&gt;
+
 &lt;p&gt;&lt;span style=&quot;line-height: 1.5;&quot;&gt;The Weldons had taken 1000 samples each with 23 attributes of wich all but the one attribute describing forehead to body length ratio seemed to follow a single normal distribution. Regarding this peculiar deviation from normal, Pearson notes:&lt;/span&gt;&lt;/p&gt;
 &lt;blockquote&gt;&lt;p&gt;In the case of certain biological, sociological, and economic
 measurements there is, however, a well-marked deviation from this normal
@@ -159,7 +188,9 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p&gt;Eric Price and I have a &lt;a href=&quot;http://arxiv.org/abs/1404.4997&quot;&gt;recent result&lt;/a&gt; that resolves this problem by giving a computationally efficient estimator that achieves an optimal bound on the number of samples:&lt;/p&gt;
 &lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;strong&gt;Theorem.&lt;/strong&gt; Denoting by \({\sigma^2}\) the overall variance of the mixture, \({\Theta(\sigma^{12})}\) samples are necessary and sufficient to estimate each parameter to constant additive distance. The estimator is computationally efficient and extends to the \({d}\)-dimensional mixture problem up to a necessary factor of \({O(\log d)}\) in the sample requirement.&lt;/p&gt;
 &lt;p&gt;Strikingly, our one-dimensional estimator turns out to be very closely related to Pearson&#39;s approach. Some extensions are needed, but I&#39;m inclined to say that our result can be interpreted as showing that Pearson&#39;s original estimator is in fact an optimal solution to the problem he proposed.&lt;/p&gt;
-&lt;p&gt;Until a recent breakthrough result by &lt;a href=&quot;http://people.csail.mit.edu/moitra/docs/2g-full.pdf&quot;&gt;Kalai, Moitra and Valiant&lt;/a&gt; (2010), no polynomial bounds for the problem were known except under stronger assumptions on the gaussian components.&lt;/p&gt;
+
+&lt;p&gt;Until a recent breakthrough result by &lt;a href=&quot;http://people.csail.mit.edu/moitra/docs/2g-full.pdf&quot;&gt;Kalai, Moitra and Valiant&lt;/a&gt; (2010), no polynomial bounds for the problem were known except under stronger assumptions on the gaussian components.&amp;lt;&lt;/p&gt;
+
 &lt;h3&gt; A word about definitions&lt;/h3&gt;
 &lt;p&gt;Of course, we need to be a bit more careful with the above statements. Clearly we can only hope to recover the parameters up to permutation of the two gaussian components as any permutation gives an identical mixture. Second, we cannot hope to learn the mixture probabilities in general up to small error. If, for example, the two gaussian components are indistinguishable, there is no way of learning the mixture probabilities---even though we can estimate means and variances easily by treating the distribution as one gaussian. On the other hand, if the gaussian components are distinguishable then it is not hard to estimate the mixture probabilities from the other parameters and the overall mean and variance of the mixture. For this reason it makes some sense to treat the mixture probabilities separately and focus on learning means and variances of the mixture.&lt;/p&gt;
 &lt;p&gt;Another point to keep in mind is that our notion of parameter distance should be scale-free. A reasonable goal is therefore to learn parameters \({\hat \mu_1,\hat \mu_2,\hat\sigma_1,\hat\sigma_2}\) such that if \({\mu_1,\mu_2,\sigma_1,\sigma_2}\) are the unknown parameters, there is a permutation \({\pi\colon\{1,2\}\rightarrow\{1,2\}}\) such that for all \({i\in\{1,2\},}\)&lt;/p&gt;
@@ -168,7 +199,10 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;h2&gt;Some intuition for the proof&lt;/h2&gt;
 &lt;p&gt;While the main difficulty in the proof is the upper bound, let&#39;s start with some intuition for why we can&#39;t hope to do better than \({\sigma^{12}}\). Just like Pearson&#39;s estimator and that of Kalai, Moitra and Valiant, our estimator is based on the first six moments of the distribution. It is not hard to show that estimating the \({k}\)-th moment up to error \({\epsilon\sigma^k}\) requires \({\Omega(1/\epsilon^2)}\) samples. Hence, learning each of the first six moments to constant error needs \({\Omega(\sigma^{12})}\) samples. This doesn&#39;t directly imply a lower bound for the mixture problem. After all, learning mixtures could be strictly easier than estimating the first six moments. Nevertheless, we know from Pearson that there are two mixtures that have matching first \({5}\) moments. This turns out to give you a huge hint as to how to prove a lower bound for the mixture problem. The key observation is that two mixtures that have matching first \({5}\) moments and constant parameters are extremely close to each other after adding a gaussian variable \({N(0,\sigma^2)}\) to both mixtures for large enought \({\sigma^2}\). Note that we still have two mixtures of gaussians after this operation and the total variance is \({O(\sigma^2).}\)&lt;/p&gt;
 &lt;p&gt;Making this statement formal requires choosing the right probability metric. In our case this turns out to be the squared Hellinger distance. Sloppily identifying distributions with density functions like only a true computer scientist would do, the squared Hellinger distance is defined as&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle \mathrm{H}^2(f,g) = \frac12\int_{-\infty}^{\infty} \Big(\sqrt{f(x)}-\sqrt{g(x)}\Big)^2 \mathrm{d}x\,. \)&lt;/p&gt;
+
+&lt;p&gt;\[\mathrm{H}^2(f,g) = \frac12\int_{-\infty}^{\infty}
+\Big(\sqrt{f(x)}-\sqrt{g(x)}\Big)^2 \mathrm{d}x\,. \]&lt;/p&gt;
+
 &lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;strong&gt;Lemma.&lt;/strong&gt; Let \({f,g}\) be mixtures with matching first \({k}\) moments and constant parameters. Let \({p,q}\) be the distributions obtained by adding \({N(0,\sigma^2)}\) to each distribution. Then, \({\mathrm{H}^2(p,q)\le O(1/\sigma^{2k+2})}\).&lt;/p&gt;
 &lt;p&gt;The lemma immediately gives the lower bound we need. Indeed, the squared Hellinger distance is sub-additive on product distributions. So, it&#39;s easy to see what happens for \({n}\) independent samples from each distribution. This can increase the squared Hellinger distance by at most a factor \({n}\). In particular, for any \({n=o(\sigma^{2k+2})}\) the squared Hellinger distance between \({n}\) samples from each distribution is at most \({o(1)}\). Owing to a useful relation between the Hellinger distance and total variation, this implies that also the total variation distance is at most \({o(1)}\). Using the definition of total variation distance, this means no estimator (efficient or not) can tell apart the two distributions from \({n=o(\sigma^{2k+2})}\) samples with constant success probability. In particular, parameter estimation is impossible.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;http://mrtz.org/blog/wp-content/uploads/2014/04/moo32.png&quot;&gt;&lt;img class=&quot;aligncenter size-large wp-image-350&quot; src=&quot;http://mrtz.org/blog/wp-content/uploads/2014/04/moo32-1024x384.png&quot; alt=&quot;Mixtures with identical first 5 moments before and after adding noise&quot; width=&quot;850&quot; height=&quot;318&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
@@ -187,8 +221,8 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;em&gt;To stay on top of future posts, subscribe to the &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://mrtz.org/blog/feed/&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 21 Apr 2014 18:02:37 -0700</pubDate>
-        <link>www.mrtz.org/2014/04/21/pearsons-polynomial.html</link>
-        <guid isPermaLink="true">www.mrtz.org/2014/04/21/pearsons-polynomial.html</guid>
+        <link>blog.mrtz.org/2014/04/21/pearsons-polynomial.html</link>
+        <guid isPermaLink="true">blog.mrtz.org/2014/04/21/pearsons-polynomial.html</guid>
         
         <category>algorithms</category>
         
@@ -250,8 +284,8 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p&gt;The discussion here is also closely related to my first post of the semester in which I asked: &lt;a href=&quot;http://mrtz.org/blog/what-should-a-theory-of-big-data-do/&quot;&gt;What should a theory of big data do?&lt;/a&gt; I argued that besides posing concrete technical challenges, big data poses a deep conceptual problem. We seem to have difficulty capturing the way people interact with data today. This makes it hard for us to get control over the things that can go wrong. I seem to have come a full circle asking the same question again. Of course, I knew that this was too broad a question to be resolved in the span of four months.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Jan 2014 13:05:52 -0800</pubDate>
-        <link>www.mrtz.org/2014/01/13/false-discovery.html</link>
-        <guid isPermaLink="true">www.mrtz.org/2014/01/13/false-discovery.html</guid>
+        <link>blog.mrtz.org/2014/01/13/false-discovery.html</link>
+        <guid isPermaLink="true">blog.mrtz.org/2014/01/13/false-discovery.html</guid>
         
         <category>simons</category>
         
@@ -323,8 +357,8 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p&gt;Finally, there are very interesting &lt;strong&gt;tensor generalizations of the Power Method &lt;/strong&gt;and robustness continues to be a key concern. See, for example, &lt;a href=&quot;http://arxiv.org/abs/1210.7559&quot;&gt;here &lt;/a&gt;and &lt;a href=&quot;http://arxiv.org/abs/1311.2972&quot;&gt;here&lt;/a&gt;. These tensor methods have a number of applications in algorithms and machine learning that are becoming increasingly relevant. While there has been some progress, I think it is fair to say that much remains to be understood in the tensor case. I may decide to work on this once my fear of tensor notation recedes to bearable levels.&lt;/p&gt;
 </description>
         <pubDate>Wed, 04 Dec 2013 08:20:16 -0800</pubDate>
-        <link>www.mrtz.org/2013/12/04/power-method.html</link>
-        <guid isPermaLink="true">www.mrtz.org/2013/12/04/power-method.html</guid>
+        <link>blog.mrtz.org/2013/12/04/power-method.html</link>
+        <guid isPermaLink="true">blog.mrtz.org/2013/12/04/power-method.html</guid>
         
         <category>algorithms</category>
         
@@ -389,8 +423,8 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p&gt;To follow future posts, it’s probably best to subscribe to the &lt;a href=&quot;http://mrtz.org/blog/feed/&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;. It&#39;s some web site that theoreticians don&#39;t use.&lt;/p&gt;
 </description>
         <pubDate>Wed, 16 Oct 2013 07:58:18 -0700</pubDate>
-        <link>www.mrtz.org/2013/10/16/sparse-recovery.html</link>
-        <guid isPermaLink="true">www.mrtz.org/2013/10/16/sparse-recovery.html</guid>
+        <link>blog.mrtz.org/2013/10/16/sparse-recovery.html</link>
+        <guid isPermaLink="true">blog.mrtz.org/2013/10/16/sparse-recovery.html</guid>
         
         <category>tcs</category>
         
@@ -415,8 +449,8 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p&gt;To follow future posts, it&#39;s probably best to subscribe to the &lt;a href=&quot;http://mrtz.org/blog/feed/&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;. It&#39;s quite likely that I will regularly forget to use my special tag so that posts don&#39;t appear on the aggregator. If you&#39;re already following me, I apologize for the redundant post.&lt;/p&gt;
 </description>
         <pubDate>Mon, 09 Sep 2013 11:45:20 -0700</pubDate>
-        <link>www.mrtz.org/2013/09/09/hello-tcs-aggregator.html</link>
-        <guid isPermaLink="true">www.mrtz.org/2013/09/09/hello-tcs-aggregator.html</guid>
+        <link>blog.mrtz.org/2013/09/09/hello-tcs-aggregator.html</link>
+        <guid isPermaLink="true">blog.mrtz.org/2013/09/09/hello-tcs-aggregator.html</guid>
         
         <category>tcs</category>
         
@@ -476,8 +510,8 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p style=&quot;text-align: center;&quot;&gt;&lt;em&gt;To stay on top of future posts, subscribe to the &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://mrtz.org/blog/feed/&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 07 Sep 2013 02:20:19 -0700</pubDate>
-        <link>www.mrtz.org/2013/09/07/the-zen-of-gradient-descent.html</link>
-        <guid isPermaLink="true">www.mrtz.org/2013/09/07/the-zen-of-gradient-descent.html</guid>
+        <link>blog.mrtz.org/2013/09/07/the-zen-of-gradient-descent.html</link>
+        <guid isPermaLink="true">blog.mrtz.org/2013/09/07/the-zen-of-gradient-descent.html</guid>
         
         <category>tcs</category>
         
@@ -509,8 +543,8 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p&gt;&lt;strong&gt;Update (8/27): &lt;/strong&gt;Suresh posted an interesting &lt;a href=&quot;http://geomblog.blogspot.com/2013/08/on-theory-of-big-data.html&quot;&gt;response&lt;/a&gt; to this post.&lt;/p&gt;
 </description>
         <pubDate>Mon, 26 Aug 2013 11:36:29 -0700</pubDate>
-        <link>www.mrtz.org/2013/08/26/what-should-a-theory-of-big-data-do.html</link>
-        <guid isPermaLink="true">www.mrtz.org/2013/08/26/what-should-a-theory-of-big-data-do.html</guid>
+        <link>blog.mrtz.org/2013/08/26/what-should-a-theory-of-big-data-do.html</link>
+        <guid isPermaLink="true">blog.mrtz.org/2013/08/26/what-should-a-theory-of-big-data-do.html</guid>
         
         <category>simons</category>
         
@@ -523,30 +557,6 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
         <category>theory</category>
         
         <category>berkeley</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Is Differential Privacy practical?</title>
-        <description>&lt;p&gt;Computer scientists like to equate practicality with computational efficiency. I plead &lt;a href=&quot;http://books.nips.cc/papers/files/nips25/NIPS2012_1143.pdf&quot;&gt;guilty&lt;/a&gt;. If only an algorithm runs fast enough, it will be useful in practice. The situation is often much more complicated. Sure enough, the machine model matters, simplicity matters, constants matter, but that&#39;s not what I&#39;m getting at. In many cases practicality depends a lot on the legal and social environment in which the algorithm is to be applied. In this post I will start to discuss the question: Is Differential Privacy &lt;em&gt;practical&lt;/em&gt;---in the icky non-computational sense of the word? On another occasion I might talk about whether Differential Privacy is practical in our beloved computational sense of the word. That, too, is an important and exciting question.&lt;/p&gt;
-&lt;p&gt;Differential Privacy is a formal notion of what it means for an algorithm to be privacy-preserving. It was invented jointly by Cynthia Dwork, Frank McSherry, Kobbi Nissim and Adam Smith in 2006. Since then it has turned out that much of statistical data analysis is still feasible even if we insist on differential privacy! This is a surprising insight that has been developed by a diverse community of researchers working on differential privacy. From a theoretical perspective, differential privacy is a success story already in my opinion. The definition (unlike many others) has held up to close scrutiny over the years (and there is a healthy ongoing discussion). There are many beautiful results relating differential privacy to other areas of computer science and math, including convex geometry, &lt;a href=&quot;http://windowsontheory.org/2013/02/07/from-discrepancy-to-privacy-and-back-part-2-approximating-hereditary-discrepancy/&quot;&gt;discrepancy theory&lt;/a&gt; and especially &lt;a href=&quot;http://windowsontheory.org/2012/05/27/privacy-preserving-data-analysis-and-computational-learning-a-match-made-in-heaven/&quot;&gt;learning theory&lt;/a&gt;, just to name a few. These connections have lead to much insight over the years and continue to be an exciting research area.&lt;/p&gt;
-&lt;p&gt;It&#39;s no question that there hasn&#39;t been nearly as much progress in applying differential privacy in non-academic settings. Sure enough there is a lot of empirical work on differential privacy within academia. I certainly don&#39;t belittle its importance. I will focus though on attempts at applying differential privacy in a completely non-academic environment. I&#39;ve come to regard this as one of the most important directions for differential privacy to push into at this point. I find it so important that I&#39;m willing to drop pen and paper for it and get my hands dirty. As a theory guy, I have pretty ambivalent feelings about it. This point was also made by Salil Vadhan during a recent Simons workshop on Differential Privacy. On the one hand, there is currently an almost urgent need for privacy-preserving solutions in the world. On the other hand, many of the experts in the field have a theoretical inclination and would prefer to work on the science. Who is there to meet the demand for practical solutions? Who is there to educate the non-experts? Who is going to convince corporate lawyers that Differential Privacy is a good solution? Who is going to write the software? Should theoreticians (or more broadly academics) do any of this? If so, this feels like an uncertain departure from our day-to-day academic work. It most likely won&#39;t result in another conference publication. Yet, if the experts don&#39;t join this effort, I fear, much of the potential impact of the field could get lost. Inferior solutions will meet the demand as industry progresses one way or the other.&lt;/p&gt;
-&lt;p&gt;In this series of blog posts I will try to explain where the difficulty is in applying differential privacy and how the community might make more progress. My narrative will be closely tied to a recent and ongoing project with the California Public Utilities Commission (&lt;a href=&quot;http://www.cpuc.ca.gov&quot;&gt;CPUC&lt;/a&gt;). The CPUC is a regulatory body that oversees privately held electric, natural gas and water companies in California. The CPUC is currently working on a proposal for an energy data center that aims to facilitate the access to household-level smart meter readings by third parties. I was asked by the Electronic Frontier Foundation (&lt;a href=&quot;https://www.eff.org/&quot;&gt;EFF&lt;/a&gt;) to assist as a privacy expert within the proceeding.&lt;/p&gt;
-&lt;p&gt;Energy data might not be the first thing that comes to mind when you think of privacy concerns. Yet, it is well understood that smart meter data can be highly revealing. There is a large body of research devoted to drawing inferences from smart meter readings. At high enough resolution (though within the limits of current smart meters), for example, an algorithm could infer &lt;a href=&quot;http://epic.org/privacy/smartgrid/smart_meter.pdf&quot;&gt;which television show you are watching&lt;/a&gt;. Inferring which TV set you own is an easier task. Even at much lower resolution (15 minute interval data), larger appliances (e.g., medical appliances) can feasibly be identified. Various personal habits are &lt;a href=&quot;http://lass.cs.umass.edu/papers/pdf/buildsys10.pdf&quot;&gt;visible&lt;/a&gt;. Do you wake up at night? How often do you use the bathroom? At the same time, energy data has high public value. Research on energy data can lead to a smarter grid, a more optimized energy system that is ultimately cheaper for the consumer. There is a lot of political pressure in California to facilitate such research. The energy data center project grew out of this desire.&lt;/p&gt;
-&lt;p&gt;I should say that even though I work on privacy-preserving algorithms, I&#39;m solidly on the side of the data analyst. I want to enable research through statistical data analysis rather than prevent it. To me differential privacy has the unambiguous goal of &lt;em&gt;enabling more insight in environments that are plagued by privacy concerns&lt;/em&gt;. It&#39;s an important thing to keep in mind. Privacy researchers are all too often confused for some sort of morality police that asks you to turn down the music and stop the party at 9pm.&lt;/p&gt;
-&lt;p&gt;In keeping with my decision to produce short posts, I will end this post here. In my next post in this series, I&#39;ll introduce the parties involved in the CPUC proceeding, summarize what&#39;s happened so far and describe how it has informed my understanding of practicing differential privacy.&lt;/p&gt;
-&lt;p&gt;To follow future posts, subscribe to the &lt;a href=&quot;http://mrtz.org/blog/feed/&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 21 Aug 2013 15:25:52 -0700</pubDate>
-        <link>www.mrtz.org/2013/08/21/dp-practical.html</link>
-        <guid isPermaLink="true">www.mrtz.org/2013/08/21/dp-practical.html</guid>
-        
-        <category>differential privacy</category>
-        
-        <category>cpuc</category>
-        
-        <category>practical</category>
         
         
       </item>

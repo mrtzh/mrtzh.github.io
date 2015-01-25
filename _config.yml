@@ -3,7 +3,7 @@ title: Moody Rd
 email: blog@mrtz.org
 description: A blog about machine learning.
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "www.mrtz.org" # the base hostname & protocol for your site
+url: "blog.mrtz.org" # the base hostname & protocol for your site
 twitter_username: mrtz
 github_username:  mrtzh
 
