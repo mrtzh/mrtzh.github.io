@@ -4,15 +4,7 @@ status: publish
 published: true
 title: Pearson's polynomial
 author: Moritz Hardt
-author_login: mrtz
-author_email: m@mrtz.org
-wordpress_id: 329
-wordpress_url: http://mrtz.org/blog/?p=329
 date: '2014-04-21 18:02:37 -0700'
-date_gmt: '2014-04-22 01:02:37 -0700'
-categories:
-- learning
-- statistics
 tags:
 - algorithms
 - simons

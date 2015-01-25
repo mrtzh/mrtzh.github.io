@@ -3,19 +3,8 @@ layout: post
 status: publish
 published: true
 title: 'Hello TCS Aggregator! '
-author:
-  display_name: Moritz Hardt
-  login: mrtz
-  email: m@mrtz.org
-  url: ''
-author_login: mrtz
-author_email: m@mrtz.org
-wordpress_id: 150
-wordpress_url: http://mrtz.org/blog/?p=150
+author: Moritz Hardt
 date: '2013-09-09 11:45:20 -0700'
-date_gmt: '2013-09-09 18:45:20 -0700'
-categories:
-- simons
 tags:
 - tcs
 comments:

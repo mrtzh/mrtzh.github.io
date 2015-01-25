@@ -5,8 +5,8 @@
     <description>A blog about machine learning.</description>
     <link>www.mrtz.org/</link>
     <atom:link href="www.mrtz.org/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 25 Jan 2015 11:01:34 -0800</pubDate>
-    <lastBuildDate>Sun, 25 Jan 2015 11:01:34 -0800</lastBuildDate>
+    <pubDate>Sun, 25 Jan 2015 11:20:04 -0800</pubDate>
+    <lastBuildDate>Sun, 25 Jan 2015 11:20:04 -0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -62,13 +62,11 @@ clear accepts, and the  other 93% are random.&lt;/li&gt;
 &lt;/ol&gt;
 </description>
         <pubDate>Mon, 15 Dec 2014 11:45:39 -0800</pubDate>
-        <link>www.mrtz.org/conference/2014/12/15/the-nips-experiment.html</link>
-        <guid isPermaLink="true">www.mrtz.org/conference/2014/12/15/the-nips-experiment.html</guid>
+        <link>www.mrtz.org/2014/12/15/the-nips-experiment.html</link>
+        <guid isPermaLink="true">www.mrtz.org/2014/12/15/the-nips-experiment.html</guid>
         
         <category>tcs</category>
         
-        
-        <category>conference</category>
         
       </item>
     
@@ -114,8 +112,8 @@ With this notion at hand, what DGN show is that given access to \({\delta}\)-ine
 &lt;p style=&quot;text-align: center;&quot;&gt;&lt;em&gt;To stay on top of future posts, subscribe to the &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://mrtz.org/blog/feed/&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 18 Aug 2014 12:31:57 -0700</pubDate>
-        <link>www.mrtz.org/optimization/2014/08/18/robustness-versus-acceleration.html</link>
-        <guid isPermaLink="true">www.mrtz.org/optimization/2014/08/18/robustness-versus-acceleration.html</guid>
+        <link>www.mrtz.org/2014/08/18/robustness-versus-acceleration.html</link>
+        <guid isPermaLink="true">www.mrtz.org/2014/08/18/robustness-versus-acceleration.html</guid>
         
         <category>algorithms</category>
         
@@ -133,8 +131,6 @@ With this notion at hand, what DGN show is that given access to \({\delta}\)-ine
         
         <category>robustness</category>
         
-        
-        <category>optimization</category>
         
       </item>
     
@@ -191,8 +187,8 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;em&gt;To stay on top of future posts, subscribe to the &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://mrtz.org/blog/feed/&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 21 Apr 2014 18:02:37 -0700</pubDate>
-        <link>www.mrtz.org/learning/statistics/2014/04/21/pearsons-polynomial.html</link>
-        <guid isPermaLink="true">www.mrtz.org/learning/statistics/2014/04/21/pearsons-polynomial.html</guid>
+        <link>www.mrtz.org/2014/04/21/pearsons-polynomial.html</link>
+        <guid isPermaLink="true">www.mrtz.org/2014/04/21/pearsons-polynomial.html</guid>
         
         <category>algorithms</category>
         
@@ -212,10 +208,6 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
         
         <category>learning</category>
         
-        
-        <category>learning</category>
-        
-        <category>statistics</category>
         
       </item>
     
@@ -258,8 +250,8 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p&gt;The discussion here is also closely related to my first post of the semester in which I asked: &lt;a href=&quot;http://mrtz.org/blog/what-should-a-theory-of-big-data-do/&quot;&gt;What should a theory of big data do?&lt;/a&gt; I argued that besides posing concrete technical challenges, big data poses a deep conceptual problem. We seem to have difficulty capturing the way people interact with data today. This makes it hard for us to get control over the things that can go wrong. I seem to have come a full circle asking the same question again. Of course, I knew that this was too broad a question to be resolved in the span of four months.&lt;/p&gt;
 </description>
         <pubDate>Mon, 13 Jan 2014 13:05:52 -0800</pubDate>
-        <link>www.mrtz.org/privacy/simons/events/learning/statistics/2014/01/13/false-discovery.html</link>
-        <guid isPermaLink="true">www.mrtz.org/privacy/simons/events/learning/statistics/2014/01/13/false-discovery.html</guid>
+        <link>www.mrtz.org/2014/01/13/false-discovery.html</link>
+        <guid isPermaLink="true">www.mrtz.org/2014/01/13/false-discovery.html</guid>
         
         <category>simons</category>
         
@@ -271,16 +263,6 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
         
         <category>false discovery</category>
         
-        
-        <category>privacy</category>
-        
-        <category>simons</category>
-        
-        <category>events</category>
-        
-        <category>learning</category>
-        
-        <category>statistics</category>
         
       </item>
     
@@ -341,8 +323,8 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p&gt;Finally, there are very interesting &lt;strong&gt;tensor generalizations of the Power Method &lt;/strong&gt;and robustness continues to be a key concern. See, for example, &lt;a href=&quot;http://arxiv.org/abs/1210.7559&quot;&gt;here &lt;/a&gt;and &lt;a href=&quot;http://arxiv.org/abs/1311.2972&quot;&gt;here&lt;/a&gt;. These tensor methods have a number of applications in algorithms and machine learning that are becoming increasingly relevant. While there has been some progress, I think it is fair to say that much remains to be understood in the tensor case. I may decide to work on this once my fear of tensor notation recedes to bearable levels.&lt;/p&gt;
 </description>
         <pubDate>Wed, 04 Dec 2013 08:20:16 -0800</pubDate>
-        <link>www.mrtz.org/optimization/learning/2013/12/04/power-method.html</link>
-        <guid isPermaLink="true">www.mrtz.org/optimization/learning/2013/12/04/power-method.html</guid>
+        <link>www.mrtz.org/2013/12/04/power-method.html</link>
+        <guid isPermaLink="true">www.mrtz.org/2013/12/04/power-method.html</guid>
         
         <category>algorithms</category>
         
@@ -358,10 +340,6 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
         
         <category>robustness</category>
         
-        
-        <category>optimization</category>
-        
-        <category>learning</category>
         
       </item>
     
@@ -411,8 +389,8 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p&gt;To follow future posts, it’s probably best to subscribe to the &lt;a href=&quot;http://mrtz.org/blog/feed/&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;. It&#39;s some web site that theoreticians don&#39;t use.&lt;/p&gt;
 </description>
         <pubDate>Wed, 16 Oct 2013 07:58:18 -0700</pubDate>
-        <link>www.mrtz.org/simons/events/optimization/learning/2013/10/16/sparse-recovery.html</link>
-        <guid isPermaLink="true">www.mrtz.org/simons/events/optimization/learning/2013/10/16/sparse-recovery.html</guid>
+        <link>www.mrtz.org/2013/10/16/sparse-recovery.html</link>
+        <guid isPermaLink="true">www.mrtz.org/2013/10/16/sparse-recovery.html</guid>
         
         <category>tcs</category>
         
@@ -424,14 +402,6 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
         
         <category>matrix completion</category>
         
-        
-        <category>simons</category>
-        
-        <category>events</category>
-        
-        <category>optimization</category>
-        
-        <category>learning</category>
         
       </item>
     
@@ -445,13 +415,11 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p&gt;To follow future posts, it&#39;s probably best to subscribe to the &lt;a href=&quot;http://mrtz.org/blog/feed/&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;. It&#39;s quite likely that I will regularly forget to use my special tag so that posts don&#39;t appear on the aggregator. If you&#39;re already following me, I apologize for the redundant post.&lt;/p&gt;
 </description>
         <pubDate>Mon, 09 Sep 2013 11:45:20 -0700</pubDate>
-        <link>www.mrtz.org/simons/2013/09/09/hello-tcs-aggregator.html</link>
-        <guid isPermaLink="true">www.mrtz.org/simons/2013/09/09/hello-tcs-aggregator.html</guid>
+        <link>www.mrtz.org/2013/09/09/hello-tcs-aggregator.html</link>
+        <guid isPermaLink="true">www.mrtz.org/2013/09/09/hello-tcs-aggregator.html</guid>
         
         <category>tcs</category>
         
-        
-        <category>simons</category>
         
       </item>
     
@@ -508,8 +476,8 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p style=&quot;text-align: center;&quot;&gt;&lt;em&gt;To stay on top of future posts, subscribe to the &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://mrtz.org/blog/feed/&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 07 Sep 2013 02:20:19 -0700</pubDate>
-        <link>www.mrtz.org/simons/events/optimization/2013/09/07/the-zen-of-gradient-descent.html</link>
-        <guid isPermaLink="true">www.mrtz.org/simons/events/optimization/2013/09/07/the-zen-of-gradient-descent.html</guid>
+        <link>www.mrtz.org/2013/09/07/the-zen-of-gradient-descent.html</link>
+        <guid isPermaLink="true">www.mrtz.org/2013/09/07/the-zen-of-gradient-descent.html</guid>
         
         <category>tcs</category>
         
@@ -526,12 +494,6 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
         <category>chebyshev</category>
         
         
-        <category>simons</category>
-        
-        <category>events</category>
-        
-        <category>optimization</category>
-        
       </item>
     
       <item>
@@ -547,8 +509,8 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p&gt;&lt;strong&gt;Update (8/27): &lt;/strong&gt;Suresh posted an interesting &lt;a href=&quot;http://geomblog.blogspot.com/2013/08/on-theory-of-big-data.html&quot;&gt;response&lt;/a&gt; to this post.&lt;/p&gt;
 </description>
         <pubDate>Mon, 26 Aug 2013 11:36:29 -0700</pubDate>
-        <link>www.mrtz.org/simons/events/2013/08/26/what-should-a-theory-of-big-data-do.html</link>
-        <guid isPermaLink="true">www.mrtz.org/simons/events/2013/08/26/what-should-a-theory-of-big-data-do.html</guid>
+        <link>www.mrtz.org/2013/08/26/what-should-a-theory-of-big-data-do.html</link>
+        <guid isPermaLink="true">www.mrtz.org/2013/08/26/what-should-a-theory-of-big-data-do.html</guid>
         
         <category>simons</category>
         
@@ -562,10 +524,6 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
         
         <category>berkeley</category>
         
-        
-        <category>simons</category>
-        
-        <category>events</category>
         
       </item>
     
@@ -581,8 +539,8 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p&gt;To follow future posts, subscribe to the &lt;a href=&quot;http://mrtz.org/blog/feed/&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Wed, 21 Aug 2013 15:25:52 -0700</pubDate>
-        <link>www.mrtz.org/privacy/2013/08/21/dp-practical.html</link>
-        <guid isPermaLink="true">www.mrtz.org/privacy/2013/08/21/dp-practical.html</guid>
+        <link>www.mrtz.org/2013/08/21/dp-practical.html</link>
+        <guid isPermaLink="true">www.mrtz.org/2013/08/21/dp-practical.html</guid>
         
         <category>differential privacy</category>
         
@@ -590,8 +548,6 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
         
         <category>practical</category>
         
-        
-        <category>privacy</category>
         
       </item>
     

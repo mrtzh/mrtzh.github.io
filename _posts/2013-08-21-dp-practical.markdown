@@ -3,19 +3,8 @@ layout: post
 status: publish
 published: true
 title: Is Differential Privacy practical?
-author:
-  display_name: Moritz Hardt
-  login: mrtz
-  email: m@mrtz.org
-  url: ''
-author_login: mrtz
-author_email: m@mrtz.org
-wordpress_id: 78
-wordpress_url: http://mrtz.org/blog/?p=78
+author: Moritz Hardt
 date: '2013-08-21 15:25:52 -0700'
-date_gmt: '2013-08-21 22:25:52 -0700'
-categories:
-- privacy
 tags:
 - differential privacy
 - cpuc

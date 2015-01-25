@@ -5,10 +5,6 @@ published: true
 title: The Zen of Gradient Descent
 author: Moritz Hardt
 date: '2013-09-07 02:20:19 -0700'
-categories:
-- simons
-- events
-- optimization
 tags:
 - tcs
 - gradient descent

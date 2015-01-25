@@ -5,8 +5,6 @@ published: true
 title: The NIPS Experiment
 author: Eric Price
 date: '2014-12-15 11:45:39 -0800'
-categories:
-- conference
 tags:
 - tcs
 comments:

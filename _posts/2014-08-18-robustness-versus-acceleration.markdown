@@ -5,8 +5,6 @@ published: true
 title: Robustness versus Acceleration
 author: Moritz Hardt
 date: '2014-08-18 12:31:57 -0700'
-categories:
-- optimization
 tags:
 - algorithms
 - tcs

@@ -5,12 +5,6 @@ published: true
 title: False Discovery and Differential Privacy
 author: Moritz Hardt
 date: '2014-01-13 13:05:52 -0800'
-categories:
-- privacy
-- simons
-- events
-- learning
-- statistics
 tags:
 - simons
 - big data

@@ -5,11 +5,6 @@ published: true
 title: The Geometric View on Sparse Recovery
 author: Moritz Hardt
 date: '2013-10-16 07:58:18 -0700'
-categories:
-- simons
-- events
-- optimization
-- learning
 tags:
 - tcs
 - sparsity

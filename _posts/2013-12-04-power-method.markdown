@@ -5,9 +5,6 @@ published: true
 title: 'Power Method still Powerful '
 author: Moritz Hardt
 date: '2013-12-04 08:20:16 -0800'
-categories:
-- optimization
-- learning
 tags:
 - algorithms
 - tcs

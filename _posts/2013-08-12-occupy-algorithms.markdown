@@ -3,19 +3,8 @@ layout: post
 status: publish
 published: true
 title: 'Occupy Algorithms: Will Algorithms Serve the 99%?'
-author:
-  display_name: Moritz Hardt
-  login: mrtz
-  email: m@mrtz.org
-  url: ''
-author_login: mrtz
-author_email: m@mrtz.org
-wordpress_id: 25
-wordpress_url: http://blog.mrtz.org/?p=25
+author: Moritz Hardt
 date: '2013-08-12 20:22:26 -0700'
-date_gmt: '2013-08-12 20:22:26 -0700'
-categories:
-- conference
 tags:
 - algorithms
 - social
