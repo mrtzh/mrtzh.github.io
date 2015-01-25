@@ -1,0 +1,133 @@
+---
+layout: post
+status: publish
+published: true
+title: False Discovery and Differential Privacy
+author: Moritz Hardt
+date: '2014-01-13 13:05:52 -0800'
+categories:
+- privacy
+- simons
+- events
+- learning
+- statistics
+tags:
+- simons
+- big data
+- tcs
+- privacy
+- false discovery
+comments:
+- id: 1431
+  author: BH
+  author_email: bejamini@piccolboni.info
+  author_url: ''
+  date: '2014-01-13 16:35:16 -0800'
+  date_gmt: '2014-01-14 00:35:16 -0800'
+  content: I think you meant Benjamini Hochberg. Hochbaum is an accomplished researcher
+    as well, but not in the field of statistics as far as I recollect.
+- id: 1432
+  author: Moritz Hardt
+  author_email: m@mrtz.org
+  author_url: ''
+  date: '2014-01-13 16:49:18 -0800'
+  date_gmt: '2014-01-14 00:49:18 -0800'
+  content: Thanks. Fixed.
+- id: 1445
+  author: Vitaly Feldman
+  author_email: vitaly.edu@gmail.com
+  author_url: https://plus.google.com/+VitalyFeldman
+  date: '2014-01-14 16:49:25 -0800'
+  date_gmt: '2014-01-15 00:49:25 -0800'
+  content: Nice post, Moritz! One small point is that I think the proof needs to be
+    done a bit more carefully. The probability of  $h' \in H^*$ is at least $1-\alpha$
+    only if you take the expectation of this probability over $x^*,\ell^* \sim P$
+    (in addition to probability over randomness, choice of D and replacement). However
+    the event $H^*$ itself depends on $x^*$ and therefore differential-privacy guarantee
+    can only be applied for every $x^*$ separately. Luckily, separate application
+    of DP guarantee preserves each individual success probability so will also preserve
+    the expectation over $x^*,\ell^* \sim P$
+- id: 1447
+  author: Moritz Hardt
+  author_email: m@mrtz.org
+  author_url: ''
+  date: '2014-01-14 17:55:11 -0800'
+  date_gmt: '2014-01-15 01:55:11 -0800'
+  content: You could do that. I was thinking that the Pr-statement also includes the
+    random choice of x*. Generally, another way to think about it is to sample x*
+    by picking a random element from D'. Since A must classify a (1-\alpha)-fraction
+    of D' correctly, it must classify x* correctly with probability 1-\alpha. Do you
+    agree?
+- id: 1450
+  author: Vitaly Feldman
+  author_email: vitaly.edu@gmail.com
+  author_url: https://plus.google.com/+VitalyFeldman
+  date: '2014-01-14 18:59:24 -0800'
+  date_gmt: '2014-01-15 02:59:24 -0800'
+  content: I don't quite see an alternative. If you include random choice of x^* in
+    Pr then H^* is no longer a single event to apply the DP guarantee to. If you choose
+    x^* from D' then in addition you have an issue that the event depends on the database.
+    That isn't allowed by the definition, right?
+- id: 1451
+  author: j2kun
+  author_email: kun.jeremy@gmail.com
+  author_url: http://jeremykun.wordpress.com
+  date: '2014-01-14 19:00:43 -0800'
+  date_gmt: '2014-01-15 03:00:43 -0800'
+  content: This is an excellent post, and it has the added bonus of making me really
+    want to learn about differential privacy more deeply.
+- id: 5782
+  author: olethros (@olethros)
+  author_email: olethros@twitter.example.com
+  author_url: http://twitter.com/olethros
+  date: '2014-12-16 01:19:01 -0800'
+  date_gmt: '2014-12-16 09:19:01 -0800'
+  content: "Nice catch. And of course DP is also linked to 'smoothness', as we show
+    here: http://arxiv.org/abs/1306.1066\r\n\r\nIt seems to be in general a useful
+    abstraction for properties of conditional distributions, and I think calling it
+    'privacy' is a bit too narrow."
+- id: 5792
+  author: Moritz Hardt
+  author_email: m@mrtz.org
+  author_url: ''
+  date: '2014-12-16 06:01:31 -0800'
+  date_gmt: '2014-12-16 14:01:31 -0800'
+  content: 'Thanks for the pointer. I completely agree about the use of DP beyond
+    privacy. For a reason work that extends on the theme of this blog post, see our
+    recent paper: http://arxiv.org/abs/1411.2664'
+---
+<p>The Simons program on Big Data wrapped up about a month ago with a workshop on <a href="http://simons.berkeley.edu/workshops/bigdata2013-4">Big Data and Differential Privacy</a>. With the possible exception of one talk on the last day after lunch, it was a really fabulous workshop. You would've enjoyed attending even if you were neither interested in Big Data nor Differential Privacy. One reason is that the organizers aimed to address a problem that transcends both machine learning and privacy, a problem relevant to all empirical sciences. The problem is <strong>false discovery</strong>.</p>
+<p>If you've never seen it, you should check out this XKCD comic explaining why <a href="http://imgs.xkcd.com/comics/significant.png">green jelly beans cause acne</a>. The idea is that if you evaluate enough hypotheses on the same data set, eventually you will find something significant. The availability of public data sets used by thousands of scientists greatly exacerbates the problem. An important example is the area of <a href="http://en.wikipedia.org/wiki/Genome-wide_association_study">Genome Wide Association Studies</a> (GWAS).</p>
+<p>A typical study has a few hundred or perhaps a few thousands patient DNA sequences. Each sequence contains a few hundred thousands so-called <a href="http://en.wikipedia.org/wiki/Single-nucleotide_polymorphism">SNPs</a>. Scientists check each SNP for possible correlation with a particular phenotype. Significance tests and p-values are part of the standard method. But what p-value is reasonable? In GWAS typical p-values are as small as \({10^{-6}}\) or even \({10^{-7}.}\) They get smaller ever year as the SNP resolution of the sequenced genome increases. How many SNPs are incorrectly declared significant? How do we interpret these scientific findings?</p>
+<p>A similar discussion arose recently in the FDA induced <a href="http://www.bioedge.org/index.php/bioethics/bioethics_article/10799">shutdown of 23andMe</a>. Lior Pachter started a <a href="http://liorpachter.wordpress.com/2013/11/30/23andme-genotypes-are-all-wrong/">heated discussion</a> on his blog about why the findings of of 23andMe are unreliable. In short: Too many hypotheses evaluated against a single genome. Meanwhile, Scott Aaronson asserts his right to <a href="http://www.scottaaronson.com/blog/?p=1615">misinterpret probabilities</a>.</p>
+<p>GWAS is certainly not the only example. Some think a major <a href="http://www.economist.com/news/briefing/21588057-scientists-think-science-self-correcting-alarming-degree-it-not-trouble">scientific crisis is upon us.</a></p>
+<p>So, what can we do about it? A person who has spent at least two decades thinking about this problem is Yoav Benjamini. Luckily, he agreed to give a tutorial about his work at the privacy workshop revolving around the idea of <a href="http://en.wikipedia.org/wiki/False_discovery_rate">False Discovery Rate</a>.</p>
+<h1>False Discovery Rate</h1>
+<p>The basic setup is this. There are \({m}\) null hypotheses \({h_1,\dots,h_m}\) that we would like to test. A discovery corresponds to a rejected null hypothesis. Let \({V}\) be the random variable counting the number of false discoveries, i.e., rejected null hypotheses that are actually true. We also let \({R}\) denote the total number of rejected hypothesis, i.e., all discoveries both true and false. The false discovery rate (FDR) is the expectation of the ratio \({V/R,}\) where we define the ratio as \({0}\) if \({R=0.}\)</p>
+<p>The idea behind this definition is that if there are many discoveries, it might be tolerable to make some false discoveries. However, if all null hypotheses are true, all discoveries are false. So, even a single discovery brings the FDR up to \({1}\) (the largest possible value).</p>
+<p>I encourage you to check out Omer Reingold's <a href="http://simons.berkeley.edu/talks/omer-reingold-2013-12-11">Musings on False Discovery Rate</a> from a Computer Scientist's point of view.</p>
+<p>Now, suppose we want to design an experiment while controlling the FDR. That is we want to make sure that the FDR is at most some \({\alpha&lt; 1.}\) Benjamini and Hochberg suggested an algorithm for doing exactly that. With more than 20000 citations this might be one of the most widely cited algorithms:</p>
+<p>Let \({p_1,\dots,p_m}\) be \({p}\)-values corresponding to our \({m}\) hypotheses. Sort these \({p}\)-values in increasing order \({p_{(1)}\le \dots\le p_{(m)}.}\)</p>
+<p>1. Find the largest \({k}\) such that \({p_{(k)} \le \frac{k}{m}\cdot \alpha}\).</p>
+<p>2. Reject \({h_{(1)},\dots,h_{(k)}.}\)</p>
+<p>An important theorem they proved is that indeed this procedure controls the false discovery rate under certain assumptions. For example, if our test statistics are independent of each other, this holds. Of course, independence is a very strong assumption and a lot of work in statistics aims to weaken these assumptions.</p>
+<p>My general feeling about this definition is that it is optimistic in several regards. The first is that we only talk about expectations. It is easy to come up with examples where the expectation is small but the with small but non-negligible probability there are many false discoveries. Second, we need several fairly strong assumptions to be able to prove that such a procedure actually controls the false discovery rate. Finally, the method puts lot of faith in careful experimental design and proper execution. In particular to apply the methodology we need knowledge of what hypotheses we might test.</p>
+<p>Nevertheless, this optimism in the definition leads to usable and realistic answers as to how large the sample should be in concrete experimental setups. This must have been a major factor in the success of this methodology.</p>
+<h1>Differential Privacy</h1>
+<p>How is any of this related to privacy? The short answer is that Differential Privacy by itself controls false discovery in a certain precise sense---though formally different from the above. Indeed, I will formally show below that Differential Privacy implies small <a href="http://en.wikipedia.org/wiki/Generalization_error">"generalization error"</a>.</p>
+<p>This is by no means an accident of the definition. There is a deeper reason for it. Intuitively, Differential Privacy ensures that the outcome of a statistical analysis does not depend on the specifics of the data set but rather the underlying properties of the population. This is why it gives privacy. I may be able to learn from the data that smoking causes cancer, but I wouldn't be able to learn that a particular individual in the database, say Donald Draper, smokes and has cancer. The flip side is that Differential Privacy does not allow you to access the data set arbitrarily often. Instead it attaches a cost to each operation and an overall budget that you better not exceed. The most common complain about Differential Privacy is that it doesn't allow you to do whatever the heck you want with the data. My response is usually that neither does statistics. A data set has limited explanatory power. Use it carelessly and you'll end up with false discovery. I think it's a feature of Differential Privacy---not a shortcoming---that it makes this fundamental fact of nature explicit.</p>
+<p>If this philosophical excursion struck you as unconvincing, let me try the formal route. This argument is folklore by the way. I learned it from Guy Rothblum a few years ago who attributed it to Frank McSherry at the time. Let me know if I'm missing the right attribution.</p>
+<p>Suppose we want to learn a concept \({c\colon\{0,1\}^d \rightarrow \{0,1\}}\) from labeled examples \({D=\{(x_1,l_1),\dots,(x_m,l_m)\}}\) drawn from some underlying distribution \({P}\).</p>
+<p>Now, suppose we use an \({\epsilon}\)-differentially private learning algorithm \({{\cal A}}\) for the task. That is \({{\cal A}}\) is a randomized algorithm such that changing one example has little effect on the output distribution of the algorithm. Formally, for any set of examples \({D'}\) that differs from \({D}\) in only one pair, we have for any set of output hypotheses \({H}\):</p>
+
+\\[\Pr \\{ A(D) \in H \\} \ge e^{-\epsilon}\Pr\\{ A(D') \in H \\}. \\]
+
+<p>Furthermore, assume that \({{\cal A}}\) is \({\alpha}\)-useful in the sense that it always outputs a hypothesis \({h}\) that has error at most \({\alpha}\) on the training examples. Here, \({\epsilon,\alpha \ll 1.}\) (By the way, I'm using the word "hypothesis" here in its learning theory sense not the "null hypothesis" sense.)</p>
+<p>I claim that with the output of \({{\cal A}}\) must have error at most \({O(\epsilon + \alpha)}\) on the underlying distribution \({P.}\) This means precisely that the output generalizes. Importantly, we didn't assume anything about the hypothesis class! We only assume that the learner is differentially private.</p>
+<p><strong>Proof sketch:</strong> Pick a fresh example \({(x^*,l^*)}\) from the distribution \({P.}\) Let \({H^*= \{ h \colon h(x^*) = c(x^*) \}}\) be the set of hypotheses that agree with the concept \({c}\) on this example \({x^*.}\) Let \({D'}\) be the example set where we remove a random element from \({D}\) and replace it with \({(x^*,l^*).}\) Since, \({{\cal A}}\) is useful, it must be the case that \({h' = {\cal A}(D')}\) has error at most \({\alpha}\) on \({D'}\). In particular, it classifies \({x^*}\) correctly with probability \({1-\alpha.}\) This is because all examples in \({D'}\) are identically distributed. Formally, \({\Pr\{ {\cal A}(D') \in H^* \}\ge 1-\alpha.}\) Note the randomness is now over both \({{\cal A}}\) and the replacement we did. Appealing to the definition of Differential Privacy above, it follows that</p>
+<p align="center">\(\displaystyle \Pr\{ A(D) \in H^*\} \ge e^{-\epsilon}(1-\alpha) \ge 1 - O(\epsilon + \alpha). \)</p>
+<p>That means \({A(D)}\) is correct on an *unseen* example from \({D}\) with high probability.</p>
+<p>The above is just a simple example of a broader phenomenon showing that <a href="http://jmlr.org/papers/v2/bousquet02a.html">stability of a learning algorithm implies generalization bounds</a>. Differential Privacy is a strong form of stability that implies most notions of stability studied in learning theory.</p>
+<h1>What's next?</h1>
+<p>False discovery and privacy loss are two persistent issues we're facing in the era of data analysis. The two problems share some fundamental characteristics. It could be very fruitful think about both problems in relation to each other, or, even as <em>facets of the same underlying problem</em>. Technically, there seems to be some unexplored middle ground between FDR and Differential Privacy that I'd like to understand better.</p>
+<p>The discussion here is also closely related to my first post of the semester in which I asked: <a href="http://mrtz.org/blog/what-should-a-theory-of-big-data-do/">What should a theory of big data do?</a> I argued that besides posing concrete technical challenges, big data poses a deep conceptual problem. We seem to have difficulty capturing the way people interact with data today. This makes it hard for us to get control over the things that can go wrong. I seem to have come a full circle asking the same question again. Of course, I knew that this was too broad a question to be resolved in the span of four months.</p>

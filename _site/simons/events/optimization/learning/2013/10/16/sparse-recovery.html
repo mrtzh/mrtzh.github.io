@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>The Geometric View on Sparse Recovery</title>
+  <meta name="description" content="Sparsity is of fundamental importance in much of signal processing, optimization, computer science and statistics. It was also a major theme in both workshop...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://mrtz.org/simons/events/optimization/learning/2013/10/16/sparse-recovery.html">
+  <link rel="alternate" type="application/rss+xml" title="Moody Rd" href="http://mrtz.org/feed.xml" />
+</head>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> 
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Moody Rd</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">The Geometric View on Sparse Recovery</h1>
+    <p class="post-meta">Oct 16, 2013 • Moritz Hardt</p>
+  </header>
+
+  <article class="post-content">
+    <p><span style="line-height: 1.5;">Sparsity is of fundamental importance in much of signal processing, optimization, computer science and statistics. It was also a major theme in both workshops so far in the <a href="http://simons.berkeley.edu/programs/bigdata2013">Simons Big Data</a> program. The second workshop on succinct representations ended a few weeks ago. Those still barely conscious after a week of technical talks were rewarded by this sunset over Berkeley. (Technically, you still would have had to climb up to the top of Centennial Dr somehow.) </span></p>
+<p><a href="http://mrtz.org/blog/wp-content/uploads/2013/10/sunset3.jpg"><img class="aligncenter size-large wp-image-222" alt="Berkeley Sunset" src="http://mrtz.org/blog/wp-content/uploads/2013/10/sunset3-1024x390.jpg" width="850" height="323" /></a></p>
+<p>Sparsity is a solution concept and not just a technical term. Sparse solutions to an optimization problem are often more well-behaved as they explain a phenomenon with fewer parameters. In high-dimensional settings where there are more variables than constraints, enforcing sparsity makes sense of problems that would otherwise be underdetermined.</p>
+<p>There's been so much work on sparsity it seems hard to find a place to start. Fortunately, there's a simple and elegant---yet powerful---geometric approach underlying many results in sparse recovery that I'll focus on here.</p>
+<h2>The Basic Picture</h2>
+<p>Perhaps the simplest example is solving an underdetermined system of linear equations \({Ax=b.}\) Assume \({A}\) is an \({m\times n}\) matrix and \({b=Ax_0}\) for some \({k}\)-sparse vector \({x_0}\) (i.e., \({x_0}\) has at most \({k}\) nonzero entries). We can hope to recover \({x_0}\) provided that \({A}\) has more than \({k}\) linearly independent rows. How do we do this efficiently? The problem of solving \({Ax=b}\) s.t. \({x}\) is \({k}\)-sparse is NP-hard. We will instead consider the problem</p>
+<p align="center">\(\displaystyle \min f(x)\quad\mathrm{s.t.}\,\, Ax=b \)</p>
+<p>for some convex function \({f\colon\mathbb{R}^n\rightarrow\mathbb{R}.}\) The function \({f}\) has no easy job. It needs to favor sparse solutions and yet be convex! Why should such a creature exist? Let's think about what we're asking for formally. We know that all the solutions to \({Ax=b}\) can be written as \({x_0+h}\) where \({h}\) is in the null space of \({A}\). Hence, \({x_0}\) is the solution to our problem if for all \({h}\) in the null space of \({A,}\) we have \({f(x_0+h) &gt; f(x_0).}\) Consider therefore the set of all directions that would actually decrease the function value. These directions form a cone, called tangent cone, formally defined as:</p>
+<p align="center">\(\displaystyle T(x_0) = \{ d \colon \exists \alpha&gt;0\quad f(x_0 + \alpha d) \le f(x_0) \}. \)</p>
+<h3>The Restricted Nullspace Property</h3>
+<p>The central geometric question can then be phrased as: When is it the case that the tangent cone intersects the nullspace <em>only</em> at the origin? Formally, we're asking:</p>
+<p align="center">\(T(x_0)\cap \mathrm{null}(A)=\{ 0 \}\quad \)?</p>
+<p style="text-align: center;" align="center"><a href="http://mrtz.org/blog/wp-content/uploads/2013/10/restricted.png"><img class=" wp-image-174 aligncenter" alt="restricted" src="http://mrtz.org/blog/wp-content/uploads/2013/10/restricted.png" width="534" height="453" /></a></p>
+<p>Restricted Nullspace Property is actually the name of a closely related property. Nevertheless I decided to run with this name for the purpose of this blog post.</p>
+<p>It is helpful to think of \({\mathrm{null}(A)}\) as a random subspace. This happens, for example, when \({A}\) is a random Gaussian matrix. On intuitive grounds, we should aim to make \({T(x_0)}\) as  "small" as possible to avoid any non-trivial intersection with the random nullspace while maintaining convexity. A natural choice is to let \({f}\) be the familiar \({\ell_1}\)-norm \({f(x)=\|x\|_1.}\) Even with these two choices though it's not obvious how to analyze the intersection of tangent cone and nullspace. We'd have to argue about all points in the tangent cone. You can probably guess what's next. Instead of proving the condition directly, we'll exhibit a "dual certificate". Duality is really easy here. The negative of the dual cone of \({T(x_0)}\) is the set</p>
+<p align="center">\(\displaystyle G = \{ g \colon f(y) \ge f(x_0) + \langle g,y-x\rangle \}. \)</p>
+<p>If \({f}\) were differentiable at \({x_0,}\) then \({G}\) would be the singleton set containing the gradient of \({f}\) at \({x_0.}\) Since this is not the case for the \({\ell_1}\)-norm, there is an entire cone of vectors satisfying the relation. This cone is often called the subdifferential of the \({\ell_1}\)-norm at \({x_0.}\) Its members are called <a href="http://www.stanford.edu/class/ee364b/notes/subgradients_notes.pdf">subgradients</a>.</p>
+<p>Now, suppose we had a vector \({g\in G}\) such that \({g}\) was a linear combination of the rows of \({A,}\) i.e., \({g = A^t \lambda}\) for some vector \({\lambda.}\) In this case, for all \({y=x_0+h}\) with \({h}\) in the null space of \({A,}\) it must be the case that</p>
+<p align="center">\(\displaystyle f(y) \ge f(x_0) + (A^t\lambda)^t (y-x_0) = f(x_0) + \lambda^t(Ah) = f(x_0). \)</p>
+<p>In other words, such a vector \({g}\) would certify the optimality of \({x_0.}\)</p>
+<p>What we've done so far has just been basic convex analysis and holds in great generality. Nevertheless, it makes sense to internalize this Ansatz as it is the starting point of many results in the area. (Note also my flawless command of the German language. Only Eric Price argues that I misuse the term.)</p>
+<h3>Construction of the Dual Certificate</h3>
+<p>Let's see why this approach is powerful. First, the subdifferential of the \({\ell_1}\)-norm is easy to characterize. Using some <a href="http://www.stanford.edu/class/ee364b/notes/subgradients_notes.pdf">basic rules</a> it turns out that \({G}\) contains all the vectors \({g}\) such that:</p>
+<p>1. \({g_i}\) equals the sign of \({(x_0)_i}\) for all \({i}\) in the support of \({x_0}\) which we'll denote by \({S,}\) and</p>
+<p>2. \({g_i\in[-1,1]}\) for all \({i\in S^c.}\)</p>
+<p>So, the first condition is a set of \({|S|}\) linear equations on \({A^t\lambda.}\) Since \({A}\) has more than \({|S|}\) rows and a random Gaussian matrix is in general position, this set of equations has a solution! The second constraint bounds the \({\ell_\infty}\)-norm of \({A^t\lambda}\) outside the support of \({x_0.}\)</p>
+<p>Remarkably, the way people find a suitable \({\lambda}\) is by solving, again, a convex optimization problem! In this case, we're going to find the least squares solution to (1) and hope that magically it will satisfy (2). Actually, there isn't too much magic. A reason for this choice is this. Suppose we partition the columns of \({A}\) as \({A = [ A_1 | A_2 ]}\) according to the support of \({x_0.}\) For simplicity we assume that the support is on the first \({|S|}\) columns of \({A.}\) The least squares solution has the following appealing property. Of course, it satisfies the linear equations on \({A_1}\). Moreover, the \({\ell_\infty}\)-norm of \({A_2^t \lambda}\) is dictated by the \({\ell_2}\)-norm of \({\lambda}\). This is because \({A_1}\) and \({A_2}\) are statistically independent and \({A_2}\) is distributed as a random Gaussian matrix. This interpretation of why least squares is conceptually the right thing to look at in the Gaussian case was pointed out to me by Sushant Sachdeva.</p>
+<p>What's left is to use some probability theory to work out the parameters that we get.  For those details check out Ben Recht's talk <a href="http://simons.berkeley.edu/talks/ben-recht-2013-09-05">here</a>.</p>
+<h3>The Issue of Noise</h3>
+<p>Alas, the picture isn't quite as simple as suggested so far. In almost any realistic setting we'd like sparse recovery to be robust to noisy observations. This leads to several problems that are beyond the scope of this blog post. In the case of linear equations this leads to the theory of the \({\ell_1}\)-regularized least squares, usually called LASSO. Here the goal is to minimize a least squares error, while controlling the \({\ell_1}\)-norm of the solution.  Martin Wainwright's <a href="http://simons.berkeley.edu/talks/martin-wainwright-2013-09-05a">first talk</a>  at the Big Data Boot Camp dealt with the theory of LASSO in detail.</p>
+<h2>From Vectors to Matrices: Matrix Sensing and Completion</h2>
+<p>Much of what we discussed is still true when we go from vectors to matrices. All concepts generalize by looking at the spectrum of the matrix. Sparsity in the spectrum means low rank. The \({\ell_1}\)-norm applied to the spectrum of the matrix is called <strong>nuclear norm</strong> and plays a crucial role in the matrix world. The generalization of the above proof is most direct in the case of Matrix Sensing. Here we are given linear measurements on a matrix \({ {\cal A}(X) = B}\) where \({B={\cal A}(X_0)}\) and \({X_0}\) is a low-rank matrix. Just to be clear, \({ {\cal A}}\) is now a linear operator on matrices. One could define a random Gaussian operator by taking inner products between random Gaussian matrices and the matrix \({X.}\)</p>
+<p>A particularly well-studied linear operator is the subsampling operator. It takes \({X}\) and projects its entries to some subset \({\Omega.}\) Recovering \({X_0}\) in this case is known as Matrix Completion. It's a noticeably more difficult problem. Even if \({\Omega}\) is nice, say, uniformly random of some density, the approach can't work if \({X_0}\) hides its support in a tiny subset of the matrix. That's why we need additional assumptions. The prevailing assumption is known as incoherence. It states that the singular vectors of \({X_0}\) should be de-localized in the sense of having small inner product with the standard basis. This rules out the pathological example I just mentioned.</p>
+<p>Incoherence is often justified by saying that otherwise unique recovery were simply not possible. Why should we insist on uniquely recovering a solution? In many cases it might be interesting to find <em>any</em> low-rank matrix consistent with the observations. Much less is known about matrix completion without an incoherence assumption in the regime where unique recovery is not possible. As far as I know, there are neither convincing hardness results (apart from NP-hardness in full generality) nor strong positive results.</p>
+<h2>Other Pointers</h2>
+<p>I've only touched on the subject lightly. There is much more to say and several talks I haven't mentioned. Here are some:</p>
+<ul>
+<li>Sometimes the \({\ell_1}\)-norm is just too simple and ignores the structure of the problem in a particular application. Francis Bach <a href="http://simons.berkeley.edu/talks/francis-bach-2013-09-19">spoke about using submodular functions</a> instead of the \({\ell_1}\)-norm. The Lovasz extension leads to a convex relaxation that makes the approach feasible.</li>
+<li>Sparsity also makes sense in settings where the signal has no coordinate structure. An example is Spectrum Estimation where the observations are combinations of few sinusoids. One could hack this application by some discretization, but a more elegant solution is possible. This was yet <a href="http://simons.berkeley.edu/talks/benjamin-recht-2013-09-19">another talk</a> by Ben Recht.</li>
+<li>Martin Wainwright's <a href="http://simons.berkeley.edu/talks/martin-wainwright-2013-09-05b">second talk</a> at the Boot Camp showed a very appealing general statistical framework for reasoning about regularized convex optimization.</li>
+</ul>
+<p>To follow future posts, it’s probably best to subscribe to the <a href="http://mrtz.org/blog/feed/">RSS feed</a> or follow me on <a href="http://twitter.com/mrtz">Twitter</a>. It's some web site that theoreticians don't use.</p>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Moody Rd</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Moody Rd</li>
+          <li><a href="mailto:blog@mrtz.org">blog@mrtz.org</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/mrtzh">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">mrtzh</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/mrtz">
+              <span class="icon  icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+
+              <span class="username">mrtz</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

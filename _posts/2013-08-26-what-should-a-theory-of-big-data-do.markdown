@@ -1,0 +1,160 @@
+---
+layout: post
+status: publish
+published: true
+title: What should a theory of Big Data say?
+author:
+  display_name: Moritz Hardt
+  login: mrtz
+  email: m@mrtz.org
+  url: ''
+author_login: mrtz
+author_email: m@mrtz.org
+wordpress_id: 88
+wordpress_url: http://mrtz.org/blog/?p=88
+date: '2013-08-26 11:36:29 -0700'
+date_gmt: '2013-08-26 18:36:29 -0700'
+categories:
+- simons
+- events
+tags:
+- simons
+- big data
+- tcs
+- complexity
+- theory
+- berkeley
+comments:
+- id: 6
+  author: Mikael Vejdemo-Johansson
+  author_email: mikael@johanssons.org
+  author_url: http://blog.mikael.johanssons.org
+  date: '2013-08-26 13:53:37 -0700'
+  date_gmt: '2013-08-26 20:53:37 -0700'
+  content: "This is a really interesting perspective on defining the area. I'd want
+    to add to it by pointing out that every so often you'll run into datasets where
+    even though you may have opinions about the propriety of its collection, collection
+    or re-collection or completion is a ridiculously expensive task: so not only is
+    the question ill-defined, but you don't get to do much to fix it.\r\n\r\nCase
+    in point: the World Color Survey. It is a survey of color naming patterns soliciting
+    23k different terms from 2.6k informants speaking 110 languages. Linguists use
+    it to study color naming patterns and color semantics.\r\n\r\nThe colors solicited
+    are 320 color chips of maximum saturation and 10 chips along a grey scale. Now,
+    you may ask, and indeed people currently do, what about the low-saturated colors?
+    What about pastels? What about languages that may name pastels as important colors
+    in their own right?\r\n\r\nAnd the answer, so far, is that for this dataset the
+    train has already left the station. It took some 30-odd years to collect, using
+    field workers in remote corners of the world. We're Just Not Going to go back
+    and complete the data collection.\r\n\r\nMore than that, asking someone to name
+    330 color chips in a row is a REALLY exhausting task in its own right. To get
+    a good sampling of the pastels with the same perceptual density as the WCS would
+    put is into the thousands of chips to query.\r\n\r\nI don't know whether this
+    actually qualifies as Big Data in your context; but it is one example of where
+    good or bad, computational approaches and data analysts will just have to make
+    do with whatever actually exists, and temper their answers to point out the strength
+    of what they are actually saying.\r\n\r\nThe programme sounds amazing. Wish I
+    could come by."
+- id: 7
+  author: Sasho Nikolov
+  author_email: anikolov@cs.rutgers.edu
+  author_url: https://paul.rutgers.edu/~anikolov
+  date: '2013-08-27 20:26:11 -0700'
+  date_gmt: '2013-08-28 03:26:11 -0700'
+  content: "Moritz, I feel like like the overfitting concern is a good reason the
+    data analyst should be very principled about using the data, even when there is
+    a lot of it. Each time he's using the data he's paying for it in terms of the
+    power of the statistical tests (and eventually in danger of making discoveries
+    about the emotional state of dead salmon http://prefrontal.org/blog/2009/09/the-story-behind-the-atlantic-salmon/
+    or the link between green jelly beans and acne http://xkcd.com/882/). And an unprincipled
+    exploratory approach to data analysis sounds like fertile ground for all flavors
+    of selection bias. \r\n\r\nThis may be just my own bias of my education, but I'd
+    still like to see the problems defined. I feel like your argument points out that
+    the problems should be a higher level ones, and solutions should be meta-algorithms."
+- id: 8
+  author: Jon Ullman
+  author_email: jullman@gmail.com
+  author_url: ''
+  date: '2013-08-29 07:47:32 -0700'
+  date_gmt: '2013-08-29 14:47:32 -0700'
+  content: Sasho, I completely agree with your point and agree that problems should
+    be clearly defined.  Perhaps because I suffer from the same bias of education
+    as you.  If the current way in which problems are defined in TCS isn't a good
+    match for big data, maybe the right solution isn't to throw the baby out with
+    the bathwater and stop defining problems, but to change the way in which problems
+    are defined to fit the way data analysts think?  For instance, if all the algorithmic
+    tools are designed to solve problems like "fit parameters for model X", then it
+    may seem like the only choice for the analyst is to run several algorithms to
+    fit models X,Y,Z, which could lead to overfitting.  If instead we defined problems
+    like "find an interesting pattern of type X" then any good solution to the problem
+    would have to avoid overfitting explicitly.  I admit to having no idea what data
+    analysts actually do, I just wanted to make the point that the possibility different
+    ways of carefully reasoning about well-defined data analysis tasks that are just
+    as rigorous but may be a better match for the way analysts reason about data.
+- id: 9
+  author: Moritz Hardt
+  author_email: m@mrtz.org
+  author_url: ''
+  date: '2013-09-09 11:41:32 -0700'
+  date_gmt: '2013-09-09 18:41:32 -0700'
+  content: "Sasho, I completely agree and that's why I pointed out this issue in the
+    post. As they say: \"If you torture your data set long enough, it'll confess anything.\"
+    \r\n\r\nWhich meta-algorithms were you thinking of?"
+- id: 12
+  author: Hello TCS Aggregator! | Moody Rd
+  author_email: ''
+  author_url: http://mrtz.org/blog/hello-tcs-aggregator/
+  date: '2013-09-09 11:59:02 -0700'
+  date_gmt: '2013-09-09 18:59:02 -0700'
+  content: '[&#8230;] What should a theory of Big Data do? As I&#8217;m attending
+    a program with that name for an entire semester, it seems like a fair question
+    to raise. Is it all about scalability? I argue that it is something else. Suresh
+    wrote an interesting response. [&#8230;]'
+- id: 19
+  author: Sasho Nikolov
+  author_email: anikolov@cs.rutgers.edu
+  author_url: https://paul.rutgers.edu/~anikolov
+  date: '2013-09-13 15:09:19 -0700'
+  date_gmt: '2013-09-13 22:09:19 -0700'
+  content: Moritz, I wish I had a few good examples, but the only one I can think
+    of is boosting. I also wish I could say more precisely what I mean by a "meta-algorithm",
+    I need to think more about how to start defining something like that. It would
+    be nice to have something more concrete than what we'd usually call techniques
+    (and, in particular, concrete enough to still make some formal analysis possible),
+    but also at a higher level than we usually define problems and design algorithms.
+- id: 20
+  author: Is it a blog? Or is it epsilon-far from being a blog? | the polylogblog
+  author_email: ''
+  author_url: http://polylogblog.wordpress.com/2013/09/15/is-it-a-blog-or-is-it-epsilon-far-from-being-a-blog/
+  date: '2013-09-15 18:42:12 -0700'
+  date_gmt: '2013-09-16 01:42:12 -0700'
+  content: '[&#8230;] Moritz Hardt: http://mrtz.org/blog/what-should-a-theory-of-big-data-do/
+    [&#8230;]'
+- id: 1427
+  author: False Discovery and Differential Privacy | Moody Rd
+  author_email: ''
+  author_url: http://mrtz.org/blog/false-discovery/
+  date: '2014-01-13 13:06:05 -0800'
+  date_gmt: '2014-01-13 21:06:05 -0800'
+  content: '[&#8230;] discussion here is also closely related to my first post of
+    the semester in which I asked: What should a theory of big data do? I argued that
+    besides posing concrete technical challenges, big data poses a deep conceptual
+    [&#8230;]'
+- id: 2948
+  author: Linkage | An Ergodic Walk
+  author_email: ''
+  author_url: http://ergodicity.net/2013/09/04/linkage-47/
+  date: '2014-07-31 03:44:13 -0700'
+  date_gmt: '2014-07-31 10:44:13 -0700'
+  content: '[&#8230;] Simons Institute is going strong at Berkeley now. Moritz Hardt
+    has some opinions about what CS theory should say about &#8220;big data,&#8221;
+    and how it might be [&#8230;]'
+---
+<p>I checked out my new apartment in Berkeley a few days ago. My very senior landlord asked me to explain to him what it is that I do. So, I said: "I'm a computer scientist." He gave me an empty stare as if he had never heard of such a thing. I tried again: "I work on algorithms." Nothing. Not a sign of engagement. Fine, I thought to myself, here's one last attempt: "Well, the program I'm attending at Berkeley is on what they call <em>Big Data</em>". His eyes lit up. He smiled and replied without a moment of hesitation: "Big Data! Why didn't you just say that?" He went on to tell me all about what Big Data is going to do in the next years, how important it is, how it is going to advance medical research and lead to new scientific discovery. This is really only a case in point. The words "big data" have apparently become more evocative to the greater public than either of the terms "algorithm" or "computer science".</p>
+<p>At any rate, the program I'm attending, called <a href="http://simons.berkeley.edu/programs/bigdata2013">"The Theoretical Foundations of Big Data"</a>, is an incredibly promising endeavor of the new <a href="http://simons.berkeley.edu/">Simons Institute for Theoretical Computer Science</a>. As already <a href="http://geomblog.blogspot.com/2013/08/simons-institute-opening-with-pictures.html">featured</a> by Suresh, the new institute is amazing. It has outside blackboards (at least soon enough), plenty of collaboration space, and most importantly, a really fun group of visitors. The fact that it's located in Berkeley sure doesn't hurt either. <a href="http://geomblog.blogspot.com/">Suresh</a>, <a href="http://polylogblog.wordpress.com/">Andrew</a> and I will try to cover some of the exciting events. So, check back regularly, if you're interested.</p>
+<p>I want to start out by asking the obvious question. What is it that the <em>theoretical foundations of Big Data</em> should be about? A naïve answer is that Big Data is all about making stuff faster. So, we should be talking about the theory of making stuff faster. There's nothing wrong with making stuff faster. It's important. No doubt. Nevertheless I think a lot is lost if we take this as our narrow interpretation of Big Data. Computer Scientists, theorists and non-theorists alike, have been making stuff faster in various models of computation for ages. It's not that we've only come around to this now that there's a need to analyze larger data sets. The description suggested on the Simons website is certainly more nuanced. It still focuses on scalability: <em>"The challenge is to develop the theoretical principles needed to scale inference and learning algorithms to massive, even arbitrary, scale." </em></p>
+<p>I think a fundamental challenge for anything like a "theory of Big Data" lies somewhere else. It's got something to do with our choice of precedence. The classical point of view in complexity theory is that <strong>the problem comes first, the input second</strong>. We first fix a problem that we would like to study, say, 3-Coloring, TSP, Clique etc. Then we discuss algorithms for the specific problem we chose. The input and various properties that it might have are often secondary. This viewpoint has fundamentally shaped the research culture. Algorithms are often carefully tailored over the course of many decades to a particularly important problem such as 3-Coloring.</p>
+<p>Perplexingly, the viewpoint perpetuated by "Big Data" is exactly the opposite. The input, the data set, is the protagonist. Data gets all the attention. The problem that needs to be solved is negotiable. You rarely hear a data analyst tell you exactly which problem they need to solve. Even if you poke them, they'll rarely give you a precise answer. Try it out! As theoreticians we often suspect the issue is that those guys simply haven't formalized their problems yet. That's partially true. The more fundamental reason though is that <strong>the problem genuinely depends on the data set</strong>. Let me make this point more clear through an example. Suppose a scientist collects a large set of data records about cancer patients. If my landlord is to be trusted, and for various reasons I hope he is, the goal now is scientific discovery. There are many ways to go about it. There are many ways to explore the data set. The analyst will use her domain knowledge and the specifics of the data set to make an initial guess. A first try might be linear regression (which is of course by itself well-defined). If that doesn't work, she might try logistic regression, and then any of thousands of possible methods. Of course, there is the danger that as more and more methods are evaluated against the data set, any observed pattern is increasingly likely to be a result of over-fitting. Regardless, the problem that the scientist will have solved at the end of the day is ill-defined. More importantly, even if there were a definition of the problem it would inevitably depend on the data set. It is unlikely that a different medical study would want to solve precisely the same problem.</p>
+<p>This situation should fill any theorist with discomfort. If the input determines the problem that we need to solve, <em>what problem then should we study</em>? Or, rather, from the point of view of the data analyst, what guidance does our theory provide in choosing one approach over another? I'm not suggesting that we should tailor more theory around what we currently perceive as practical. There's a good reason to be a step removed from practice. However, there are two legitimate ways of deciding the precedence of <em>problem</em> versus <em>data</em>. In theory we chose one over the other and moved on.</p>
+<p>Similar questions came up in the Stanford workshop  <a href="http://theory.stanford.edu/~tim/bwca/bwca.html">"Beyond Worst-Case Complexity"</a>. I vividly remember the workshop as one of my favorite workshops of all times. It's true that Big Data is also at odds with worst-case analysis. As a starting point, theory folks could try to figure out what the properties are that large data sets exhibit and how they might affect algorithm design. This research direction has already gained some momentum. I still feel like this doesn't address the heart of the problem described above. Average-case complexity doesn't attempt to reverse the role of problem and data. It only advocates thinking about properties of the input for a specific problem that are <em>typically</em> true and might make the problem easier.</p>
+<p>Another perspective was offered by Prabhakar Raghavan's invited talk at <a href="http://theory.stanford.edu/stoc2013/program.php">STOC 2013</a>. Interestingly, he described Big Data as bad news for  algorithm design. His point was that sophisticated algorithms have been replaced by less clever algorithms run on larger data sets. My view is quite a bit more optimistic. I consider Big Data as an opportunity for algorithm design to revisit some of its theoretical foundations.</p>
+<p><strong>Update (8/27): </strong>Suresh posted an interesting <a href="http://geomblog.blogspot.com/2013/08/on-theory-of-big-data.html">response</a> to this post.</p>

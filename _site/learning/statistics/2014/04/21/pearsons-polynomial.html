@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Pearson's polynomial</title>
+  <meta name="description" content="A 120 year old algorithm for learning mixtures of gaussians turns out to be optimalSo, how was math writing in 1894? I'd imagined it to be a lot like one of ...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://mrtz.org/learning/statistics/2014/04/21/pearsons-polynomial.html">
+  <link rel="alternate" type="application/rss+xml" title="Moody Rd" href="http://mrtz.org/feed.xml" />
+</head>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> 
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Moody Rd</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Pearson's polynomial</h1>
+    <p class="post-meta">Apr 21, 2014 • Moritz Hardt</p>
+  </header>
+
+  <article class="post-content">
+    <p style="text-align: center;"><em>A 120 year old algorithm for learning mixtures of gaussians turns out to be optimal</em></p>
+<p>So, how was math writing in 1894? I'd imagined it to be a lot like one of Nietzsche's last diary entries except with nouns replaced by German fraktur symbols, impenetrable formalisms and mind-bending passive voice constructions. I was in for no small surprise when I started reading Karl Pearson's <a href="https://archive.org/details/philtrans02543681">Contributions to the Mathematical Theory of Evolution</a>. The paper is quite enjoyable! The math is rigorous yet not overly formal. Examples and philosophical explanations motivate various design choices and definitions. A careful experimental evaluation gives credibility to the theory.</p>
+<p>The utterly mind-boggling aspect of the paper however is not how well-written it is, but rather what Pearson actually did in it and how far ahead of his time he was. This is the subject of this post.</p>
+<p>Pearson was interested in building a mathematical theory for evolutionary biology. In hindsight, his work is also one of the earliest contributions to the <em>computational</em> theory of evolution. This already strikes me as visionary as it remains a hot research area today. The Simons Institute in Berkeley just devoted a <a href="http://simons.berkeley.edu/programs/evolution2014">semester-long program</a> to it.</p>
+<p>In his paper, he considers the distribution of a single measurement among a population, more concretely, the forehead width to body length ratio among a population of crabs. The crab data had been collected by zoologist Weldon and his wife during their 1892 <a href="http://statprob.com/encyclopedia/WalterFrankRaphaelWeldon.html">easter vacation</a> on Malta. Wikipedia describes the crab (<a href="http://en.wikipedia.org/wiki/Carcinus_maenas">carcinus maenas</a>) as one of the "<em>world's worst alien invasive species"</em>, but fails to acknowledge the crab's academic contributions.</p>
+<p>[caption id="attachment_342" align="aligncenter" width="547"]<a href="http://mrtz.org/blog/wp-content/uploads/2014/04/crab1.jpg"><img class="size-full wp-image-342" src="http://mrtz.org/blog/wp-content/uploads/2014/04/crab1.jpg" alt="The Pearson-Weldon crab: Evil alien invader or misjudged scientific apprentice?" width="547" height="385" /></a> The Pearson-Weldon crab: Evil alien invader or misjudged scientific apprentice?[/caption]</p>
+<p><span style="line-height: 1.5;">The Weldons had taken 1000 samples each with 23 attributes of wich all but the one attribute describing forehead to body length ratio seemed to follow a single normal distribution. Regarding this peculiar deviation from normal, Pearson notes:</span></p>
+<blockquote><p>In the case of certain biological, sociological, and economic
+measurements there is, however, a well-marked deviation from this normal
+shape, and it becomes important to determine the direction and amount of such
+deviation. The asymmetry may arise from the fact that the units grouped
+together in the measured material are not really homogeneous. It may happen
+that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which deviates about its own mean symmetrically and in a manner represented with sufficient accuracy by the normal curve.</p></blockquote>
+<p>What the paragraph describes is the problem of <em>learning a mixture of gaussians</em>: Each sample is drawn from one of several unknown gaussian distributions. Each distribution is selected with an unknown mixture probability. The goal is to find the parameters of each gaussian distribution as well as the mixing probabilities. Pearson focuses on the case of two gaussians which he believes is of special importance in the context of evolutionary biology:</p>
+<blockquote><p>A family probably breaks up first into two species, rather than three or more, owing to the pressure at a given time of some particular form of natural selection.</p></blockquote>
+<p>With this reasoning he stipulates that the crab measurements are drawn from a mixture of two gaussians and aims to recover the parameters of this mixture. Learning a mixture of two gaussians at the time was a formidable task that lead Pearson to come up with a powerful approach. His approach is based on the method of moments which uses the empirical moments of a distribution to distinguish between competing models. Given \(n\) samples \(x_1,...,x_n\) the \(k\)-th empirical moment is defined as \(\frac1n\sum_ix_i^k\), which for sufficiently large \({n}\) will approximate the true moment \({\mathbb{E}\,x_i^k}\). A mixture of two one-dimensional gaussians has \({5}\) parameters so one might hope that \({5}\) moments are sufficient to identify the parameters.</p>
+<p>Pearson derived a ninth degree polynomial \({p_5}\) in the first \({5}\) moments and located the real roots of this polynomial over a carefully chosen interval. Each root gives a candidate mixture that matches the first \({5}\) moments; there were two valid solutions, among which Pearson selected the one whose \({6}\)-th moment was closest to the observed empirical \({6}\)-th moment.</p>
+<p>Pearson goes on to evaluate this method numerically on the crab samples---by hand. In doing so he touches on a number of issues such as <em>numerical stability</em> and <em>number of floating point operations</em> that seem to me as being well ahead of their time. Pearson was clearly aware of computational constraints and optimized his algorithm to be computationally tractable.</p>
+<h2>Learning mixtures of gaussians</h2>
+<p>Pearson's seminal paper proposes a problem and a method, but it doesn't give an analysis of the method. Does the method really work on <em>all</em> instances or did he get lucky on the crab population? Is there <em>any</em> efficient method that works on all instances? The sort of theorem we would like to have is: Given \({n}\) samples from a mixture of two gaussians, we can estimate each parameter up to small additive distance in polynomial time.</p>
+<p>Eric Price and I have a <a href="http://arxiv.org/abs/1404.4997">recent result</a> that resolves this problem by giving a computationally efficient estimator that achieves an optimal bound on the number of samples:</p>
+<p style="padding-left: 30px;"><strong>Theorem.</strong> Denoting by \({\sigma^2}\) the overall variance of the mixture, \({\Theta(\sigma^{12})}\) samples are necessary and sufficient to estimate each parameter to constant additive distance. The estimator is computationally efficient and extends to the \({d}\)-dimensional mixture problem up to a necessary factor of \({O(\log d)}\) in the sample requirement.</p>
+<p>Strikingly, our one-dimensional estimator turns out to be very closely related to Pearson's approach. Some extensions are needed, but I'm inclined to say that our result can be interpreted as showing that Pearson's original estimator is in fact an optimal solution to the problem he proposed.</p>
+<p>Until a recent breakthrough result by <a href="http://people.csail.mit.edu/moitra/docs/2g-full.pdf">Kalai, Moitra and Valiant</a> (2010), no polynomial bounds for the problem were known except under stronger assumptions on the gaussian components.</p>
+<h3> A word about definitions</h3>
+<p>Of course, we need to be a bit more careful with the above statements. Clearly we can only hope to recover the parameters up to permutation of the two gaussian components as any permutation gives an identical mixture. Second, we cannot hope to learn the mixture probabilities in general up to small error. If, for example, the two gaussian components are indistinguishable, there is no way of learning the mixture probabilities---even though we can estimate means and variances easily by treating the distribution as one gaussian. On the other hand, if the gaussian components are distinguishable then it is not hard to estimate the mixture probabilities from the other parameters and the overall mean and variance of the mixture. For this reason it makes some sense to treat the mixture probabilities separately and focus on learning means and variances of the mixture.</p>
+<p>Another point to keep in mind is that our notion of parameter distance should be scale-free. A reasonable goal is therefore to learn parameters \({\hat \mu_1,\hat \mu_2,\hat\sigma_1,\hat\sigma_2}\) such that if \({\mu_1,\mu_2,\sigma_1,\sigma_2}\) are the unknown parameters, there is a permutation \({\pi\colon\{1,2\}\rightarrow\{1,2\}}\) such that for all \({i\in\{1,2\},}\)</p>
+<p align="center">\(\displaystyle \max\left( \big|\mu_i-\mu_{\pi(i)}\big|^2, \big|\sigma_i^2-\sigma_{\pi(i)}^2\big|\right)\le\epsilon \cdot \sigma^2. \)</p>
+<p>Here, \({\sigma^2}\) is the overall variance of the mixture. The definition extends to the \({d}\)-dimensional problem for suitable notion of variance (essentially the maximum variance in each coordinate) and by replacing absolute values with \({\ell_\infty}\)-norms.</p>
+<h2>Some intuition for the proof</h2>
+<p>While the main difficulty in the proof is the upper bound, let's start with some intuition for why we can't hope to do better than \({\sigma^{12}}\). Just like Pearson's estimator and that of Kalai, Moitra and Valiant, our estimator is based on the first six moments of the distribution. It is not hard to show that estimating the \({k}\)-th moment up to error \({\epsilon\sigma^k}\) requires \({\Omega(1/\epsilon^2)}\) samples. Hence, learning each of the first six moments to constant error needs \({\Omega(\sigma^{12})}\) samples. This doesn't directly imply a lower bound for the mixture problem. After all, learning mixtures could be strictly easier than estimating the first six moments. Nevertheless, we know from Pearson that there are two mixtures that have matching first \({5}\) moments. This turns out to give you a huge hint as to how to prove a lower bound for the mixture problem. The key observation is that two mixtures that have matching first \({5}\) moments and constant parameters are extremely close to each other after adding a gaussian variable \({N(0,\sigma^2)}\) to both mixtures for large enought \({\sigma^2}\). Note that we still have two mixtures of gaussians after this operation and the total variance is \({O(\sigma^2).}\)</p>
+<p>Making this statement formal requires choosing the right probability metric. In our case this turns out to be the squared Hellinger distance. Sloppily identifying distributions with density functions like only a true computer scientist would do, the squared Hellinger distance is defined as</p>
+<p align="center">\(\displaystyle \mathrm{H}^2(f,g) = \frac12\int_{-\infty}^{\infty} \Big(\sqrt{f(x)}-\sqrt{g(x)}\Big)^2 \mathrm{d}x\,. \)</p>
+<p style="padding-left: 30px;"><strong>Lemma.</strong> Let \({f,g}\) be mixtures with matching first \({k}\) moments and constant parameters. Let \({p,q}\) be the distributions obtained by adding \({N(0,\sigma^2)}\) to each distribution. Then, \({\mathrm{H}^2(p,q)\le O(1/\sigma^{2k+2})}\).</p>
+<p>The lemma immediately gives the lower bound we need. Indeed, the squared Hellinger distance is sub-additive on product distributions. So, it's easy to see what happens for \({n}\) independent samples from each distribution. This can increase the squared Hellinger distance by at most a factor \({n}\). In particular, for any \({n=o(\sigma^{2k+2})}\) the squared Hellinger distance between \({n}\) samples from each distribution is at most \({o(1)}\). Owing to a useful relation between the Hellinger distance and total variation, this implies that also the total variation distance is at most \({o(1)}\). Using the definition of total variation distance, this means no estimator (efficient or not) can tell apart the two distributions from \({n=o(\sigma^{2k+2})}\) samples with constant success probability. In particular, parameter estimation is impossible.</p>
+<p><a href="http://mrtz.org/blog/wp-content/uploads/2014/04/moo32.png"><img class="aligncenter size-large wp-image-350" src="http://mrtz.org/blog/wp-content/uploads/2014/04/moo32-1024x384.png" alt="Mixtures with identical first 5 moments before and after adding noise" width="850" height="318" /></a></p>
+<p>This lemma is an example of a broader phenomenon: Matching moments plus "noise" implies tiny Hellinger distance. A great reference is Pollard's <a href="http://books.google.com/books/about/A_User_s_Guide_to_Measure_Theoretic_Prob.html?id=B7Ch-c2G21MC">book</a> and <a href="http://www.stat.yale.edu/~pollard/Books/Asymptopia/Metrics.pdf">lecture notes</a>. By the way, Pollard's expository writing is generally wonderful. For instance, check out his (unrelated) paper on <a href="http://www.stat.yale.edu/~jtc5/papers/ConditioningAsDisintegration.pdf"><em>guilt-free manipulation of conditional densities</em></a> if you ever wondered about how to condition on a measure zero event without regret. Not that computer scientists are generally concerned about it.</p>
+<h3>Matching upper bound</h3>
+<p>The matching upper bound is a bit trickier. The proof uses a convenient notion of <em>excess moments</em> that was introduced by Pearson. You might have heard of excess kurtosis (the fourth excess moment) as it appears in the info box on every Wikipedia article about distributions. Excess moments have the appealing property that they are invariant under adding and subtracting a common term from the variance of each component.</p>
+<p><a href="http://mrtz.org/blog/wp-content/uploads/2014/04/moo4.png"><img class="aligncenter size-large wp-image-333" src="http://mrtz.org/blog/wp-content/uploads/2014/04/moo4-1024x384.png" alt="Identical excess moments" width="850" height="318" /></a></p>
+<p>The second excess moment is always \({0.}\) As the picture suggests, we can make one component increasingly spiky and think of it as a distribution that places all its weight on a single point. In accordance with this notion of excess moments it makes sense to reparametrize the mixture in such a way that the parameters are also independent of adding and subtracting a common variance term. Assuming the overall mean of the mixture is \({0,}\) this leaves us with three free parameters \({\alpha,\beta,\gamma.}\) The third through sixth excess moment give us four equations in these three parameters.</p>
+<p>Expressing the excess moments in terms of our new parameters \({\alpha,\beta,\gamma,}\) we can derive in a fairly natural manner a ninth degree polynomial \({p_5(y)}\) whose coefficients depend on the first \({5}\) excess moments so that \({\alpha}\) has to satisfy \({p_5(\alpha)=0.}\) The polynomial \({p_5}\) was already used by Pearson. Unfortunately, \({p_5}\) can have multiple roots and this is to be expected since \({5}\) moments are not sufficient to identify a mixture of two gaussians. Pearson computed the mixtures associated with each of the roots and threw out the invalid solutions (e.g. the ones that give imaginary variances), getting two valid mixtures that matched on the first five moments. He then chose the one whose sixth moment was closest to the observed sixth moment.</p>
+<p>We proceed somewhat differently from Pearson after computing \({p_5}\). We derive another polynomial \({p_6}\) (depending on all six moments) and a bound \({B}\) such that \({\alpha}\) is the only solution to the system of equations</p>
+<p align="center">\(\displaystyle \big\{p_5(y)=0,\quad p_6(y)=0,\quad 0&lt;y\leq B\big\}. \)</p>
+<p>This approach isn't yet robust to small perturbations in the moments; for example, if \({p_5}\) has a double root at \({\alpha}\), it may have no nearby root after perturbation. We therefore consider the polynomial \({r(y) = p_5^2(y)+p_6^2(y)}\) which we know is zero at \({\alpha.}\) We argue that \({r(y)}\) is significantly nonzero for any \({y}\) significantly far from \({\alpha}\). This is the main difficulty in the proof, but if you really read this far, it's perhaps not a bad point to switch to reading <a href="http://arxiv.org/abs/1404.4997">our paper.</a></p>
+<h2>Conclusions</h2>
+<p>I sure drooled enough over how much I like Pearson's paper. Let me conclude with a different practical thought. There were a bunch of tools (as in actual computer programs---<em>gasp!</em>) that made the work a lot easier. Before we proved the lower bound we had verified it using arbitrary floating point precision numerical integration to accuracy \({10^{-300}}\) for \({\sigma^2=10,100,1000,\dots}\) and the decrease in Hellinger distance was exactly what it should be. We used a Python package called <a href="https://code.google.com/p/mpmath/">mpmath</a> for that.</p>
+<p>Similarly, for the upper bound we used a symbolic computation package in Python called <a href="http://sympy.org/en/index.html">SymPy</a> to factor various polynomials, perform substitutions and multiplications. It would've been tedious, time-consuming and error prone to do everything by hand (even if the final result is not too hard to check by hand).</p>
+<p style="padding-left: 30px;"><em>To stay on top of future posts, subscribe to the <a style="color: #bc360a;" href="http://mrtz.org/blog/feed/">RSS feed</a> or follow me on <a style="color: #bc360a;" href="http://twitter.com/mrtz">Twitter</a>.</em></p>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Moody Rd</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col  footer-col-1">
+        <ul class="contact-list">
+          <li>Moody Rd</li>
+          <li><a href="mailto:blog@mrtz.org">blog@mrtz.org</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/mrtzh">
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">mrtzh</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/mrtz">
+              <span class="icon  icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+
+              <span class="username">mrtz</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text">Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
