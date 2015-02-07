@@ -76,12 +76,17 @@
 <p>Since \({L}\) is positive semidefinite like any graph Laplacian, the function \({f}\) is convex. The operator norm of \({L}\) is bounded by~\({4}\) and so we have that for all \({x,y\in\mathbb{R}^n:}\)</p>
 <p style="text-align: center;">\(\displaystyle \|\nabla f(x) -\nabla f(y)\| \le \|L\|\cdot\|x-y\|\le 4 \|x-y\|. \)</p>
 <p>This means the function is also smooth and we can apply AGD/GD with a suitable step size. Comparing AGD and GD on this instance with \({n=100}\), we get the following picture:</p>
-<p><a href="http://mrtz.org/blog/wp-content/uploads/2014/08/no-noise.png"><img class="aligncenter size-large wp-image-376" src="http://mrtz.org/blog/wp-content/uploads/2014/08/no-noise-1024x640.png" alt="no-noise" width="850" height="531" /></a></p>
+
+<p><img src="/assets/no-noise.png" alt="No noise" /></p>
+
 <p>It looks like AGD is the clear winner. GD is pretty slow and takes a few thousand iterations to decrease the error by an order of magnitude.</p>
 <h2>When acceleration is bad</h2>
 <p>The situation changes dramatically in the presence of noise. Let's repeat the exact same experiment but now instead of observing \({\nabla f(x)}\) for any given \({x,}\) we can only see \({\nabla f(x) + \xi}\) where \({\xi}\) is sampled from the \({n}\)-dimensional normal distribution \({N(0,\sigma^2)^n.}\) Choosing \({\sigma=0.1}\) we get the following picture:</p>
-<p><a href="http://mrtz.org/blog/wp-content/uploads/2014/08/with-noise.png"><img class="aligncenter size-large wp-image-377" src="http://mrtz.org/blog/wp-content/uploads/2014/08/with-noise-1024x640.png" alt="with-noise" width="850" height="531" /></a></p>
+
+<p><img src="/assets/with-noise.png" alt="With noise" /></p>
+
 <p>Gradient descent pretty quickly converges to essentially the best result that we can hope for given the noisy gradients. In contrast, AGD goes totally nuts. It doesn't converge at all and it adds up errors in sort of linear fashion. In this world, GD is the clear winner.</p>
+
 <h2>A precise trade-off</h2>
 <p>The first thing DGN do in their paper is to define a general notion of inexact first order oracle. Let's recall what an exact first-order oracle does for an (unconstrained) convex function \({f\colon\mathbb{R}^n\rightarrow \mathbb{R}}\) with smoothness parameter \({L.}\) Given any point \({x\in\mathbb{R}^n}\) an exact first order oracle returns a pair \({(f_L(x),g_L(x))\in\mathbb{R}\times\mathbb{R}^n}\) so that for all \({y\in\mathbb{R}^n}\) we have</p>
 <p style="text-align: center;">\(\displaystyle 0\le f(y) - \big(f_L(x) + \langle g_L(x),y-x\rangle\big)\le \frac L2\|y-x\|^2\,. \)</p>

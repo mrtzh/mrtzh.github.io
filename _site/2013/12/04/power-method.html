@@ -85,12 +85,14 @@
 <p>Let's be ambitious and analyze Subspace Iteration in a strong noise model. It turns out that this will not actually make the analysis a lot harder, but a lot more general. The noise model I like is one in which each matrix-vector product is followed by the addition of a possibly adversarial noise term. Specifically, the only way we can access the matrix \(A\) is through an operation of the form</p>
 <p style="text-align: center;">\(\displaystyle Y = AX + G. \)</p>
 <p>Here, \({X}\) is what we get to choose and \({G}\) is the noise matrix we may not get to choose. We assume that \(G$ is the only source of error and that arithmetic is exact. In this model our algorithm proceeds as follows:</p>
-<div style="border: 1px solid #bbb; padding: 10px;">Pick \({X_0.}\) For \({t = 1}\) to \({t=L:}\)
+
+<div style="margin:10px;border: 1px solid #bbb; padding: 10px;">Pick \({X_0.}\) For \({t = 1}\) to \({t=L:}\)
 <ol>
 <li>\({Y_t = AX_{t-1} + G_t}\)</li>
 <li>\({X_t = \text{Orthonormalize}(Y_t)}\)</li>
 </ol>
 </div>
+
 <h3>The main geometric lemma</h3>
 <p>To analyze the above algorithm, we will consider the potential function \({\tan\theta(U,X_t).}\) If we pick \({X_0}\) randomly it's not so hard to show that it starts out being something like \({O(\sqrt{kn})}\) with high probability. We'll argue that \({\tan\theta(U,X_t)}\) decreases geometrically at the rate of \({\sigma_{k+1}/\sigma_{k}}\) under some assumptions on \({G_t}\). Here, \({\sigma_k}\) is the \({k}\)-th largest singular value. The analysis therefore requires a separation between \({\sigma_k}\) and \({\sigma_{k+1}}\). (NB: We can get around that by taking the dimension \({r}\) of \({U}\) to be larger than \({k.}\) In that case we'd get a convergence rate of the form \({\sigma_{r+1}/\sigma_k.}\) The argument is a bit more complicated, but can be found <a title="Robust Subspace Iteration and Privacy-Preserving Spectral Analysis" href="http://arxiv.org/abs/1311.2495">here</a>.)</p>
 <p>Now the lemma we'll prove is this:</p>
@@ -98,7 +100,9 @@
 <p style="text-align: center;">\(\displaystyle \tan\theta(U,X_t) \le \frac{\sigma_{k+1}\sin\theta(U,X_{t-1})+\|V^T G_t\|} {\sigma_k\cos\theta(U,X_{t-1})-\|U^T G_t\|}. \)</p>
 <p>This lemma is quite neat. First of all if \({G_t=0,}\) then we recover the noise-free convergence rate of Subspace Iteration that I claimed above. Second what this lemma tells us is that the sine of the angle between \({U}\) and \({X_{t-1}}\) gets perturbed by the norm of the projection of \({G_t}\) onto \({V}\), the orthogonal complement of \({U.}\) This should not surprise us, since \({\sin\theta(U,X_{t-1})=\|V^T X_{t-1}\|.}\) Similarly, the cosine of the angle is only perturbed by the projection of \({G_t}\) onto \({U.}\) This again seems intuitive given the definition of the cosine. An important consequence is this. Initially, the cosine between \({U}\) and \({X_0}\) might be very small, e.g. \({\Omega(\sqrt{k/n})}\) if we pick \({X_0}\) randomly. Fortunately, the cosine is only affected by a \({k}\)-dimensional projection of \({G_t}\) which we expect to be much smaller than the total norm of \({G_t.}\)</p>
 <p>The lemma has an intuitive geometric interpretation expressed in the following picture:</p>
-<p><a href="http://mrtz.org/blog/wp-content/uploads/2013/11/power-method.png"><img class="aligncenter size-full wp-image-278" alt="power-method" src="http://mrtz.org/blog/wp-content/uploads/2013/11/power-method.png" width="500" /></a></p>
+
+<p><img src="/assets/power-method.png" alt="Power method" /></p>
+
 <p>It's straightforward to prove the lemma when \({k=1}\). We simply write out the definition on the left hand side, plug in the update rule that generated \({X_t}\) and observe that the normalization terms in the numerator and denominator cancel. This leaves us with the stated expression after some simple manipulations. For larger dimension we might be troubled by the fact that we applied the Gram-Schmidt algorithm. Why would that cancel out? Interestingly it does. Here's why. The tangent satisfies the identity:</p>
 <p style="text-align: center;">\(\displaystyle \tan\theta(U,X_t) = \|(V^T X_t)(U^TX_t)^{-1}\|. \)</p>
 <p>It's perhaps not obvious, but not more than an exercise to check this. On the other hand, \({X_t = Y_t R}\) for some invertible linear transformation \({R.}\) This is a property of orthonormalization. Namely, \({X_t}\) and \({Y_t}\) must have the same range. But \({(U^TY_tR)^{-1}=R^{-1}(U^T Y_t)^{-1}}\). Hence</p>

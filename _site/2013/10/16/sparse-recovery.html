@@ -65,7 +65,9 @@
 
   <article class="post-content">
     <p><span style="line-height: 1.5;">Sparsity is of fundamental importance in much of signal processing, optimization, computer science and statistics. It was also a major theme in both workshops so far in the <a href="http://simons.berkeley.edu/programs/bigdata2013">Simons Big Data</a> program. The second workshop on succinct representations ended a few weeks ago. Those still barely conscious after a week of technical talks were rewarded by this sunset over Berkeley. (Technically, you still would have had to climb up to the top of Centennial Dr somehow.) </span></p>
-<p><a href="http://mrtz.org/blog/wp-content/uploads/2013/10/sunset3.jpg"><img class="aligncenter size-large wp-image-222" alt="Berkeley Sunset" src="http://mrtz.org/blog/wp-content/uploads/2013/10/sunset3-1024x390.jpg" width="850" height="323" /></a></p>
+
+<p><img src="/assets/sunset3.jpg" alt="Sunset" /></p>
+
 <p>Sparsity is a solution concept and not just a technical term. Sparse solutions to an optimization problem are often more well-behaved as they explain a phenomenon with fewer parameters. In high-dimensional settings where there are more variables than constraints, enforcing sparsity makes sense of problems that would otherwise be underdetermined.</p>
 <p>There's been so much work on sparsity it seems hard to find a place to start. Fortunately, there's a simple and elegant---yet powerful---geometric approach underlying many results in sparse recovery that I'll focus on here.</p>
 <h2>The Basic Picture</h2>
@@ -76,7 +78,9 @@
 <h3>The Restricted Nullspace Property</h3>
 <p>The central geometric question can then be phrased as: When is it the case that the tangent cone intersects the nullspace <em>only</em> at the origin? Formally, we're asking:</p>
 <p align="center">\(T(x_0)\cap \mathrm{null}(A)=\{ 0 \}\quad \)?</p>
-<p style="text-align: center;" align="center"><a href="http://mrtz.org/blog/wp-content/uploads/2013/10/restricted.png"><img class=" wp-image-174 aligncenter" alt="restricted" src="http://mrtz.org/blog/wp-content/uploads/2013/10/restricted.png" width="534" height="453" /></a></p>
+
+<p><img src="/assets/restricted.png" alt="Restricted nullspace property" /></p>
+
 <p>Restricted Nullspace Property is actually the name of a closely related property. Nevertheless I decided to run with this name for the purpose of this blog post.</p>
 <p>It is helpful to think of \({\mathrm{null}(A)}\) as a random subspace. This happens, for example, when \({A}\) is a random Gaussian matrix. On intuitive grounds, we should aim to make \({T(x_0)}\) as  "small" as possible to avoid any non-trivial intersection with the random nullspace while maintaining convexity. A natural choice is to let \({f}\) be the familiar \({\ell_1}\)-norm \({f(x)=\|x\|_1.}\) Even with these two choices though it's not obvious how to analyze the intersection of tangent cone and nullspace. We'd have to argue about all points in the tangent cone. You can probably guess what's next. Instead of proving the condition directly, we'll exhibit a "dual certificate". Duality is really easy here. The negative of the dual cone of \({T(x_0)}\) is the set</p>
 <p align="center">\(\displaystyle G = \{ g \colon f(y) \ge f(x_0) + \langle g,y-x\rangle \}. \)</p>
