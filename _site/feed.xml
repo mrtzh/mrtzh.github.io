@@ -5,8 +5,8 @@
     <description>A blog about machine learning.</description>
     <link>blog.mrtz.org/</link>
     <atom:link href="blog.mrtz.org/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 25 Jan 2015 15:31:21 -0800</pubDate>
-    <lastBuildDate>Sun, 25 Jan 2015 15:31:21 -0800</lastBuildDate>
+    <pubDate>Sat, 07 Feb 2015 09:42:51 -0800</pubDate>
+    <lastBuildDate>Sat, 07 Feb 2015 09:42:51 -0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -79,7 +79,7 @@ default, fair or just in any meaningful way.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Since I first wrote this post there’s been some interesting follow up by
 &lt;a href=&quot;https://medium.com/@hannawallach/big-data-machine-learning-and-the-social-sciences-927a8e20460d&quot;&gt;Hanna
 Wallach&lt;/a&gt;.
-Also be sure to check out the web site of the &lt;a href=&quot;www.fatml.org&quot;&gt;NIPS workshop&lt;/a&gt; on fairness,
+Also be sure to check out the web site of the &lt;a href=&quot;http://www.fatml.org&quot;&gt;NIPS workshop&lt;/a&gt; on fairness,
 accountability and transparency that Solon Barocas and I organized.&lt;/p&gt;
 </description>
         <pubDate>Fri, 26 Sep 2014 18:02:37 -0700</pubDate>
