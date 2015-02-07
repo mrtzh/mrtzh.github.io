@@ -4,6 +4,7 @@ status: publish
 published: true
 title: How big data is unfair
 author: Moritz Hardt
+comments: true
 date: '2014-09-26 18:02:37 -0700'
 ---
 
