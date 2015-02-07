@@ -5,37 +5,7 @@ published: true
 title: What I might blog about
 author: Moritz Hardt
 date: '2013-08-12 19:18:03 -0700'
-comments:
-- id: 2
-  author: Jon Ullman
-  author_email: jullman@gmail.com
-  author_url: ''
-  date: '2013-08-12 20:52:06 -0700'
-  date_gmt: '2013-08-12 20:52:06 -0700'
-  content: I really like this blog.  I especially like how the blogger didn't threaten
-    to stop being my friend if I didn't leave a comment.
-- id: 3
-  author: Moritz Hardt
-  author_email: m@mrtz.org
-  author_url: ''
-  date: '2013-08-12 20:58:29 -0700'
-  date_gmt: '2013-08-12 20:58:29 -0700'
-  content: Jon, as always, I'm glad to have your honest support.
-- id: 4
-  author: Aaron Roth
-  author_email: aaroth@cis.upenn.edu
-  author_url: ''
-  date: '2013-08-12 21:36:44 -0700'
-  date_gmt: '2013-08-12 21:36:44 -0700'
-  content: This is -- far and away -- the best blog that I have ever had the pleasure
-    to read. Bravo!
-- id: 5
-  author: Omer Reingold
-  author_email: omer.reingold@microsoft.com
-  author_url: http://research.microsoft.com/en-us/people/omreing/
-  date: '2013-08-18 11:30:58 -0700'
-  date_gmt: '2013-08-18 18:30:58 -0700'
-  content: Wonderful start Moritz! Looking forward to follow you up Moody Road :-)
+comments: true
 ---
 <p>After blogs had stopped being cool in 2004, I decided that it was now safe to start one. This is a blog mainly about <strong>algorithms</strong>, <strong>machine learning</strong>, <strong>complexity</strong>, and often closely related topics like cycling. There will be technical posts, but I will try to make an effort to keep each technical post accessible to more than a general theory audience. It's not going to be a math blog. I generally prefer short blog posts over long ones. Maybe I should decide on a word limit.</p>
 <p>One particular theme that I will likely cover are <strong>social concerns and how they affect the way we <em>should</em> design algorithms</strong>.</p>

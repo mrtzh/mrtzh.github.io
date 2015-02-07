@@ -5,6 +5,7 @@ published: true
 title: Pearson's polynomial
 author: Moritz Hardt
 date: '2014-04-21 18:02:37 -0700'
+comments: true
 tags:
 - algorithms
 - simons
@@ -15,30 +16,6 @@ tags:
 - mixtures
 - gaussian
 - learning
-comments:
-- id: 2395
-  author: A. Nonymous
-  author_email: anon@nona.com
-  author_url: ''
-  date: '2014-04-21 21:08:33 -0700'
-  date_gmt: '2014-04-22 04:08:33 -0700'
-  content: Great article Moritz! Thanks for posting.
-- id: 2613
-  author: G
-  author_email: hoonose@gmail.com
-  author_url: http://hoonoseme.wordpress.com
-  date: '2014-06-04 12:58:58 -0700'
-  date_gmt: '2014-06-04 19:58:58 -0700'
-  content: Great article, and a great result! One question - how did you make the
-    plots in this post? I like the style.
-- id: 2614
-  author: Moritz Hardt
-  author_email: m@mrtz.org
-  author_url: ''
-  date: '2014-06-04 13:05:55 -0700'
-  date_gmt: '2014-06-04 20:05:55 -0700'
-  content: matplotlib.pyplot has a method called "xkcd" that turns a regular plot
-    into this style. So, no creativity on my part :-)
 ---
 <p style="text-align: center;"><em>A 120 year old algorithm for learning mixtures of gaussians turns out to be optimal</em></p>
 

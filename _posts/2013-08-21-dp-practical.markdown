@@ -5,11 +5,11 @@ published: true
 title: Is Differential Privacy practical?
 author: Moritz Hardt
 date: '2013-08-21 15:25:52 -0700'
+comments: true
 tags:
 - differential privacy
 - cpuc
 - practical
-comments: []
 ---
 <p>Computer scientists like to equate practicality with computational efficiency. I plead <a href="http://books.nips.cc/papers/files/nips25/NIPS2012_1143.pdf">guilty</a>. If only an algorithm runs fast enough, it will be useful in practice. The situation is often much more complicated. Sure enough, the machine model matters, simplicity matters, constants matter, but that's not what I'm getting at. In many cases practicality depends a lot on the legal and social environment in which the algorithm is to be applied. In this post I will start to discuss the question: Is Differential Privacy <em>practical</em>---in the icky non-computational sense of the word? On another occasion I might talk about whether Differential Privacy is practical in our beloved computational sense of the word. That, too, is an important and exciting question.</p>
 <p>Differential Privacy is a formal notion of what it means for an algorithm to be privacy-preserving. It was invented jointly by Cynthia Dwork, Frank McSherry, Kobbi Nissim and Adam Smith in 2006. Since then it has turned out that much of statistical data analysis is still feasible even if we insist on differential privacy! This is a surprising insight that has been developed by a diverse community of researchers working on differential privacy. From a theoretical perspective, differential privacy is a success story already in my opinion. The definition (unlike many others) has held up to close scrutiny over the years (and there is a healthy ongoing discussion). There are many beautiful results relating differential privacy to other areas of computer science and math, including convex geometry, <a href="http://windowsontheory.org/2013/02/07/from-discrepancy-to-privacy-and-back-part-2-approximating-hereditary-discrepancy/">discrepancy theory</a> and especially <a href="http://windowsontheory.org/2012/05/27/privacy-preserving-data-analysis-and-computational-learning-a-match-made-in-heaven/">learning theory</a>, just to name a few. These connections have lead to much insight over the years and continue to be an exciting research area.</p>

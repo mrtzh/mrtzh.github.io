@@ -5,11 +5,11 @@ published: true
 title: 'Occupy Algorithms: Will Algorithms Serve the 99%?'
 author: Moritz Hardt
 date: '2013-08-12 20:22:26 -0700'
+comments: true
 tags:
 - algorithms
 - social
 - conference
-comments: []
 ---
 <p>I recently spent two extremely enjoyable days at a conference called <a href="http://governingalgorithms.org/">Governing Algorithms</a> at NYU. The rather ambitious goal of the conference was to bring together researchers  from more than a dozen fields to talk about algorithms.This count is probably an underestimate. I met anthropologists, historians, engineers, economists, sociologists, mathematicians, data scientists of all sorts, computer scientists, financial analysts, media and culture researchers, legal scholars and philosophers, just to name a few. The conference was extremely well attended. Yet all were united by a seemingly urgent desire to talk about algorithms. The breadth of the spectrum was quite new and challenging for me. I recall spending about an hour trying to learn the meaning of the phrase "socio-technical performativity of algorithms". I really thought I got it, but now I can't seem to remember. Oh well.</p>
 <p>So, what was it that we ended up talking about? Due to the heterogeneity of the audience, I think the answer to this question varies greatly  from one participant to another. Nevertheless, there were some common themes that emerged. I should say the title "governing algorithms" has two rather opposite meanings. One is that as of today algorithms govern much of our lives. I need not explain why. The other is that we wish to govern algorithms in the sense of being able to control, regulate and understand them. There is an obvious tension here.</p>

@@ -5,17 +5,9 @@ published: true
 title: 'Hello TCS Aggregator! '
 author: Moritz Hardt
 date: '2013-09-09 11:45:20 -0700'
+comments: true
 tags:
 - tcs
-comments:
-- id: 11
-  author: Arvind Narayanan
-  author_email: randomwalker@gmail.com
-  author_url: http://gravatar.com/twirlop
-  date: '2013-09-09 11:53:00 -0700'
-  date_gmt: '2013-09-09 18:53:00 -0700'
-  content: '"Greater aggregator community" might be the funniest phrase I''ve read
-    today.'
 ---
 <p>I've finally managed to get on the TCS aggregator! That is under the condition that I use a special tag indicating that my post may be mathy enough for the greater aggregator community. Since I've been blogging about the Big Data program at the brand new Simons Institute in Berkeley, let me mention two posts that already happened:</p>
 <ol>

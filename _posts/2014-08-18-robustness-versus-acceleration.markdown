@@ -5,6 +5,7 @@ published: true
 title: Robustness versus Acceleration
 author: Moritz Hardt
 date: '2014-08-18 12:31:57 -0700'
+comments: true
 tags:
 - algorithms
 - tcs
@@ -14,65 +15,6 @@ tags:
 - convexity
 - optimization
 - robustness
-comments:
-- id: 3181
-  author: u
-  author_email: urish22@gmail.com
-  author_url: http://gravatar.com/u
-  date: '2014-08-20 04:25:18 -0700'
-  date_gmt: '2014-08-20 11:25:18 -0700'
-  content: "Hi Moritz, great post as usual, this is a very interesting result I was
-    not aware of. And knowing this will have practical implications for my work.\r\n\r\nHave
-    you seen the recent paper by Allen-Zhu &amp; Orecchia where they derive AGD as
-    a Combination of Gradient and Mirror Descent? Seems this could be a relevant POV
-    for this discussion."
-- id: 3184
-  author: Moritz Hardt
-  author_email: m@mrtz.org
-  author_url: ''
-  date: '2014-08-20 07:58:26 -0700'
-  date_gmt: '2014-08-20 14:58:26 -0700'
-  content: Thanks! I have seen that paper on arxiv and it's definitely been on my
-    reading list for some time now. Perhaps once I read it and on the off chance I
-    happen to understand it properly, I'll blog about it.
-- id: 6025
-  author: Yuan Gao
-  author_email: tjcharlesgao@gmail.com
-  author_url: https://plus.google.com/102599756496880487918
-  date: '2014-12-29 23:10:14 -0800'
-  date_gmt: '2014-12-30 07:10:14 -0800'
-  content: '"Let’s recall what an exact first-order oracle does for an (unconstrained)
-    convex function f with Lipschitz constant L." Do you mean that the derivative
-    of f has Lipschitz constant L?'
-- id: 6030
-  author: Moritz Hardt
-  author_email: m@mrtz.org
-  author_url: ''
-  date: '2014-12-30 07:40:08 -0800'
-  date_gmt: '2014-12-30 15:40:08 -0800'
-  content: Yes, you are correct. What I meant was "smooth" and not "Lipschitz". Equivalently,
-    as you say, the gradient of f is Lipschitz. To avoid confusion with the word Lipschitz,
-    I've now changed it to "smooth" everywhere. Thanks for pointing this out.
-- id: 6227
-  author: Ravi Ganti
-  author_email: gmravi2003@gmail.com
-  author_url: ''
-  date: '2015-01-12 15:47:14 -0800'
-  date_gmt: '2015-01-12 23:47:14 -0800'
-  content: Neat post, Moritz. Can you maybe elaborate a bit on the second open problem
-    that you stated?
-- id: 6245
-  author: Moritz Hardt
-  author_email: m@mrtz.org
-  author_url: ''
-  date: '2015-01-13 09:40:40 -0800'
-  date_gmt: '2015-01-13 17:40:40 -0800'
-  content: Thanks. You might want to check out my post on gradient descent for background.
-    The idea is that there are eigenvalue methods that converge faster than the power
-    method (e.g., Lanczos), but they have similar issues with noise tolerance as Nesterov's
-    method. So, what I'm asking is a result which shows that provably any improvement
-    over the power method in terms of convergence speed comes at the cost of noise
-    tolerance.
 ---
 <p>My blog post on the <a href="http://mrtz.org/blog/the-zen-of-gradient-descent/">Zen of Gradient Descent</a> hit the front page of <a href="https://news.ycombinator.com/item?id=8182991">Hacker News</a> the other day. I don't know how that happened. It got me more views in one day than this most humble blog usually gets in half a year. I thought I should take this as an excuse to extend the post a bit by elaborating on one remark I made only in passing. You don't need to go back to reading that post unless you want to. This one will be self contained.</p>
 <p>The point I made is that basic Gradient Descent (GD) is noise tolerant in a way that Accelerated Gradient Descent (AGD) is not. That is to say, if we don't have exact but rather approximate gradient information, GD might very well outperform AGD even though its convergence rate is worse in the exact setting. The truth is I was sort of bluffing. I didn't actually have a proof of a formal statement that would nail down this point in a compelling way. It was more of a gut feeling based on some simple observations.</p>

@@ -5,21 +5,14 @@ published: true
 title: The Geometric View on Sparse Recovery
 author: Moritz Hardt
 date: '2013-10-16 07:58:18 -0700'
+comments: true
 tags:
 - tcs
 - sparsity
 - optimization
 - compressed sensing
 - matrix completion
-comments:
 - id: 84
-  author: Boaz Barak
-  author_email: blog@boazbarak.org
-  author_url: http://www.boazbarak.org
-  date: '2013-10-30 19:30:56 -0700'
-  date_gmt: '2013-10-31 02:30:56 -0700'
-  content: Thank you Moritz for a great post! And your German is indeed quite impressive
-    for a guy from Iowa :)
 ---
 <p><span style="line-height: 1.5;">Sparsity is of fundamental importance in much of signal processing, optimization, computer science and statistics. It was also a major theme in both workshops so far in the <a href="http://simons.berkeley.edu/programs/bigdata2013">Simons Big Data</a> program. The second workshop on succinct representations ended a few weeks ago. Those still barely conscious after a week of technical talks were rewarded by this sunset over Berkeley. (Technically, you still would have had to climb up to the top of Centennial Dr somehow.) </span></p>
 <p><a href="http://mrtz.org/blog/wp-content/uploads/2013/10/sunset3.jpg"><img class="aligncenter size-large wp-image-222" alt="Berkeley Sunset" src="http://mrtz.org/blog/wp-content/uploads/2013/10/sunset3-1024x390.jpg" width="850" height="323" /></a></p>
