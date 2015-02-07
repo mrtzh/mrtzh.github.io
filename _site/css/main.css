@@ -310,6 +310,10 @@ pre {
         font-size: 18px; } }
   .post-content p {
     text-align: justify; }
+  .post-content img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto; }
 
 /**
  * Syntax highlighting styles
