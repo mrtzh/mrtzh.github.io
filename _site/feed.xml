@@ -5,75 +5,141 @@
     <description>A blog about machine learning.</description>
     <link>blog.mrtz.org/</link>
     <atom:link href="blog.mrtz.org/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 07 Feb 2015 15:30:35 -0800</pubDate>
-    <lastBuildDate>Sat, 07 Feb 2015 15:30:35 -0800</lastBuildDate>
+    <pubDate>Sun, 08 Feb 2015 09:28:18 -0800</pubDate>
+    <lastBuildDate>Sun, 08 Feb 2015 09:28:18 -0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Goodbye Wordpress, never again</title>
+        <description>&lt;p&gt;Some may have noticed that this blog was an utter mess for about two weeks.
+This was due to an exploited vulnerability in Wordpress leaving my blog 
+in a state most curiously difficult to recover from. The only thing not
+corrupted by this horrific cyberattack (possibly of North Korean origin) 
+was an SQL database dump of my blog
+that turned out to be inconsistent with a fresh Wordpress install. The
+Wordpress support team thankfully pointed me to a number of videos
+explaning carefully how to move my mouse
+cursor from one point to another. I feel a lot more confident now with the mouse
+cursor. In the
+end, I more or less manually moved my blog to &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; hosted by
+&lt;a href=&quot;https://pages.github.com&quot;&gt;GitHub&lt;/a&gt; with &lt;a href=&quot;http://disqus.com&quot;&gt;Disqus&lt;/a&gt; comments.
+It’s a pretty decent combination that a lot of people seem to be transitioning
+to. &lt;/p&gt;
+
+&lt;p&gt;If you ever think about starting a blog, &lt;em&gt;do not&lt;/em&gt; go with Wordpress. If you absolutely
+cannot resist the temptation, by all means do not maintain your own Wordpress
+install. Wordpress is slow, clunky and insecure. I had to install updates
+multiple times a month and even that was evidently not enough to stay on top.&lt;/p&gt;
+
+&lt;p&gt;On a positive note, I appear to be on paternity leave right now—for another
+five weeks or so—and I hope to write a blog post or two in those moments
+when I’m not spending quality time with my bicycles, ehm, and my daughter, of
+course.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;To stay on top of future posts, subscribe to the (new) &lt;a href=&quot;http://blog.mrtz.org/feed.xml&quot;&gt;RSS feed&lt;/a&gt;
+or follow me on &lt;a href=&quot;https://www.twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sun, 08 Feb 2015 11:45:39 -0800</pubDate>
+        <link>blog.mrtz.org/2015/02/08/wordpress.html</link>
+        <guid isPermaLink="true">blog.mrtz.org/2015/02/08/wordpress.html</guid>
+        
+        <category>tcs</category>
+        
+        
+      </item>
     
       <item>
         <title>The NIPS Experiment</title>
         <description>&lt;p&gt;&lt;em&gt;This is a guest post by &lt;a href=&quot;http://cs.utexas.edu/~ecprice/&quot;&gt;Eric Price&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;I was at NIPS (one of the two main machine learning conferences) in Montreal last week, which has a really advanced format relative to the theory conferences. The double blind reviewing, rebuttal phase, and poster+lightning talk system all seem like improvements on the standard in my normal area (theoretical computer science), and having 2400 attendees is impressive and overwhelming. But the most amazing thing about the conference organization this year was the &lt;a href=&quot;http://inverseprobability.com/2014/12/16/the-nips-experiment/&quot;&gt;NIPS consistency experiment&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;A perennial question for academics is how accurate the conference review and acceptance process is. Getting papers into top conferences is hugely important for our careers, yet we all have papers rejected that we think should have gotten in. One of my papers was rejected three times before getting into SODA -- as the best student paper. After rejections, we console ourselves that the reviewing process is random; yet we take acceptances as confirmation that our papers are good. So just how random &lt;i&gt;is&lt;/i&gt; the reviewing process?  The NIPS organizers decided to find out.&lt;/p&gt;
-&lt;h2&gt;The NIPS Experiment&lt;/h2&gt;
-&lt;p&gt;The NIPS consistency experiment was an amazing, courageous move by the organizers this year to quantify the randomness in the review process. They split the program committee down the middle, effectively forming two independent program committees. Most submitted papers were assigned to a single side, but 10% of submissions (166) were reviewed by &lt;i&gt;both&lt;/i&gt; halves of the committee. This let them observe how consistent the two committees were on which papers to accept.  (For fairness, they ultimately accepted any paper that was accepted by either committee.)&lt;/p&gt;
-&lt;p&gt;The results were revealed this week: of the 166 papers, the two committees disagreed on the fates of 25.9% of them: 43. [Update: the original post said 42 here, but I misremembered.] But this &quot;25%&quot; number is misleading, and most people I&#39;ve talked to have misunderstood it: it actually means that the two committees &lt;i&gt;disagreed more than they agreed&lt;/i&gt; on which papers to accept. Let me explain.&lt;/p&gt;
+
+&lt;p&gt;A perennial question for academics is how accurate the conference review and acceptance process is. Getting papers into top conferences is hugely important for our careers, yet we all have papers rejected that we think should have gotten in. One of my papers was rejected three times before getting into SODA – as the best student paper. After rejections, we console ourselves that the reviewing process is random; yet we take acceptances as confirmation that our papers are good. So just how random &lt;em&gt;is&lt;/em&gt; the reviewing process?  The NIPS organizers decided to find out.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-nips-experiment&quot;&gt;The NIPS Experiment&lt;/h2&gt;
+
+&lt;p&gt;The NIPS consistency experiment was an amazing, courageous move by the organizers this year to quantify the randomness in the review process. They split the program committee down the middle, effectively forming two independent program committees. Most submitted papers were assigned to a single side, but 10% of submissions (166) were reviewed by &lt;em&gt;both&lt;/em&gt; halves of the committee. This let them observe how consistent the two committees were on which papers to accept.  (For fairness, they ultimately accepted any paper that was accepted by either committee.)&lt;/p&gt;
+
+&lt;p&gt;The results were revealed this week: of the 166 papers, the two committees disagreed on the fates of 25.9% of them: 43. [Update: the original post said 42 here, but I misremembered.] But this “25%” number is misleading, and most people I’ve talked to have misunderstood it: it actually means that the two committees &lt;em&gt;disagreed more than they agreed&lt;/em&gt; on which papers to accept. Let me explain.&lt;/p&gt;
+
 &lt;p&gt;The two committees were each tasked with a 22.5% acceptance rate. This would mean choosing about 37 or 38 of the 166 papers to accept&lt;sup&gt;&lt;a href=&quot;#footnotes&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Since they disagreed on 43 papers total, this means one committee accepted 21 papers that the other committee rejected and the other committee accepted 22 papers the first rejected, for 21 + 22 = 43 total papers with different outcomes. Since they accepted 37 or 38 papers, this means they disagreed on 21/37 or 22/38 ≈ 57% of the list of accepted papers.&lt;/p&gt;
+
 &lt;p&gt;In particular, about 57% of the papers accepted by the first committee were rejected by the second one and vice versa. In other words, most papers at NIPS would be rejected if one reran the conference review process (with a 95% confidence interval of 40-75%):&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/nips-pie11.png&quot; alt=&quot;Nips pie chart&quot; /&gt;&lt;/p&gt;
 
 &lt;p style=&quot;text-align: center&quot;&gt;Most papers accepted by one committee were rejected by the other, and vice versa.&lt;/p&gt;
 
-&lt;p style=&quot;text-align: left&quot;&gt;This result was surprisingly large to most people I&#39;ve talked to; they generally expected something like 30% instead of 57%. Relative to what people expected, 57% is actually closer to a purely random committee, which would only disagree on 77.5% of the accepted papers on average:&lt;/p&gt;
+&lt;p&gt;This result was surprisingly large to most people I’ve talked to; they generally expected something like 30% instead of 57%. Relative to what people expected, 57% is actually closer to a purely random committee, which would only disagree on 77.5% of the accepted papers on average:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/randomgraph2.png&quot; alt=&quot;Random model&quot; /&gt;&lt;/p&gt;
 
-&lt;p style=&quot;text-align: center&quot;&gt;If the committees were purely random, at a 22.5%
+&lt;p style=&quot;text-align: center&quot;&gt;
+If the committees were purely random, at a 22.5%
 acceptance rate&lt;br /&gt; they would disagree on 77.5% of their acceptance lists on average.&lt;/p&gt;
 
-&lt;p&gt;In the next section, I&#39;ll discuss a couple simple models for the conference review process that give the observed level of randomness.&lt;/p&gt;
-&lt;h2&gt;Models for conference acceptance&lt;/h2&gt;
+&lt;p&gt;In the next section, I’ll discuss a couple simple models for the conference review process that give the observed level of randomness.&lt;/p&gt;
+
+&lt;h2 id=&quot;models-for-conference-acceptance&quot;&gt;Models for conference acceptance&lt;/h2&gt;
+
 &lt;p&gt;One rough model for paper acceptance, consistent with the experiment, is as follows:&lt;/p&gt;
+
 &lt;ol&gt;
-&lt;li style=&quot;padding-left: 30px&quot;&gt;Half the submissions are found to be poor and reliably rejected.&lt;/li&gt;
-&lt;li style=&quot;padding-left: 30px&quot;&gt;The other half are accepted based on an unbiased coin flip.&lt;/li&gt;
+  &lt;li&gt;Half the submissions are found to be poor and reliably rejected.&lt;/li&gt;
+  &lt;li&gt;The other half are accepted based on an unbiased coin flip.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;This might be a decent rule of thumb, but it&#39;s clearly missing something: some really good papers do have a chance of acceptance larger than one half.&lt;/p&gt;
-&lt;h3&gt;The &quot;messy middle&quot; model&lt;/h3&gt;
-&lt;p&gt;One simple extension to the above model is the &quot;messy middle&quot; model, where some papers are clear accepts; some papers are clear rejects; and the papers in the middle are largely random.   We can compute what kinds of parameters are consistent with the NIPS experiment.  Options include:&lt;/p&gt;
+
+&lt;p&gt;This might be a decent rule of thumb, but it’s clearly missing something: some really good papers do have a chance of acceptance larger than one half.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-messy-middle-model&quot;&gt;The “messy middle” model&lt;/h3&gt;
+
+&lt;p&gt;One simple extension to the above model is the “messy middle” model, where some papers are clear accepts; some papers are clear rejects; and the papers in the middle are largely random.   We can compute what kinds of parameters are consistent with the NIPS experiment.  Options include:&lt;/p&gt;
+
 &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;The above model.&lt;/strong&gt; Half the papers are clear rejects, and everything&lt;br /&gt;
-else is random.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt; The opposite.&lt;/strong&gt; 7% of all papers (i.e. 30% of accepted papers) are&lt;br /&gt;
-clear accepts, and the  other 93% are random.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Somewhere in the middle.&lt;/strong&gt; For example 6% of all papers
-(i.e. 25% of accepted papers) are clear accepts, 25% of submitted papers are
-clear rejects, and the rest are random.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;The above model.&lt;/strong&gt; Half the papers are clear rejects, and everything else is random.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;The opposite.&lt;/strong&gt; 7% of all papers (i.e. 30% of accepted papers) are clear accepts, and the  other 93% are random.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Somewhere in the middle.&lt;/strong&gt; For example 6% of all papers (i.e. 25% of accepted papers) are clear accepts, 25% of submitted papers are clear rejects, and the rest are random.&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/messymiddle.png&quot; alt=&quot;Messy middle&quot; /&gt;&lt;/p&gt;
 
-&lt;h3&gt;The &quot;noisy scoring&quot; model&lt;/h3&gt;
-&lt;p&gt;As I was discussing this over dinner, Jacob Abernethy proposed a &quot;noisy scoring&quot; model based on his experience as an area chair. Each paper typically gets three reviews, each giving a score on 0-10. The committee uses the average score&lt;sup&gt;&lt;a href=&quot;#footnotes&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; as the main signal for paper quality. As I understand it, the basic committee process was that almost everything above 6.5 was accepted, almost everything below 6 was rejected, and the committee mainly debated the papers in between.&lt;/p&gt;
-&lt;p&gt;A basic simplified model of this would be as follows. Each paper has a &quot;true&quot; score \({v}\) drawn from some distribution (say, \({N(0, \sigma_{between}^2)}\)), and the the reviews for the paper are drawn from \({N(v, \sigma_{within}^2)}\). Then the NIPS experiment&#39;s result (number of papers in which the two committees disagree) is a function of the ratio \({\sigma_{between}/\sigma_{within}}\). We find that the observation would be consistent with this model if \({\sigma_{within}}\) is between one and four times \({\sigma_{between}}\):&lt;/p&gt;
+&lt;h3 id=&quot;the-noisy-scoring-model&quot;&gt;The “noisy scoring” model&lt;/h3&gt;
+
+&lt;p&gt;As I was discussing this over dinner, Jacob Abernethy proposed a “noisy scoring” model based on his experience as an area chair. Each paper typically gets three reviews, each giving a score on 0-10. The committee uses the average score&lt;sup&gt;&lt;a href=&quot;#footnotes&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; as the main signal for paper quality. As I understand it, the basic committee process was that almost everything above 6.5 was accepted, almost everything below 6 was rejected, and the committee mainly debated the papers in between.&lt;/p&gt;
+
+&lt;p&gt;A basic simplified model of this would be as follows. Each paper has a “true”
+score \(v\) drawn from some distribution (say, \({N(0,
+\sigma_{between}^2)}\)), and the the reviews for the paper are drawn
+from \(N(v, \sigma_{within}^2)\). Then the NIPS experiment’s
+result (number of papers in which the two committees disagree) is a function
+of the ratio \(\sigma_{between}/\sigma_{within}\). We find that
+the observation would be consistent with this model if
+\(\sigma_{within}\) is between one and four times \(\sigma_{between}\):&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/noisyscoring2.png&quot; alt=&quot;Noisy scoring&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Once the NIPS review data is released, we can check the empirical \({\sigma_{within}}\) and \({\sigma_{between}}\) to see if this model is reasonable.&lt;/p&gt;
-&lt;p&gt;One nice thing about the noisy scoring model is that you don&#39;t actually need to run the NIPS experiment to estimate the parameters. Every CS conference could measure the within-paper and between-paper variance in reviewer scores. This lets you measure the expected randomness in the results of the process, assuming the model holds.&lt;/p&gt;
-&lt;h2&gt;Conclusions&lt;/h2&gt;
+&lt;p&gt;Once the NIPS review data is released, we can check the empirical
+\({\sigma_{within}}\) and \({\sigma_{between}}\) to see if this model is reasonable.&lt;/p&gt;
+
+&lt;p&gt;One nice thing about the noisy scoring model is that you don’t actually need to run the NIPS experiment to estimate the parameters. Every CS conference could measure the within-paper and between-paper variance in reviewer scores. This lets you measure the expected randomness in the results of the process, assuming the model holds.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h2&gt;
+
 &lt;p&gt;Computer science conference acceptances seem to be more random than we had previously realized. This suggests that we should rethink the importance we give to them in terms of the job search, tenure process, etc.&lt;/p&gt;
-&lt;p&gt;I&#39;ll close with a few final thoughts:&lt;/p&gt;
+
+&lt;p&gt;I’ll close with a few final thoughts:&lt;/p&gt;
+
 &lt;ul&gt;
-&lt;li&gt;Consistency is not the only goal. Double-blind reviewing probably decreases consistency by decreasing the bias towards established researchers, but this is a good thing and the TCS conferences should adopt the system.&lt;/li&gt;
-&lt;li&gt;Experiments are good! As scientists, we ought to do more experiments on our processes. The grad school admissions process seems like a good target for this, for example.&lt;/li&gt;
-&lt;li&gt;I&#39;d like to give a &lt;i&gt;huge&lt;/i&gt; shout-out to the NIPS organizers, Corinna Cortes and Neil Lawrence, for running this experiment. It wasn&#39;t an easy task -- not only did they review 10% more papers than necessary, they also had the overhead of finding and running two independent PCs. But the results are valuable for the whole computer science community.&lt;/li&gt;
+  &lt;li&gt;Consistency is not the only goal. Double-blind reviewing probably decreases consistency by decreasing the bias towards established researchers, but this is a good thing and the TCS conferences should adopt the system.&lt;/li&gt;
+  &lt;li&gt;Experiments are good! As scientists, we ought to do more experiments on our processes. The grad school admissions process seems like a good target for this, for example.&lt;/li&gt;
+  &lt;li&gt;I’d like to give a &lt;em&gt;huge&lt;/em&gt; shout-out to the NIPS organizers, Corinna Cortes and Neil Lawrence, for running this experiment. It wasn’t an easy task – not only did they review 10% more papers than necessary, they also had the overhead of finding and running two independent PCs. But the results are valuable for the whole computer science community.&lt;/li&gt;
 &lt;/ul&gt;
+
 &lt;h4 id=&quot;footnotes&quot;&gt;Footnotes&lt;/h4&gt;
+
 &lt;ol&gt;
-&lt;li&gt;The committees did not know which of the ~900 papers they were reviewing were the 166 duplicated ones, so there can be some variation in how many papers to accept, but this is a minor effect.&lt;/li&gt;
-&lt;li&gt;They also use a &quot;confidence-weighted&quot; score, but let&#39;s ignore that detail.&lt;/li&gt;
+  &lt;li&gt;The committees did not know which of the ~900 papers they were reviewing were the 166 duplicated ones, so there can be some variation in how many papers to accept, but this is a minor effect.&lt;/li&gt;
+  &lt;li&gt;They also use a “confidence-weighted” score, but let’s ignore that detail.&lt;/li&gt;
 &lt;/ol&gt;
 </description>
         <pubDate>Mon, 15 Dec 2014 11:45:39 -0800</pubDate>
@@ -496,55 +562,91 @@ to the &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://blog.mrtz.org/
     
       <item>
         <title>The Zen of Gradient Descent</title>
-        <description>&lt;p&gt;&lt;span style=&quot;line-height: 1.5;&quot;&gt;Ben Recht spoke about optimization a few days ago at the Simons Institute. His talk was a highly entertaining tour de force through about a semester of convex optimization. You should go &lt;a href=&quot;http://simons.berkeley.edu/talks/ben-recht-2013-09-04&quot;&gt;watch &lt;/a&gt;it. It&#39;s easy to spend a semester of convex optimization on various guises of Gradient Descent alone. Simply pick one of the following variants and work through the specifics of the analysis: conjugate, accelerated, projected, conditional, mirrored, stochastic, coordinate, online. This is to name a few. You may also choose various pairs of attributes such as &quot;accelerated coordinate&quot; descent. Many triples are also valid such as &quot;online stochastic mirror&quot; descent. An expert unlike me would know exactly which triples are admissible. You get extra credit when you use &quot;subgradient&quot; instead of &quot;gradient&quot;. This is really only the beginning of Optimization and it might already seem confusing.&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Thankfully, Ben kept things simple. There are indeed simple common patterns underlying many (if not all) variants of Gradient Descent. Ben did a fantastic job focusing on the basic template without getting bogged down in the details. He also made a high-level point that I strongly agree with. Much research in optimization focuses on convergence rates. That is, how many update steps do we need to minimize the function up to an epsilon error? Often fairly subtle differences in convergence rates are what motivates one particular variant of Gradient Descent over another. But there are properties of the algorithm that can affect the running time more powerfully than the exact convergence rate. A prime example is robustness. Basic Gradient Descent is robust to noise in several important ways. Accelerated Gradient Descent is much more brittle. Showing that it is even polynomial time (and under what assumptions) is a rather non-trivial exercise depending on the machine model. I&#39;ve been saying for a while now that small improvements in running time don&#39;t trump major losses in robustness. The situation in optimization is an important place where the trade-off between robustness and efficiency deserves attention. Generally speaking, the question &quot;which algorithm is better&quot; is rarely answered by looking at a single proxy such as &quot;convergence rate&quot;.&lt;/p&gt;
-&lt;p&gt;With that said, let me discuss Gradient Descent first. Then I will try to motivate why it makes sense to expect an accelerated method and how one might have discovered it. My exposition is not particularly close to Ben&#39;s lecture. In particular, mistakes are mine. So, you should still go and watch that lecture. If you already know Gradient Descent, you can skip/skim the first section.&lt;/p&gt;
-&lt;h2&gt;The Basic Gradient Descent Method&lt;/h2&gt;
+        <description>&lt;p&gt;Ben Recht spoke about optimization a few days ago at the Simons Institute. His talk was a highly entertaining tour de force through about a semester of convex optimization. You should go &lt;a href=&quot;http://simons.berkeley.edu/talks/ben-recht-2013-09-04&quot;&gt;watch&lt;/a&gt; it. It’s easy to spend a semester of convex optimization on various guises of Gradient Descent alone. Simply pick one of the following variants and work through the specifics of the analysis: conjugate, accelerated, projected, conditional, mirrored, stochastic, coordinate, online. This is to name a few. You may also choose various pairs of attributes such as “accelerated coordinate” descent. Many triples are also valid such as “online stochastic mirror” descent. An expert unlike me would know exactly which triples are admissible. You get extra credit when you use “subgradient” instead of “gradient”. This is really only the beginning of Optimization and it might already seem confusing.&lt;/p&gt;
+
+&lt;p&gt;Thankfully, Ben kept things simple. There are indeed simple common patterns underlying many (if not all) variants of Gradient Descent. Ben did a fantastic job focusing on the basic template without getting bogged down in the details. He also made a high-level point that I strongly agree with. Much research in optimization focuses on convergence rates. That is, how many update steps do we need to minimize the function up to an epsilon error? Often fairly subtle differences in convergence rates are what motivates one particular variant of Gradient Descent over another. But there are properties of the algorithm that can affect the running time more powerfully than the exact convergence rate. A prime example is robustness. Basic Gradient Descent is robust to noise in several important ways. Accelerated Gradient Descent is much more brittle. Showing that it is even polynomial time (and under what assumptions) is a rather non-trivial exercise depending on the machine model. I’ve been saying for a while now that small improvements in running time don’t trump major losses in robustness. The situation in optimization is an important place where the trade-off between robustness and efficiency deserves attention. Generally speaking, the question “which algorithm is better” is rarely answered by looking at a single proxy such as “convergence rate”.&lt;/p&gt;
+
+&lt;p&gt;With that said, let me discuss Gradient Descent first. Then I will try to motivate why it makes sense to expect an accelerated method and how one might have discovered it. My exposition is not particularly close to Ben’s lecture. In particular, mistakes are mine. So, you should still go and watch that lecture. If you already know Gradient Descent, you can skip/skim the first section.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-basic-gradient-descent-method&quot;&gt;The Basic Gradient Descent Method&lt;/h2&gt;
+
 &lt;p&gt;The goal is to minimize a convex function \(f\colon\mathbb{R}^n\rightarrow\mathbb{R}\) without any constraints. We&#39;ll assume that \(f\) is twice differentiable and strongly convex. This means that we can squeeze a parabola between the tangent plane at \(x\) given by the gradient and the function itself. Formally, for some \(\ell&amp;gt;0\) and all \(x,z\in\mathbb{R}^n:\)&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle f(z) \ge f(x) + \nabla f(x)^T(z-x) + \frac \ell 2 \|z-x\|^2.\)&lt;/p&gt;
-&lt;p&gt;At the same time, we don&#39;t want the function to be &quot;too convex&quot;. So, we&#39;ll require the condition:&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle f(z) \le f(x) + \nabla f(x)^T(z-x) + \frac L 2 \|z-x\|^2.\)&lt;/p&gt;
-&lt;p&gt;This is a Lipschitz condition in disguise as it is equivalent to: \(\|\nabla f(x) - \nabla f(z)\|\le L\|x-z\|.\)&lt;/p&gt;
+
+&lt;p&gt;\[ f(z) \ge f(x) + \nabla f(x)^T(z-x) + \frac \ell 2 \|z-x\|^2.\]&lt;/p&gt;
+
+&lt;p&gt;At the same time, we don’t want the function to be “too convex”. So, we’ll require the condition:&lt;/p&gt;
+
+&lt;p&gt;\[ f(z) \le f(x) + \nabla f(x)^T(z-x) + \frac L 2 \|z-x\|^2.\]&lt;/p&gt;
+
+&lt;p&gt;This is a Lipschitz condition in disguise as it is equivalent to: &lt;/p&gt;
+
+&lt;p&gt;\[\|\nabla f(x) - \nabla f(z)\|\le L\|x-z\|.\]&lt;/p&gt;
+
 &lt;p&gt;Let&#39;s be a bit more concrete and consider from here on the important example of a convex function \(f(x) = \frac 12 x^T A x - b^T x,\) where \(A\) is an \(n\times n\) positive definite matrix and \(b\) is a vector. We have \(\nabla f(x) = Ax - b.\) It&#39;s an exercise to check that the above conditions boil down to the spectral condition: \(\ell I \preceq A \preceq LI.\) Clearly this problem has a unique minimizer given by \(x^*=A^{-1}b.\) In other words, if we can minimize this function, we&#39;ll know how to solve linear systems.&lt;/p&gt;
 &lt;p&gt;Now, all that Gradient Descent does is to compute the sequence of points&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle x_{k+1} = x_k - t_k \nabla f(x_k)\)&lt;/p&gt;
-&lt;p&gt;for some choice of the step parameter \(t_k.\) Our hope is that for some positive \(\alpha &amp;lt; 1\),&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle \|x^* - x_{k+1}\| \le \alpha\|x_k-x^*\|,\)&lt;/p&gt;
+
+&lt;p&gt;\[x_{k+1} = x_k - t_k \nabla f(x_k)\]&lt;/p&gt;
+
+&lt;p&gt;for some choice of the step parameter \(t_k.\) 
+Our hope is that for some positive \(\alpha &amp;lt; 1\),&lt;/p&gt;
+
+&lt;p&gt;\[\|x^* - x_{k+1}\| \le \alpha\|x_k-x^*\|,\]&lt;/p&gt;
+
 &lt;p&gt;If this happens in every step, Gradient Descent converges exponentially fast towards the optimum. This is soberly called linear convergence in Optimization. Note that since the function is strongly convex, this also guarantees convergence of the objective value.&lt;/p&gt;
-&lt;p&gt;Choosing the right step size \(t\) is an important task. If we choose it to small, our progress will be unnecessarily slow. If we choose it too large, we will overshoot. A calculation shows that if we put \(t= 2/(\ell + L)\) we get \(\alpha = (L-\ell)/(L+\ell).\) Remember that \(\kappa = L/\ell\) is condition number of the matrix. More generally, you could define the condition number of \(f\) in this way. We have shown that&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle \|x_k-x^*\| \le \left(\frac{\kappa -1}{\kappa + 1}\right)^k\|x_0-x^*\|.\)&lt;/p&gt;
+
+&lt;p&gt;Choosing the right step size \(t\) is an important task. If we choose it to small, our progress will be unnecessarily slow. If we choose it too large, we will overshoot. A calculation shows that if we put \(t= 2/(\ell + L)\) we get \(\alpha = (L-\ell)/(L+\ell).\) Remember that \(\kappa = L/\ell\) is condition number of the matrix. More generally, you could define the condition number of \(f\) in this way. 
+We have shown that&lt;/p&gt;
+
+&lt;p&gt;\[\|x_k-x^*\| \le \left(\frac{\kappa -1}{\kappa + 1}\right)^k\|x_0-x^*\|.\]&lt;/p&gt;
+
 &lt;p&gt;So the potential function (or Lyapunov function) drops by a factor of roughly \(1-1/\kappa\) in every step. This is the convergence rate of Gradient Descent.&lt;/p&gt;
-&lt;h2&gt;Deriving the Accelerated Method through Chebyshev magic&lt;/h2&gt;
+
+&lt;h2 id=&quot;deriving-the-accelerated-method-through-chebyshev-magic&quot;&gt;Deriving the Accelerated Method through Chebyshev magic&lt;/h2&gt;
+
 &lt;p&gt;What Nesterov showed in 1983 is that we can improve the convergence rate of Gradient Descent without using anything more than gradient information at various points of the domain. This is usually when people say something confusing about physics. It&#39;s probably helpful to others, but physics metaphors are not my thing. Let me try a different approach. Let&#39;s think about why what we were doing above wasn&#39;t optimal. Consider the simple example \(f(x)= \frac12 x^T A x- b^T x.\) Recall, the function is minimized at \(A^{-1}b\) and the gradient satisfies \(\nabla f(x) = Ax-b.\) Let&#39;s start Gradient Descent at \(x_0=tb.\) We can then check that&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle x_k = (\sum_{j=0}^k (I-A&#39;)^k)b&#39;\)&lt;/p&gt;
+
+&lt;p&gt;\[x_k = \Big(\sum_{j=0}^k (I-A’)^k\Big)b’\]&lt;/p&gt;
+
 &lt;p&gt;where \(A&#39;=tA\) and \(b&#39;=tb.\) Why does this converge to \(A^{-1}b\)? The reason is that what Gradient Descent is computing is a degree \(k\) polynomial approximation of the inverse function. To see this, recall that for all scalars \(|x|&amp;lt;1,\)&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle \frac{1}{x} = \sum_{k=0}^\infty (1-x)^k.\)&lt;/p&gt;
+
+&lt;p&gt;\[\frac{1}{x} = \sum_{k=0}^\infty (1-x)^k.\]&lt;/p&gt;
+
 &lt;p&gt;Since the eigenvalues of \(A&#39;\) lie within \((0,1),\) this scalar function extends to the matrix case. Moreover, the approximation error when truncating the series at degree \(k\) is \(O( (1-x)^k)).\) In the matrix case this translates to error \(O(\| (I-A&#39;)^k \|) = O( (1-\ell/L)^k).\) This is exactly the convergence rate of Gradient Descent that we determined earlier.&lt;/p&gt;
 &lt;p&gt;Why did we go through this exercise? The reason is that now we see that to improve on Gradient Descent it suffices to find a better low-degree approximation to the scalar function \(1/x.\) What we&#39;ll be able to show is that we can save a square root in the degree while achieving the same error! Anybody familiar with polynomial approximation should have one guess when hearing &quot;quadratic savings in the degree&quot;:&lt;/p&gt;
 &lt;h3 style=&quot;text-align: center;&quot;&gt;Chebyshev Polynomials&lt;/h3&gt;
 &lt;p&gt;Let&#39;s be clear. Our goal is to find a degree \(k\) polynomial \(q_k(A)\) which minimizes the residual&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle r_k = \|(I-Aq_k(A))b\|.\)&lt;/p&gt;
+
+&lt;p&gt;\[r_k = \|(I-Aq_k(A))b\|.\]&lt;/p&gt;
+
 &lt;p&gt;Put differently we are looking for a polynomial of the form \(p_k(z)=1-zq(z).\) What we want is that the polynomial is as small as possible on the location of the eigenvalues of \(A\) which lie in the interval \([\ell,L].\) At the same time, the polynomial must satisfy \(p_k(0)=1.\) This is exactly the property that Chebyshev polynomials achieve with the least possible degree! Quantitatively, we have the following lemma that I learned from Rocco Servedio. As Rocco said in that context:&lt;/p&gt;
 &lt;blockquote&gt;&lt;p&gt;There&#39;s only one bullet in the gun. It&#39;s called the Chebyshev polynomial.&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;strong&gt;Lemma.&lt;/strong&gt; There is a polynomial \(p_k\) of degree \(O(\sqrt{(L/\ell)\log(1/\epsilon)})\) such that \(p_k(0)=1\) and \(p_k(x)\le\epsilon\) for all \(x\in[\ell,L].\)&lt;/p&gt;
 &lt;p&gt;The lemma implies that we get a quadratic savings in degree. Since we can build \(p_k\) from gradient information alone, we now know how to improve the convergence rate of Gradient Descent. It gets better. The Chebyshev polynomials satisfy a simple recursive definition that defines the \(k\)-th degree polynomial in terms of the previous two polynomials. This means that accelerated gradient descent only needs the previous two gradients with suitable coefficients:&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle x_k = x_{k-1} - \alpha_k \nabla f(x_{k-1}) + \beta_k \nabla f(x_{k-2}).\)&lt;/p&gt;
+
+&lt;p&gt;\[x_k = x_{k-1} - \alpha_k \nabla f(x_{k-1}) + \beta_k \nabla f(x_{k-2}).\]&lt;/p&gt;
+
 &lt;p&gt;Figuring out the best possible coefficients \(\alpha_k,\beta_k\) leads to the above convergence rate. What&#39;s amazing is that this trick works for any convex function satisfying our assumptions and not just the special case we dealt with here!  In fact, this is what Nesterov showed. I should say that the interpretation in terms of polynomial approximations is lost (as far as I know).The polynomial approximation method I described was known much earlier in the context of eigenvalue computations. This is another fascinating connection I&#39;ll describe in the next section.&lt;/p&gt;
 &lt;p&gt;Let me add that it can be shown that this convergence rate is optimal for any first-order (gradient only method) by taking \(A\) to be the Laplacian of a path of length \(n\). This is true even in our special case. It&#39;s optimal though in a weak sense: There is a function and a starting point such that the method needs this many steps. I would be interesting to understand how robust this lower bound is.&lt;/p&gt;
 &lt;h2&gt;The Connection to Eigenvalue Methods&lt;/h2&gt;
 &lt;p&gt;Our discussion above was essentially about eigenvalue location. What does polynomial approximation have to do with eigenvalues? Recall, that the most basic way of computing the top eigenvalue of a matrix is the Power Method. The Power Method corresponds to a very basic polynomial, namely \(p_k(x) = x^k.\) This polynomial has the effect that it maps \(1\) to \(1\) and moves every number \(|x|&amp;lt;1\) closer to \(0\) at the rate \(|x|^k.\) Hence, if the top eigenvalue is \(\lambda\) and the second eigenvalue is \((1-\epsilon)\lambda,\) then we need about \(k\approx 1/\epsilon\) iterations to  approximately find \(\lambda.\) Using exactly the same Chebyshev idea, we can improve this to \(k=O(\sqrt{1/\epsilon})\) iterations! This method is often called Lanczos method. So, we have the precise correspondence:&lt;/p&gt;
 &lt;blockquote&gt;&lt;p&gt;The Power Method is to Lanczos as Basic Gradient Descent is to Accelerated Gradient Descent!&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;I find this quite amazing. In a future post I will return to the Power Method in greater detail in the context of noise-tolerant eigenvalue computation.&lt;/p&gt;
-&lt;h2&gt;Why don&#39;t we teach Gradient Descent in theory classes?&lt;/h2&gt;
-&lt;p&gt;I&#39;m embarrassed to admit that the first time I saw Gradient Descent in full generality was in grad school. I had seen the Perceptron algorithm in my last year as an undergraduate. At the time, I was unaware that like so many algorithms it is just a special case of Gradient Descent. Looking at the typical undergraduate curriculum, it seems like we spend a whole lot of time iterating through dozens of combinatorial algorithms for various problems. So much so that we often don&#39;t get around to teaching something as fundamental as Gradient Descent. It wouldn&#39;t take more than two lectures to teach the contents of this blog post (or one lecture if you&#39;re Ben Recht). Knowing Gradient Descent seems quite powerful. It&#39;s not only simple and elegant. It&#39;s also the algorithmic paradigm behind many algorithms in machine learning, optimization and numerical computation. Teaching it to undergraduates seems like a must. I just now realize that I haven&#39;t been an undergraduate in a while. Time flies. So perhaps this is already happening.&lt;/p&gt;
-&lt;h2&gt;More Pointers&lt;/h2&gt;
+
+&lt;h2 id=&quot;why-dont-we-teach-gradient-descent-in-theory-classes&quot;&gt;Why don’t we teach Gradient Descent in theory classes?&lt;/h2&gt;
+
+&lt;p&gt;I’m embarrassed to admit that the first time I saw Gradient Descent in full generality was in grad school. I had seen the Perceptron algorithm in my last year as an undergraduate. At the time, I was unaware that like so many algorithms it is just a special case of Gradient Descent. Looking at the typical undergraduate curriculum, it seems like we spend a whole lot of time iterating through dozens of combinatorial algorithms for various problems. So much so that we often don’t get around to teaching something as fundamental as Gradient Descent. It wouldn’t take more than two lectures to teach the contents of this blog post (or one lecture if you’re Ben Recht). Knowing Gradient Descent seems quite powerful. It’s not only simple and elegant. It’s also the algorithmic paradigm behind many algorithms in machine learning, optimization and numerical computation. Teaching it to undergraduates seems like a must. I just now realize that I haven’t been an undergraduate in a while. Time flies. So perhaps this is already happening.&lt;/p&gt;
+
+&lt;h2 id=&quot;more-pointers&quot;&gt;More Pointers&lt;/h2&gt;
+
 &lt;ul&gt;
-&lt;li&gt;Trefethen-Bau, &quot;Numerical Linear Algebra&quot;. My favorite book on the topic of classical numerical methods by far.&lt;/li&gt;
-&lt;li&gt;Ben Recht&#39;s lecture notes &lt;a href=&quot;http://pages.cs.wisc.edu/~brecht/cs726docs/HeavyBall.pdf&quot;&gt;here&lt;/a&gt; and &lt;a href=&quot;http://pages.cs.wisc.edu/~brecht/cs726docs/HeavyBallLinear.pdf&quot;&gt;here&lt;/a&gt;, his Simons &lt;a href=&quot;http://simons.berkeley.edu/talks/ben-recht-2013-09-04&quot;&gt;talk.&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Sebastien Bubeck&#39;s &lt;a href=&quot;http://blogs.princeton.edu/imabandit/2013/04/01/acceleratedgradientdescent/&quot;&gt;course notes&lt;/a&gt; are great!&lt;/li&gt;
-&lt;li&gt;For lack of a better reference, the lemma I stated above appears as Claim 5.4 in &lt;a href=&quot;http://arxiv.org/pdf/1107.2444v1.pdf&quot;&gt;this paper&lt;/a&gt; that I may have co-authored.&lt;/li&gt;
+  &lt;li&gt;Trefethen-Bau, “Numerical Linear Algebra”. My favorite book on the topic of classical numerical methods by far.&lt;/li&gt;
+  &lt;li&gt;Ben Recht’s lecture notes &lt;a href=&quot;http://pages.cs.wisc.edu/~brecht/cs726docs/HeavyBall.pdf&quot;&gt;here&lt;/a&gt; and &lt;a href=&quot;http://pages.cs.wisc.edu/~brecht/cs726docs/HeavyBallLinear.pdf&quot;&gt;here&lt;/a&gt;, his Simons &lt;a href=&quot;http://simons.berkeley.edu/talks/ben-recht-2013-09-04&quot;&gt;talk.&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Sebastien Bubeck’s &lt;a href=&quot;http://blogs.princeton.edu/imabandit/2013/04/01/acceleratedgradientdescent/&quot;&gt;course notes&lt;/a&gt; are great!&lt;/li&gt;
+  &lt;li&gt;For lack of a better reference, the lemma I stated above appears as Claim 5.4 in &lt;a href=&quot;http://arxiv.org/pdf/1107.2444v1.pdf&quot;&gt;this paper&lt;/a&gt; that I may have co-authored.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;em&gt;To stay on top of future posts, subscribe to the &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://mrtz.org/blog/feed/&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;To stay on top of future posts, subscribe to the 
+&lt;a href=&quot;http://blog.mrtz.org/feed.xml&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 07 Sep 2013 02:20:19 -0700</pubDate>
         <link>blog.mrtz.org/2013/09/07/the-zen-of-gradient-descent.html</link>
@@ -563,37 +665,6 @@ to the &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://blog.mrtz.org/
         <category>polynomials</category>
         
         <category>chebyshev</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>What should a theory of Big Data say?</title>
-        <description>&lt;p&gt;I checked out my new apartment in Berkeley a few days ago. My very senior landlord asked me to explain to him what it is that I do. So, I said: &quot;I&#39;m a computer scientist.&quot; He gave me an empty stare as if he had never heard of such a thing. I tried again: &quot;I work on algorithms.&quot; Nothing. Not a sign of engagement. Fine, I thought to myself, here&#39;s one last attempt: &quot;Well, the program I&#39;m attending at Berkeley is on what they call &lt;em&gt;Big Data&lt;/em&gt;&quot;. His eyes lit up. He smiled and replied without a moment of hesitation: &quot;Big Data! Why didn&#39;t you just say that?&quot; He went on to tell me all about what Big Data is going to do in the next years, how important it is, how it is going to advance medical research and lead to new scientific discovery. This is really only a case in point. The words &quot;big data&quot; have apparently become more evocative to the greater public than either of the terms &quot;algorithm&quot; or &quot;computer science&quot;.&lt;/p&gt;
-&lt;p&gt;At any rate, the program I&#39;m attending, called &lt;a href=&quot;http://simons.berkeley.edu/programs/bigdata2013&quot;&gt;&quot;The Theoretical Foundations of Big Data&quot;&lt;/a&gt;, is an incredibly promising endeavor of the new &lt;a href=&quot;http://simons.berkeley.edu/&quot;&gt;Simons Institute for Theoretical Computer Science&lt;/a&gt;. As already &lt;a href=&quot;http://geomblog.blogspot.com/2013/08/simons-institute-opening-with-pictures.html&quot;&gt;featured&lt;/a&gt; by Suresh, the new institute is amazing. It has outside blackboards (at least soon enough), plenty of collaboration space, and most importantly, a really fun group of visitors. The fact that it&#39;s located in Berkeley sure doesn&#39;t hurt either. &lt;a href=&quot;http://geomblog.blogspot.com/&quot;&gt;Suresh&lt;/a&gt;, &lt;a href=&quot;http://polylogblog.wordpress.com/&quot;&gt;Andrew&lt;/a&gt; and I will try to cover some of the exciting events. So, check back regularly, if you&#39;re interested.&lt;/p&gt;
-&lt;p&gt;I want to start out by asking the obvious question. What is it that the &lt;em&gt;theoretical foundations of Big Data&lt;/em&gt; should be about? A naïve answer is that Big Data is all about making stuff faster. So, we should be talking about the theory of making stuff faster. There&#39;s nothing wrong with making stuff faster. It&#39;s important. No doubt. Nevertheless I think a lot is lost if we take this as our narrow interpretation of Big Data. Computer Scientists, theorists and non-theorists alike, have been making stuff faster in various models of computation for ages. It&#39;s not that we&#39;ve only come around to this now that there&#39;s a need to analyze larger data sets. The description suggested on the Simons website is certainly more nuanced. It still focuses on scalability: &lt;em&gt;&quot;The challenge is to develop the theoretical principles needed to scale inference and learning algorithms to massive, even arbitrary, scale.&quot; &lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;I think a fundamental challenge for anything like a &quot;theory of Big Data&quot; lies somewhere else. It&#39;s got something to do with our choice of precedence. The classical point of view in complexity theory is that &lt;strong&gt;the problem comes first, the input second&lt;/strong&gt;. We first fix a problem that we would like to study, say, 3-Coloring, TSP, Clique etc. Then we discuss algorithms for the specific problem we chose. The input and various properties that it might have are often secondary. This viewpoint has fundamentally shaped the research culture. Algorithms are often carefully tailored over the course of many decades to a particularly important problem such as 3-Coloring.&lt;/p&gt;
-&lt;p&gt;Perplexingly, the viewpoint perpetuated by &quot;Big Data&quot; is exactly the opposite. The input, the data set, is the protagonist. Data gets all the attention. The problem that needs to be solved is negotiable. You rarely hear a data analyst tell you exactly which problem they need to solve. Even if you poke them, they&#39;ll rarely give you a precise answer. Try it out! As theoreticians we often suspect the issue is that those guys simply haven&#39;t formalized their problems yet. That&#39;s partially true. The more fundamental reason though is that &lt;strong&gt;the problem genuinely depends on the data set&lt;/strong&gt;. Let me make this point more clear through an example. Suppose a scientist collects a large set of data records about cancer patients. If my landlord is to be trusted, and for various reasons I hope he is, the goal now is scientific discovery. There are many ways to go about it. There are many ways to explore the data set. The analyst will use her domain knowledge and the specifics of the data set to make an initial guess. A first try might be linear regression (which is of course by itself well-defined). If that doesn&#39;t work, she might try logistic regression, and then any of thousands of possible methods. Of course, there is the danger that as more and more methods are evaluated against the data set, any observed pattern is increasingly likely to be a result of over-fitting. Regardless, the problem that the scientist will have solved at the end of the day is ill-defined. More importantly, even if there were a definition of the problem it would inevitably depend on the data set. It is unlikely that a different medical study would want to solve precisely the same problem.&lt;/p&gt;
-&lt;p&gt;This situation should fill any theorist with discomfort. If the input determines the problem that we need to solve, &lt;em&gt;what problem then should we study&lt;/em&gt;? Or, rather, from the point of view of the data analyst, what guidance does our theory provide in choosing one approach over another? I&#39;m not suggesting that we should tailor more theory around what we currently perceive as practical. There&#39;s a good reason to be a step removed from practice. However, there are two legitimate ways of deciding the precedence of &lt;em&gt;problem&lt;/em&gt; versus &lt;em&gt;data&lt;/em&gt;. In theory we chose one over the other and moved on.&lt;/p&gt;
-&lt;p&gt;Similar questions came up in the Stanford workshop  &lt;a href=&quot;http://theory.stanford.edu/~tim/bwca/bwca.html&quot;&gt;&quot;Beyond Worst-Case Complexity&quot;&lt;/a&gt;. I vividly remember the workshop as one of my favorite workshops of all times. It&#39;s true that Big Data is also at odds with worst-case analysis. As a starting point, theory folks could try to figure out what the properties are that large data sets exhibit and how they might affect algorithm design. This research direction has already gained some momentum. I still feel like this doesn&#39;t address the heart of the problem described above. Average-case complexity doesn&#39;t attempt to reverse the role of problem and data. It only advocates thinking about properties of the input for a specific problem that are &lt;em&gt;typically&lt;/em&gt; true and might make the problem easier.&lt;/p&gt;
-&lt;p&gt;Another perspective was offered by Prabhakar Raghavan&#39;s invited talk at &lt;a href=&quot;http://theory.stanford.edu/stoc2013/program.php&quot;&gt;STOC 2013&lt;/a&gt;. Interestingly, he described Big Data as bad news for  algorithm design. His point was that sophisticated algorithms have been replaced by less clever algorithms run on larger data sets. My view is quite a bit more optimistic. I consider Big Data as an opportunity for algorithm design to revisit some of its theoretical foundations.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Update (8/27): &lt;/strong&gt;Suresh posted an interesting &lt;a href=&quot;http://geomblog.blogspot.com/2013/08/on-theory-of-big-data.html&quot;&gt;response&lt;/a&gt; to this post.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 26 Aug 2013 11:36:29 -0700</pubDate>
-        <link>blog.mrtz.org/2013/08/26/what-should-a-theory-of-big-data-do.html</link>
-        <guid isPermaLink="true">blog.mrtz.org/2013/08/26/what-should-a-theory-of-big-data-do.html</guid>
-        
-        <category>simons</category>
-        
-        <category>big data</category>
-        
-        <category>tcs</category>
-        
-        <category>complexity</category>
-        
-        <category>theory</category>
-        
-        <category>berkeley</category>
         
         
       </item>
