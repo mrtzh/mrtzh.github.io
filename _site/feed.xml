@@ -5,8 +5,8 @@
     <description>A blog about machine learning.</description>
     <link>http://blog.mrtz.org/</link>
     <atom:link href="http://blog.mrtz.org/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 11 Mar 2015 10:28:15 -0700</pubDate>
-    <lastBuildDate>Wed, 11 Mar 2015 10:28:15 -0700</lastBuildDate>
+    <pubDate>Wed, 11 Mar 2015 10:38:10 -0700</pubDate>
+    <lastBuildDate>Wed, 11 Mar 2015 10:38:10 -0700</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -140,11 +140,15 @@ First, wacky boosting required the domain to be Boolean whereas the labels could
 or follow me on &lt;a href=&quot;https://www.twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 09 Mar 2015 10:30:00 -0700</pubDate>
-        <link>http://blog.mrtz.org/2015/03/09/competition.html</link>
-        <guid isPermaLink="true">http://blog.mrtz.org/2015/03/09/competition.html</guid>
+        <link>http://blog.mrtz.org/tcs/competition/2015/03/09/competition.html</link>
+        <guid isPermaLink="true">http://blog.mrtz.org/tcs/competition/2015/03/09/competition.html</guid>
         
         <category>tcs</category>
         
+        
+        <category>tcs</category>
+        
+        <category>competition</category>
         
       </item>
     
