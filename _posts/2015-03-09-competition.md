@@ -4,7 +4,6 @@ published: true
 title: Competing in a data science contest without reading the data
 author: Moritz Hardt
 comments: true
-categories: [tcs, competition]
 date: '2015-03-09 09:30:00 -0800'
 tags:
 - tcs
