@@ -16,7 +16,19 @@ tags:
 - chebyshev
 ---
 
-Ben Recht spoke about optimization a few days ago at the Simons Institute. His talk was a highly entertaining tour de force through about a semester of convex optimization. You should go [watch](http://simons.berkeley.edu/talks/ben-recht-2013-09-04) it. It's easy to spend a semester of convex optimization on various guises of Gradient Descent alone. Simply pick one of the following variants and work through the specifics of the analysis: conjugate, accelerated, projected, conditional, mirrored, stochastic, coordinate, online. This is to name a few. You may also choose various pairs of attributes such as "accelerated coordinate" descent. Many triples are also valid such as "online stochastic mirror" descent. An expert unlike me would know exactly which triples are admissible. You get extra credit when you use "subgradient" instead of "gradient". This is really only the beginning of Optimization and it might already seem confusing.
+Ben Recht spoke about optimization a few days ago at the Simons Institute. His
+talk was a highly entertaining tour de force through about a semester of convex
+optimization. You should go
+[watch](http://simons.berkeley.edu/talks/ben-recht-2013-09-04) it. It's easy to
+spend a semester of convex optimization on various guises of Gradient Descent
+alone. Simply pick one of the following variants and work through the specifics
+of the analysis: conjugate, accelerated, projected, conditional, mirrored,
+stochastic, coordinate, online. This is to name a few. You may also choose
+various pairs of attributes such as "accelerated coordinate" descent. Many
+triples are also valid such as "online stochastic mirror" descent. An expert
+unlike me would know exactly which triples are admissible. You get extra credit
+when you use "subgradient" instead of "gradient". This is really only the
+beginning of optimization and it might already seem confusing.
 
 Thankfully, Ben kept things simple. There are indeed simple common patterns underlying many (if not all) variants of Gradient Descent. Ben did a fantastic job focusing on the basic template without getting bogged down in the details. He also made a high-level point that I strongly agree with. Much research in optimization focuses on convergence rates. That is, how many update steps do we need to minimize the function up to an epsilon error? Often fairly subtle differences in convergence rates are what motivates one particular variant of Gradient Descent over another. But there are properties of the algorithm that can affect the running time more powerfully than the exact convergence rate. A prime example is robustness. Basic Gradient Descent is robust to noise in several important ways. Accelerated Gradient Descent is much more brittle. Showing that it is even polynomial time (and under what assumptions) is a rather non-trivial exercise depending on the machine model. I've been saying for a while now that small improvements in running time don't trump major losses in robustness. The situation in optimization is an important place where the trade-off between robustness and efficiency deserves attention. Generally speaking, the question "which algorithm is better" is rarely answered by looking at a single proxy such as "convergence rate".
 
@@ -29,11 +41,12 @@ With that said, let me discuss Gradient Descent first. Then I will try to motiva
 
 \\[ f(z) \\ge f(x) + \\nabla f(x)^T(z-x) + \\frac \\ell 2 \\|z-x\\|^2.\\]
 
-At the same time, we don't want the function to be "too convex". So, we'll require the condition:
+At the same time, we don't want the function to be "too convex". So, we'll
+require the condition, often called *smoothness*:
 
 \\[ f(z) \\le f(x) + \\nabla f(x)^T(z-x) + \\frac L 2 \\|z-x\\|^2.\\]
 
-This is a Lipschitz condition in disguise as it is equivalent to: 
+This is a Lipschitz condition on the gradient map in disguise as it is equivalent to: 
 
 \\[\\|\\nabla f(x) - \\nabla f(z)\\|\\le L\\|x-z\\|.\\]
 
@@ -47,7 +60,9 @@ Our hope is that for some positive \\(\\alpha < 1\\),
 
 \\[\\|x^* - x_{k+1}\\| \\le \\alpha\\|x_k-x^*\\|,\\]
 
-<p>If this happens in every step, Gradient Descent converges exponentially fast towards the optimum. This is soberly called linear convergence in Optimization. Note that since the function is strongly convex, this also guarantees convergence of the objective value.</p>
+<p>If this happens in every step, Gradient Descent converges exponentially fast
+towards the optimum. This is soberly called linear convergence in optimization.
+Since the function is smooth, this also guarantees convergence in objective value.</p>
 
 <p>Choosing the right step size \(t\) is an important task. If we choose it to small, our progress will be unnecessarily slow. If we choose it too large, we will overshoot. A calculation shows that if we put \(t= 2/(\ell + L)\) we get \(\alpha = (L-\ell)/(L+\ell).\) Remember that \(\kappa = L/\ell\) is condition number of the matrix. More generally, you could define the condition number of \(f\) in this way. 
 We have shown that</p>
