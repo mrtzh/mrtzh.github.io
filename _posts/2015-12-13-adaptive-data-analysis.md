@@ -138,7 +138,7 @@ The issue is that stability by itself doesn't address adaptivity. Indeed, the
 classic works on stability apply to the typical *non-adaptive* setting of
 learning where the sample is independent of the learning algorithm. 
 
-Cynthia Dwork talked about recent work that address this shortcoming.
+Cynthia Dwork talked about recent works that address this shortcoming.
 Specifically, differential privacy is a stability notion that applies even in
 the setting of adaptive data analysis. Hence, [differential privacy implies
 validity in adaptive data analysis](http://arxiv.org/abs/1411.2664). Drawing on
