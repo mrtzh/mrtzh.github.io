@@ -56,7 +56,7 @@ finding. If we carry out multiple hypothesis tests, we need to adjust our
 p-values for the fact that we made multiple tests. A safe way of correcting for
 multiple tests is the [Bonferroni
 correction](https://en.wikipedia.org/wiki/Bonferroni_correction) which amounts
-to dividing all p-values by the number of tests. Computer scientists call this
+to multiplying all p-values by the number of tests. Computer scientists call this
 the union bound. While Bonferroni is safe, it makes discoveries difficult in
 the common situation where we have lots of tests and no individual signal is
 particularly strong. A more
@@ -154,7 +154,7 @@ the sample and the output of the algorithm. A [recent
 work](http://arxiv.org/abs/1506.02629) shows that indeed certain strengthenings
 of mutual information prevent overfitting. Being completely general, this
 viewpoint allows us, for example, to discuss deterministic algorithms, whereas
-all differentially private algorithms are randomized. James Zhou discussed the
+all differentially private algorithms are randomized. James Zou discussed the
 information-theoretic approach further and mentioned his [recent
 work](http://arxiv.org/abs/1511.05219) on this topic.
 
