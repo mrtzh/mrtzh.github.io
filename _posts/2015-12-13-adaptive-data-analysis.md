@@ -118,7 +118,7 @@ discuss the experimental setup.
 ## The stability approach
 
 An intriguing approach to generalization in machine learning is the idea of
-*stability*. An algorithm is *stable* if it's output changes only slightly (in
+*stability*. An algorithm is *stable* if its output changes only slightly (in
 some formal sense) under an arbitrary substitution of a single input data
 point. A seminal work of Bousquet and Elisseeff showed that [stability implies
 generalization](http://www.jmlr.org/papers/volume2/bousquet02a/bousquet02a.pdf).
