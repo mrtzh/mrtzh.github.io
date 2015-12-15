@@ -69,6 +69,8 @@ amounts to putting a bound on the expected ratio of all false discoveries
 rejected nulls). The famous Benjamini-Hochberg procedure gives one beautiful
 way of doing this.
 
+### Online False Discovery Rate
+
 Andrea Montanari and Dean Foster discussed more recent works on [online
 variants of FDR](http://arxiv.org/abs/1502.06197). Here, the goal is to control
 FDR not at the end of the testing process, but rather at all points along the
@@ -80,6 +82,8 @@ traditional assumptions that all p-values are independent of each other and
 distributed the way they should be (i.e., uniform if the null hypothesis is
 true). If the selection of hypothesis tests was truly adaptive, these
 assumptions are unlikely to be satisfied and hard to be verified at any rate.
+
+### Inference after selection
 
 But what if our hypothesis tests are chosen as a function of the data? For
 example, what if we first choose a set of promising data attributes and test
