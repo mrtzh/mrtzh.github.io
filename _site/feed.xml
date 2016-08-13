@@ -5,9 +5,347 @@
     <description>A blog about machine learning.</description>
     <link>http://blog.mrtz.org/</link>
     <atom:link href="http://blog.mrtz.org/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 13 Mar 2015 14:21:16 -0700</pubDate>
-    <lastBuildDate>Fri, 13 Mar 2015 14:21:16 -0700</lastBuildDate>
+    <pubDate>Fri, 12 Aug 2016 21:51:52 -0700</pubDate>
+    <lastBuildDate>Fri, 12 Aug 2016 21:51:52 -0700</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Understanding fairness in machine learning</title>
+        <description>&lt;p&gt;As machine learning increasingly affects domains protected by anti-discrimination law, there is much interest in the problem of algorithmically measuring and ensuring fairness in machine learning. Across academia and industry, machine learning experts are finally embracing this important research direction that has long been marred by sensationalist clickbait overshadowing scientific efforts.&lt;/p&gt;
+
+&lt;p&gt;This sequence of posts is a sober take on the subtleties and difficulties in engaging productively with the issue of fairness in machine learning. Prudence is necessary, since a poor regulatory proposal could easily do more harm than doing nothing at all.&lt;/p&gt;
+
+&lt;p&gt;In this first post, I will focus on a sticky idea I call &lt;em&gt;demographic parity&lt;/em&gt; that through its many variants has been proposed as a fairness criterion in dozens of papers. I will argue that demographic parity not only cripples the utility of machine learning, it also fails to guarantee fairness.&lt;/p&gt;
+
+&lt;p&gt;In a second post, I will introduce you to a measure of fairness put forward in a recent joint work with &lt;a href=&quot;http://www.cs.utexas.edu/~ecprice/&quot;&gt;Price&lt;/a&gt; and &lt;a href=&quot;http://ttic.uchicago.edu/~nati/&quot;&gt;Srebro&lt;/a&gt; that addresses the main conceptual shortcomings of demographic parity, while being easy enough to apply and to interpret. A third post will use our framework to unravel the recent controversy on COMPAS scores. Finally, I’ll devote an entire post on limitations of our work, and avenues for future research.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-call-to-action&quot;&gt;A call to action&lt;/h2&gt;
+
+&lt;p&gt;Domains such as advertising, credit, education, and employment can all hugely benefit from modern machine learning techniques, but some are concerned that algorithms might introduce new biases or perpetuate existing ones. Indeed, the Obama Administration’s Big Data Working Group &lt;a href=&quot;https://www.whitehouse.gov/sites/default/files/docs/big_data_privacy_report_may_1_2014.pdf&quot;&gt;argued in 2014&lt;/a&gt; that discrimination may &quot;be the inadvertent outcome of the way big
+data technologies are structured and used&quot; and pointed toward &quot;the potential
+of encoding discrimination in automated decisions&quot;.&lt;/p&gt;
+
+&lt;p&gt;It’s important to understand on technical grounds how decisions based on machine learning might &lt;a href=&quot;https://medium.com/@mrtz/how-big-data-is-unfair-9aa544d739de#.llzo69u3p&quot;&gt;wind up being unfair without any explicit wrongdoing&lt;/a&gt;. Some will be disappointed to find that the core issues have little to do with Silicon Valley billionaires or the singularity, and more to do with fundamental conceptual and technical challenges.&lt;/p&gt;
+
+&lt;p&gt;But it’s also important to understand that often the use of algorithms exposes biases present in society rather than creating new ones. There is an exciting opportunity of eliminating biases as we move to an algorithmic ecosystem.&lt;/p&gt;
+
+&lt;p&gt;Despite the need and the opportunity, a vetted methodology for ensuring fairness in machine learning is lacking. Historically, the uninformed approach to fairness has been to say that the algorithm simply doesn’t look at &lt;em&gt;protected attributes&lt;/em&gt; such as race, color, religion, gender, disability, or family status. So, how could it discriminate? This idea of &lt;em&gt;fairness through ignorance&lt;/em&gt;, however, fails due to the existence of &lt;em&gt;redundant encodings&lt;/em&gt;, ways of predicting protected attributes from other features. After all, this is what machine learning is good at. It’s very likely that a representation rich enough to predict, say, future crimes of an individual would also in one way or the other encode race.&lt;/p&gt;
+
+&lt;h2 id=&quot;demographic-parity&quot;&gt;Demographic parity&lt;/h2&gt;
+
+&lt;p&gt;After ruling out &lt;em&gt;fairness through ignorance&lt;/em&gt;, the next idea that comes to mind is &lt;em&gt;demographic parity&lt;/em&gt;. Demographic parity requires that a decision—such as accepting or denying a loan application—be independent of the protected attribute. In the case of a binary decision &lt;script type=&quot;math/tex&quot;&gt;C\in\{0,1\}&lt;/script&gt; and a binary protected attribute &lt;script type=&quot;math/tex&quot;&gt;A\in\{0,1\},&lt;/script&gt; this constraint can be formalized by asking that&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathbb{P}\{C=1 \mid A=0\}=\mathbb{P}\{C=1 \mid A=1\}.&lt;/script&gt;
+
+&lt;p&gt;In other words, membership in a protected class should have no correlation with the decision. Through its various equivalent formalizations and other variants this idea appears in numerous papers. For example, in the context of representation learning, it is tempting to ask that the 
+learned representation has zero &lt;a href=&quot;https://en.wikipedia.org/wiki/Mutual_information&quot;&gt;mutual information&lt;/a&gt; with the protected attribute. Any classifier based on the learned representation will then inevitably satisfy demographic parity.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, as my colleagues and I &lt;a href=&quot;https://arxiv.org/abs/1104.3913&quot;&gt;argued&lt;/a&gt; long ago, the
+notion is seriously flawed on two counts.&lt;/p&gt;
+
+&lt;h3 id=&quot;demographic-parity-doesnt-ensure-fairness&quot;&gt;Demographic parity doesn’t ensure fairness.&lt;/h3&gt;
+
+&lt;p&gt;Indeed, the notion permits that we accept qualified applicants in the demographic A=0, but unqualified individuals in A=1, so long as the percentages of acceptance match. Consider, for example, a lender that accepts proportionally fewer qualified black applicants, but makes up for it by accepting more unqualified black applicants. This situation should strike you as unfair, but demographic parity is completely fine with it so long as the bias against qualified black applicants cancels the bias in favor of unqualified black applicants.&lt;/p&gt;
+
+&lt;p&gt;You might argue that it’s never in the lender’s interest to reject qualified applicants. This is a good point that we’ll return to shortly. However, the above scenario can arise naturally, when there is little or no training data available about a minority population as I illustrated in a &lt;a href=&quot;https://medium.com/@mrtz/how-big-data-is-unfair-9aa544d739de#.llzo69u3p&quot;&gt;previous post&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;demographic-parity-cripples-the-utility-of-machine-learning&quot;&gt;Demographic parity cripples the utility of machine learning.&lt;/h3&gt;
+
+&lt;p&gt;Imagine we could actually see into the future, or, equivalently we had a perfect predictor of future events. Formally, this predictor C would always equal the target variable Y. In the context of loans, this predictor would tell us precisely who will actually default and who doesn’t. We assume for a moment that such a perfect predictor exists. Using C to make loan decision can then hardly be considered discriminatory as it represents the actual outcome. Unfortunately, for loans (and many other problems) the variable Y is (anti-)correlated with the protected group A. As a consequence, demographic parity would rule out the ideal predictor C = Y. So, even if we could see into the future and know who exactly will default on a loan or not, we still couldn’t make that our classification outcome. As a result, the loss in utility of imposing demographic parity can be substantial for &lt;em&gt;no good reason&lt;/em&gt;. Demographic parity is simply misaligned with the fundamental goal of achieving higher prediction accuracy.&lt;/p&gt;
+
+&lt;p&gt;To be sure, there is a set of applications for which demographic parity is not unreasonable, but this is often a subtle case to make. Any paper adopting demographic parity without making a compelling case for it should strike you as dubious.&lt;/p&gt;
+
+&lt;h3 id=&quot;simpsons-paradox&quot;&gt;Simpson’s paradox&lt;/h3&gt;
+
+&lt;p&gt;I shall note in passing that demographic parity is also quite sensitive to &lt;a href=&quot;https://en.wikipedia.org/wiki/Simpson%27s_paradox&quot;&gt;Simpson’s paradox&lt;/a&gt;. A classic paper by Bickel et al. studying gender bias in college admissions showed how violations to demographic parity can disappear (or even reverse in sign) when data is binned differently. Roughly speaking, what seemed to be a bias against women at the university-wide admissions level, reversed to be a slight bias against men when stratified by department. According to Pearl, the actual paradox about Simpson’s paradox is that there is no easy resolution. Depending on causal relations, sometimes aggregate data is preferable for decision-making compared with further subdivision, but sometimes it is not.&lt;/p&gt;
+
+&lt;h3 id=&quot;moving-forward&quot;&gt;Moving forward&lt;/h3&gt;
+
+&lt;p&gt;As I argued, demographic parity is both too strong and too weak. Hence, if you find a different condition that’s strictly stronger, it’ll still be flawed. If you come up with something strictly weaker, it’ll still be flawed. You also won’t salvage demographic parity by finding more impressive ways of achieving it such as backpropping through a 1200 layer neural net with spatial attention and unconscious sigmund activations.&lt;/p&gt;
+
+&lt;p&gt;If demographic parity is simply broken, why did I belabor its failure at such great length? One reason is simply to discourage people from writing more and more papers about it without a compelling explanation of why it makes sense for their application. The more important reason, however, is that the failure of demographic parity is actually quite an instructive lesson to learn. In particular, we will see how it suggests a much more reasonable notion that I will introduce in my next post.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Stay on top of future posts. Subscribe to the &lt;a href=&quot;http://blog.mrtz.org/feed.xml&quot;&gt;RSS feed&lt;/a&gt;, or follow me on &lt;a href=&quot;https://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 20 Jul 2016 10:00:00 -0700</pubDate>
+        <link>http://blog.mrtz.org/2016/07/20/demographic-parity.html</link>
+        <guid isPermaLink="true">http://blog.mrtz.org/2016/07/20/demographic-parity.html</guid>
+        
+        <category>fairness</category>
+        
+        <category>machine learning</category>
+        
+        <category>statistics</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Adaptive Data Analysis</title>
+        <description>&lt;p&gt;I just returned from &lt;a href=&quot;https://nips.cc/Conferences/2015/&quot;&gt;NIPS 2015&lt;/a&gt;, a joyful week 
+of corporate parties featuring deep learning themed cocktails, &lt;a href=&quot;http://www.nytimes.com/2015/12/12/science/artificial-intelligence-research-center-is-founded-by-silicon-valley-investors.html?_r=0&quot;&gt;money
+talk&lt;/a&gt;,
+recruiting events, and some scientific activities on the side. In the latter
+category, I co-organized a &lt;a href=&quot;http://wadapt.org&quot;&gt;workshop on adaptive data
+analysis&lt;/a&gt; with Vitaly Feldman, Aaron Roth and Adam Smith.&lt;/p&gt;
+
+&lt;p&gt;Our workshop responds to an increasingly pressing issue in machine learning and
+statistics. The classic view of these fields has it that we choose our method
+independently of the data to which we intend to apply the method. For example,
+a hypothesis test must be fixed in advance before we see the data. I sometimes
+call this &lt;em&gt;static&lt;/em&gt; or &lt;em&gt;confirmatory&lt;/em&gt; data analysis. You need to know exactly
+what you want to do before you collect the data and run your experiment. In
+contrast, in practice we typically choose our methods as a function of the data
+to which we apply them. In other words, we &lt;em&gt;adapt&lt;/em&gt; our method to the data.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/static-adaptive.jpg&quot; alt=&quot;static vs adaptive&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Adaptivity is both powerful and dangerous. Working adaptively gives us greater
+flexibility to make unanticipated discoveries as it allows us to execute more
+complex analysis work flows. But it can also lead to false discovery and
+misleading conclusions far more easily than static data analysis. While there
+are many other issues to keep in mind,  is not unreasonable to blame our lack
+of understanding adaptivity in part for exacerbating a range of problems from
+&lt;a href=&quot;http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf&quot;&gt;false discovery in the empirical
+sciences&lt;/a&gt;
+to &lt;a href=&quot;http://blog.mrtz.org/2015/03/09/competition.html&quot;&gt;overfitting in machine learning
+competitions&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I was hugely impressed with the incredibly exciting group of participants and
+audiences from both computer science and statistics that our workshop brought
+together. I felt that we made actual progress on beginning to understand the
+diverse perspectives on this complex issue. The goal of this post is to convey
+my excitement for this emerging research area as I attempt to summarize the
+different perspectives we saw.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-frequentist-statistics-perspective&quot;&gt;The frequentist statistics perspective&lt;/h2&gt;
+
+&lt;p&gt;Null hypothesis tests are still widely used across the empirical sciences to
+gauge the validity of findings. Scientists routinely calculate
+&lt;a href=&quot;https://en.wikipedia.org/wiki/P-value&quot;&gt;p-values&lt;/a&gt; with the hope of being able
+to reject a null hypothesis and thus claim a “statistically significant”
+finding. If we carry out multiple hypothesis tests, we need to adjust our
+p-values for the fact that we made multiple tests. A safe way of correcting for
+multiple tests is the &lt;a href=&quot;https://en.wikipedia.org/wiki/Bonferroni_correction&quot;&gt;Bonferroni
+correction&lt;/a&gt; which amounts
+to multiplying all p-values by the number of tests. Computer scientists call this
+the union bound. While Bonferroni is safe, it makes discoveries difficult in
+the common situation where we have lots of tests and no individual signal is
+particularly strong. A more
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Statistical_power&quot;&gt;powerful&lt;/a&gt; alternative to
+Bonferroni is to control the &lt;a href=&quot;https://en.wikipedia.org/wiki/False_discovery_rate&quot;&gt;False Discovery
+Rate&lt;/a&gt; (FDR) proposed in a
+celebrated paper by Benjamini and Hochberg. Intuitively, controlling FDR
+amounts to putting a bound on the expected ratio of all false discoveries
+(number of rejected true null hypotheses) to all discoveries (number of
+rejected nulls). The famous Benjamini-Hochberg procedure gives one beautiful
+way of doing this.&lt;/p&gt;
+
+&lt;h3 id=&quot;online-false-discovery-rate&quot;&gt;Online False Discovery Rate&lt;/h3&gt;
+
+&lt;p&gt;Andrea Montanari and Dean Foster discussed more recent works on &lt;a href=&quot;http://arxiv.org/abs/1502.06197&quot;&gt;online
+variants of FDR&lt;/a&gt;. Here, the goal is to control
+FDR not at the end of the testing process, but rather at all points along the
+way. In particular, the scientist must choose whether or not to reject a
+hypothesis at any time point without knowing the outcome of future tests. The
+word &lt;em&gt;online&lt;/em&gt; should not be confused with &lt;em&gt;adaptive&lt;/em&gt;. Although we could in
+principle choose hypotheses adaptively in this framework, we still need the
+traditional assumptions that all p-values are independent of each other and
+distributed the way they should be (i.e., uniform if the null hypothesis is
+true). If the selection of hypothesis tests was truly adaptive, these
+assumptions are unlikely to be satisfied and hard to be verified at any rate.&lt;/p&gt;
+
+&lt;h3 id=&quot;inference-after-selection&quot;&gt;Inference after selection&lt;/h3&gt;
+
+&lt;p&gt;But what if our hypothesis tests are chosen as a function of the data? For
+example, what if we first choose a set of promising data attributes and test
+only these attributes for significance? This natural two-step procedure is
+called &lt;em&gt;inference after selection&lt;/em&gt; in statistics. Rob Tibshirani gave an entire
+keynote about this topic. Will Fithian went into further detail in his talk at
+our workshop. Several recent works in this area show how we can first perform
+variable selection using an algorithm such as
+&lt;a href=&quot;http://statweb.stanford.edu/~tibs/lasso.html&quot;&gt;Lasso&lt;/a&gt;, followed by hypothesis
+testing on the selected variables. What makes these results possible is a
+careful analysis of the distribution of the p-values conditional on the
+selection by Lasso. For example, if the test statistic followed a normal
+distribution before selection, it will follow a certain truncated normal
+distribution after selection. This approach leads to very accurate
+characterizations and often tight confidence intervals. However, it has the
+shortcoming that the we need to commit to a particular selection and inference
+procedure as the analysis crucially exploits these.&lt;/p&gt;
+
+&lt;p&gt;Rina Foygel Barber expanded on the theme of adaptivity and false discovery rate
+by showing how to control FDR when we first &lt;a href=&quot;http://arxiv.org/abs/1505.07352&quot;&gt;order our hypothesis
+tests&lt;/a&gt; in a data-dependent manner to allow for
+making important discoveries sooner.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-bayesian-view&quot;&gt;The Bayesian view&lt;/h2&gt;
+
+&lt;p&gt;Andrew Gelman’s talk (see &lt;a href=&quot;http://wadapt.org/slides/gelman.pdf&quot;&gt;his slides&lt;/a&gt;)
+contributed many illustrative examples of flawed empirical studies. His
+suggested cure for the woes of adaptivity was to do &lt;em&gt;more&lt;/em&gt; of it. However, he
+advocated &lt;a href=&quot;https://en.wikipedia.org/wiki/Bayesian_hierarchical_modeling&quot;&gt;Bayesian hierarchical
+modeling&lt;/a&gt; to
+explicitly account for all the possible outcomes of an adaptive study. When
+asked if this wouldn’t put too much burden on the side of modeling, he replied
+that modeling should be seen as a feature as it forces people to explicitly
+discuss the experimental setup.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-stability-approach&quot;&gt;The stability approach&lt;/h2&gt;
+
+&lt;p&gt;An intriguing approach to generalization in machine learning is the idea of
+&lt;em&gt;stability&lt;/em&gt;. An algorithm is &lt;em&gt;stable&lt;/em&gt; if its output changes only slightly (in
+some formal sense) under an arbitrary substitution of a single input data
+point. A seminal work of Bousquet and Elisseeff showed that &lt;a href=&quot;http://www.jmlr.org/papers/volume2/bousquet02a/bousquet02a.pdf&quot;&gt;stability implies
+generalization&lt;/a&gt;.
+That is, patterns observed by a &lt;em&gt;stable&lt;/em&gt; algorithm on a sample must also exist
+in the underlying population from which the sample was drawn. Nati Srebro
+explained in his talk how stability is a universal property in the sense that
+it is both &lt;a href=&quot;http://jmlr.csail.mit.edu/papers/volume11/shalev-shwartz10a/shalev-shwartz10a.pdf&quot;&gt;sufficient and necessary for
+learnability&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/stability.png&quot; alt=&quot;stability&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The issue is that stability by itself doesn’t address adaptivity. Indeed, the
+classic works on stability apply to the typical &lt;em&gt;non-adaptive&lt;/em&gt; setting of
+learning where the sample is independent of the learning algorithm.&lt;/p&gt;
+
+&lt;p&gt;Cynthia Dwork talked about recent works that address this shortcoming.
+Specifically, differential privacy is a stability notion that applies even in
+the setting of adaptive data analysis. Hence, &lt;a href=&quot;http://arxiv.org/abs/1411.2664&quot;&gt;differential privacy implies
+validity in adaptive data analysis&lt;/a&gt;. Drawing on
+many powerful adaptive data analysis algorithms from differential privacy, this
+gives a range of statistically valid tools for adaptive data analysis. See, for
+example, my blog post on the &lt;a href=&quot;http://googleresearch.blogspot.com/2015/08/the-reusable-holdout-preserving.html&quot;&gt;reusable holdout
+method&lt;/a&gt;
+that came out of this line of work.&lt;/p&gt;
+
+&lt;h2 id=&quot;information-theoretic-measures&quot;&gt;Information-theoretic measures&lt;/h2&gt;
+
+&lt;p&gt;The intuition behind differential privacy is that if an analysis does not
+reveal too much about the specifics of a data set, then it is impossible to
+overfit to the data set based on the available information. This suggests an
+information-theoretic approach that quantifies the &lt;em&gt;mutual information&lt;/em&gt; between
+the sample and the output of the algorithm. A &lt;a href=&quot;http://arxiv.org/abs/1506.02629&quot;&gt;recent
+work&lt;/a&gt; shows that indeed certain strengthenings
+of mutual information prevent overfitting. Being completely general, this
+viewpoint allows us, for example, to discuss deterministic algorithms, whereas
+all differentially private algorithms are randomized. James Zou discussed the
+information-theoretic approach further and mentioned his &lt;a href=&quot;http://arxiv.org/abs/1511.05219&quot;&gt;recent
+work&lt;/a&gt; on this topic.&lt;/p&gt;
+
+&lt;h2 id=&quot;complexity-theoretic-obstructions&quot;&gt;Complexity-theoretic obstructions&lt;/h2&gt;
+
+&lt;p&gt;In a dramatic turn of events, Jon Ullman told us why &lt;a href=&quot;http://arxiv.org/abs/1408.1655&quot;&gt;preventing false
+discovery in adaptive data analysis can be computationally
+intractable&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;To understand the result, think of adaptive data analysis for a moment as an
+interactive protocol between the data analyst and the algorithm. The algorithm
+has access to a sample of size \(n\) and the analyst wants to learn about the
+underlying population by asking the algorithm a sequence of adaptively chosen
+questions.&lt;/p&gt;
+
+&lt;p&gt;What Jon talked about is that there is a computationally efficient adaptive
+data analyst that can force any computationally efficient algorithm on a sample
+of size \(n\) to return a completely invalid estimate after no more than
+\(n^2\) adaptively chosen questions. Non-adaptively, this would require
+exponentially many questions. While this is a worst-case hardness result, it
+points to a computational barrier for what might have looked like a purely
+statistical problem. The \(n^2\) bound turns out to be tight in light of the
+differential privacy based positive results I mentioned earlier.&lt;/p&gt;
+
+&lt;h2 id=&quot;panel-discussion&quot;&gt;Panel discussion&lt;/h2&gt;
+
+&lt;p&gt;Toward the end of our workshop, we had a fantastic panel discussion on open
+problems and conceptual questions. I don’t remember all of it, unfortunately.
+Below are some topics that got stuck in my mind. If you remember more, please
+leave a comment.&lt;/p&gt;
+
+&lt;h3 id=&quot;exact-modeling-versus-worst-case-assumptions&quot;&gt;Exact modeling versus worst-case assumptions&lt;/h3&gt;
+
+&lt;p&gt;The approaches we saw cluster around two extremes. One is the case of exact
+analysis or modeling, for example, in the work on inference after selection. In
+these cases, we are able to exactly analyze the conditional distributions
+arising as a result of adaptivity and adjust our methods accordingly. The work
+on differential privacy in contrast makes no assumptions on the analyst. Both
+approaches have advantages and disadvantages. One is more exact and
+quantitatively less wasteful, but applies only to specific procedures. The
+other is more general and less restrictive to the analyst, but this generality
+also leads to hardness results. A goal for future work is to find middle
+ground.&lt;/p&gt;
+
+&lt;h3 id=&quot;human-adaptivity-versus-algorithmic-adaptivity&quot;&gt;Human adaptivity versus algorithmic adaptivity&lt;/h3&gt;
+
+&lt;p&gt;There is a curious distinction we need to draw. Algorithms can be adaptive.
+&lt;a href=&quot;http://blog.mrtz.org/2013/09/07/the-zen-of-gradient-descent.html&quot;&gt;Gradient
+descent&lt;/a&gt;, for
+example, is adaptive because it probes the data at a sequence of adaptively
+chosen points. Lasso followed by inference is another example of a single
+algorithm that exhibits some adaptive behavior. However, adaptivity also arises
+through the way humans work adaptively with the data. It even arises when a
+group of researchers study the same data set through a sequence of
+publications. Each publication builds on previous insights and is hence
+adaptive. It is much harder to analyze human adaptivity than algorithmic
+adaptivity. How can we even quantify the extent to which this is a problem?
+Take &lt;a href=&quot;http://yann.lecun.com/exdb/mnist/&quot;&gt;MNIST&lt;/a&gt;, for example. For almost two
+decades this data set has been used as a benchmark with the &lt;em&gt;same&lt;/em&gt; test set.
+Although no individual algorithm is directly trained against the test set, it
+is quite likely that the sequence of proposed algorithms over the years
+strongly overfits to the test data. It seems that this is an issue we should
+take more seriously.&lt;/p&gt;
+
+&lt;h3 id=&quot;building-better-intuition-in-practice&quot;&gt;Building better intuition in practice&lt;/h3&gt;
+
+&lt;p&gt;Any practical application of the algorithms we discussed will likely violate
+either the modeling assumptions we make or the quantitative regime to which our
+theory applies. This shouldn’t be surprising. Even in non-adaptive data
+analysis we make assumptions (such as normal approximations) that are not
+completely true in practice. What is different is that we have far less
+intuition for what works in practice in the adaptive setting.&lt;/p&gt;
+
+&lt;h3 id=&quot;whats-next&quot;&gt;What’s next?&lt;/h3&gt;
+
+&lt;p&gt;After this workshop, I’m even more convinced that adaptive data analysis
+is here to stay. I expect lots of work in this area with many new theoretical
+insights. I also hope that these developments will lead to new tools that make
+the practice of machine learning and statistics more reliable.&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 13 Dec 2015 18:00:00 -0800</pubDate>
+        <link>http://blog.mrtz.org/2015/12/13/adaptive-data-analysis.html</link>
+        <guid isPermaLink="true">http://blog.mrtz.org/2015/12/13/adaptive-data-analysis.html</guid>
+        
+        <category>tcs</category>
+        
+        <category>statistics</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Navigate the garden of the forking paths</title>
+        <description>&lt;p&gt;Head on over to the Google Research blog for bleeding edge coverage of 
+&lt;a href=&quot;http://googleresearch.blogspot.com/2015/08/the-reusable-holdout-preserving.html&quot;&gt;The reusable holdout: Preserving validity in adaptive data
+analysis&lt;/a&gt;, a joint work with Cynthia Dwork, Vitaly Feldman, Toni Pitassi,
+Aaron Roth and Omer Reingold, to appear in &lt;em&gt;Science&lt;/em&gt;, tomorrow.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 06 Aug 2015 13:55:00 -0700</pubDate>
+        <link>http://blog.mrtz.org/2015/08/06/reusable.html</link>
+        <guid isPermaLink="true">http://blog.mrtz.org/2015/08/06/reusable.html</guid>
+        
+        <category>tcs</category>
+        
+        <category>statistics</category>
+        
+        <category>false discovery</category>
+        
+        <category>data</category>
+        
+        <category>privacy</category>
+        
+        
+      </item>
     
       <item>
         <title>Towards practicing differential privacy</title>
@@ -200,7 +538,7 @@ Why not give it a shot? I hear tenured jobs are meant for running startups.&lt;/
 &lt;p&gt;I like the answer Aaron Roth gave when I asked him:&lt;/p&gt;
 
 &lt;div style=&quot;text-align:center;&quot;&gt;
-&lt;em&gt;It&#39;s within striking distance.&lt;/em&gt;
+&lt;em&gt;It's within striking distance.&lt;/em&gt;
 &lt;/div&gt;
 
 </description>
@@ -371,7 +709,7 @@ cursor. In the
 end, I more or less manually moved my blog to &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; hosted by
 &lt;a href=&quot;https://pages.github.com&quot;&gt;GitHub&lt;/a&gt; with &lt;a href=&quot;http://disqus.com&quot;&gt;Disqus&lt;/a&gt; comments.
 It’s a pretty decent combination that a lot of people seem to be transitioning
-to. &lt;/p&gt;
+to.&lt;/p&gt;
 
 &lt;p&gt;If you ever think about starting a blog, &lt;em&gt;do not&lt;/em&gt; go with Wordpress. If you absolutely
 cannot resist the temptation, by all means do not maintain your own Wordpress
@@ -519,12 +857,12 @@ accountability and transparency that Solon Barocas and I organized.&lt;/p&gt;
     
       <item>
         <title>Robustness versus Acceleration</title>
-        <description>&lt;p&gt;My blog post on the &lt;a href=&quot;http://mrtz.org/blog/the-zen-of-gradient-descent/&quot;&gt;Zen of Gradient Descent&lt;/a&gt; hit the front page of &lt;a href=&quot;https://news.ycombinator.com/item?id=8182991&quot;&gt;Hacker News&lt;/a&gt; the other day. I don&#39;t know how that happened. It got me more views in one day than this most humble blog usually gets in half a year. I thought I should take this as an excuse to extend the post a bit by elaborating on one remark I made only in passing. You don&#39;t need to go back to reading that post unless you want to. This one will be self contained.&lt;/p&gt;
-&lt;p&gt;The point I made is that basic Gradient Descent (GD) is noise tolerant in a way that Accelerated Gradient Descent (AGD) is not. That is to say, if we don&#39;t have exact but rather approximate gradient information, GD might very well outperform AGD even though its convergence rate is worse in the exact setting. The truth is I was sort of bluffing. I didn&#39;t actually have a proof of a formal statement that would nail down this point in a compelling way. It was more of a gut feeling based on some simple observations.&lt;/p&gt;
-&lt;p&gt;To break the suspense, I still haven&#39;t proved the statement I vaguely thought was true back then, but fortunately somebody else had already done that. This is a thought provoking &lt;a href=&quot;http://www.optimization-online.org/DB_FILE/2010/12/2865.pdf&quot;&gt;paper by Devolder, Glineur and Nesterov &lt;/a&gt;(DGN). Thanks to Cristobal Guzman for pointing me to this paper. Roughly, what they show is that any method that converges faster than the basic gradient descent method must accumulate errors linearly with the number of iterations. Hence, in various noisy settings auch as are common in applications acceleration may not help---in fact, it can actually make things worse!&lt;/p&gt;
-&lt;p&gt;I&#39;ll make this statement more formal below, but let me first explain why I love this result. There is a tendency in algorithm design to optimize computational efficiency first, second and third and then maybe think about some other stuff as sort of an add-on constraint. We generally tend to equate faster with better. The reason why this is not a great methodology is that sometimes acceleration is mutually exclusive with other fundamental design goals. A theory that focuses primarily on speedups without discussing trade-offs with robustness misses a pretty important point.&lt;/p&gt;
+        <description>&lt;p&gt;My blog post on the &lt;a href=&quot;http://mrtz.org/blog/the-zen-of-gradient-descent/&quot;&gt;Zen of Gradient Descent&lt;/a&gt; hit the front page of &lt;a href=&quot;https://news.ycombinator.com/item?id=8182991&quot;&gt;Hacker News&lt;/a&gt; the other day. I don't know how that happened. It got me more views in one day than this most humble blog usually gets in half a year. I thought I should take this as an excuse to extend the post a bit by elaborating on one remark I made only in passing. You don't need to go back to reading that post unless you want to. This one will be self contained.&lt;/p&gt;
+&lt;p&gt;The point I made is that basic Gradient Descent (GD) is noise tolerant in a way that Accelerated Gradient Descent (AGD) is not. That is to say, if we don't have exact but rather approximate gradient information, GD might very well outperform AGD even though its convergence rate is worse in the exact setting. The truth is I was sort of bluffing. I didn't actually have a proof of a formal statement that would nail down this point in a compelling way. It was more of a gut feeling based on some simple observations.&lt;/p&gt;
+&lt;p&gt;To break the suspense, I still haven't proved the statement I vaguely thought was true back then, but fortunately somebody else had already done that. This is a thought provoking &lt;a href=&quot;http://www.optimization-online.org/DB_FILE/2010/12/2865.pdf&quot;&gt;paper by Devolder, Glineur and Nesterov &lt;/a&gt;(DGN). Thanks to Cristobal Guzman for pointing me to this paper. Roughly, what they show is that any method that converges faster than the basic gradient descent method must accumulate errors linearly with the number of iterations. Hence, in various noisy settings auch as are common in applications acceleration may not help---in fact, it can actually make things worse!&lt;/p&gt;
+&lt;p&gt;I'll make this statement more formal below, but let me first explain why I love this result. There is a tendency in algorithm design to optimize computational efficiency first, second and third and then maybe think about some other stuff as sort of an add-on constraint. We generally tend to equate faster with better. The reason why this is not a great methodology is that sometimes acceleration is mutually exclusive with other fundamental design goals. A theory that focuses primarily on speedups without discussing trade-offs with robustness misses a pretty important point.&lt;/p&gt;
 &lt;h2&gt;When acceleration is good&lt;/h2&gt;
-&lt;p&gt;Let&#39;s build some intuition for the result I mentioned before we go into formal details. Consider my favorite example of minimizing a smooth convex function \({f\colon \mathbb{R}^n\rightarrow\mathbb{R}}\) defined as&lt;/p&gt;
+&lt;p&gt;Let's build some intuition for the result I mentioned before we go into formal details. Consider my favorite example of minimizing a smooth convex function \({f\colon \mathbb{R}^n\rightarrow\mathbb{R}}\) defined as&lt;/p&gt;
 &lt;p style=&quot;text-align: center;&quot;&gt;\(\displaystyle f(x) = \frac 12 x^T L x - b^T x \)&lt;/p&gt;
 &lt;p&gt;for some positive semidefinite \({n\times n}\) matrix \({L}\) and a vector \({b\in\mathbb{R}^n.}\) Recall that the gradient is \({\nabla f(x)=Lx-b.}\) An illustrative example is the &lt;a href=&quot;http://en.wikipedia.org/wiki/Laplacian_matrix&quot;&gt;Laplacian &lt;/a&gt; of a &lt;a href=&quot;http://en.wikipedia.org/wiki/Cycle_graph&quot;&gt;cycle graph&lt;/a&gt;:&lt;/p&gt;
 &lt;p style=&quot;text-align: center;&quot;&gt;\(\displaystyle L = \left[ \begin{array}{ccccccc} 2 &amp;amp; -1 &amp;amp; 0 &amp;amp; 0 &amp;amp; 0 &amp;amp; \cdots &amp;amp; -1 \\ -1 &amp;amp; 2 &amp;amp; -1 &amp;amp; 0 &amp;amp; 0 &amp;amp; \cdots &amp;amp; 0 \\ 0 &amp;amp; -1 &amp;amp; 2 &amp;amp; -1&amp;amp; 0 &amp;amp; \cdots &amp;amp; 0 \\ \vdots &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; \end{array} \right] \)&lt;/p&gt;
@@ -536,18 +874,18 @@ accountability and transparency that Solon Barocas and I organized.&lt;/p&gt;
 
 &lt;p&gt;It looks like AGD is the clear winner. GD is pretty slow and takes a few thousand iterations to decrease the error by an order of magnitude.&lt;/p&gt;
 &lt;h2&gt;When acceleration is bad&lt;/h2&gt;
-&lt;p&gt;The situation changes dramatically in the presence of noise. Let&#39;s repeat the exact same experiment but now instead of observing \({\nabla f(x)}\) for any given \({x,}\) we can only see \({\nabla f(x) + \xi}\) where \({\xi}\) is sampled from the \({n}\)-dimensional normal distribution \({N(0,\sigma^2)^n.}\) Choosing \({\sigma=0.1}\) we get the following picture:&lt;/p&gt;
+&lt;p&gt;The situation changes dramatically in the presence of noise. Let's repeat the exact same experiment but now instead of observing \({\nabla f(x)}\) for any given \({x,}\) we can only see \({\nabla f(x) + \xi}\) where \({\xi}\) is sampled from the \({n}\)-dimensional normal distribution \({N(0,\sigma^2)^n.}\) Choosing \({\sigma=0.1}\) we get the following picture:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/with-noise.png&quot; alt=&quot;With noise&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Gradient descent pretty quickly converges to essentially the best result that we can hope for given the noisy gradients. In contrast, AGD goes totally nuts. It doesn&#39;t converge at all and it adds up errors in sort of linear fashion. In this world, GD is the clear winner.&lt;/p&gt;
+&lt;p&gt;Gradient descent pretty quickly converges to essentially the best result that we can hope for given the noisy gradients. In contrast, AGD goes totally nuts. It doesn't converge at all and it adds up errors in sort of linear fashion. In this world, GD is the clear winner.&lt;/p&gt;
 
 &lt;h2&gt;A precise trade-off&lt;/h2&gt;
-&lt;p&gt;The first thing DGN do in their paper is to define a general notion of inexact first order oracle. Let&#39;s recall what an exact first-order oracle does for an (unconstrained) convex function \({f\colon\mathbb{R}^n\rightarrow \mathbb{R}}\) with smoothness parameter \({L.}\) Given any point \({x\in\mathbb{R}^n}\) an exact first order oracle returns a pair \({(f_L(x),g_L(x))\in\mathbb{R}\times\mathbb{R}^n}\) so that for all \({y\in\mathbb{R}^n}\) we have&lt;/p&gt;
+&lt;p&gt;The first thing DGN do in their paper is to define a general notion of inexact first order oracle. Let's recall what an exact first-order oracle does for an (unconstrained) convex function \({f\colon\mathbb{R}^n\rightarrow \mathbb{R}}\) with smoothness parameter \({L.}\) Given any point \({x\in\mathbb{R}^n}\) an exact first order oracle returns a pair \({(f_L(x),g_L(x))\in\mathbb{R}\times\mathbb{R}^n}\) so that for all \({y\in\mathbb{R}^n}\) we have&lt;/p&gt;
 &lt;p style=&quot;text-align: center;&quot;&gt;\(\displaystyle 0\le f(y) - \big(f_L(x) + \langle g_L(x),y-x\rangle\big)\le \frac L2\|y-x\|^2\,. \)&lt;/p&gt;
 &lt;p&gt;Pictorially, at every point \({x}\) the function can be sandwiched between a tangent linear function specified by \({(f_L(x),g_L(x))}\) and a parabola. The pair \({(f(x),\nabla f(x))}\) satisfies this constraint as the first inequality follows from convexity and the second from the smoothness condition. In fact, this pair is the only pair that satisfies these conditions. My slightly cumbersome way of desribing a first-order oracle was only so that we may now easily generalize it to an inexact first-order oracle. Specifically, an inexact oracle returns for any given point \({x\in\mathbb{R}^n}\) a pair \({(f_{\delta,L}(x),g_{\delta,L}(x))\in\mathbb{R}\times\mathbb{R}^n}\) so that for all \({y\in\mathbb{R}^n}\) we have&lt;/p&gt;
 &lt;p style=&quot;text-align: center;&quot;&gt;\(\displaystyle 0\le f(y) - \big(f_{\delta,L}(x) + \langle g_{\delta,L}(x),y-x\rangle\big)\le \frac L2\|y-x\|^2+\delta\,. \)&lt;/p&gt;
-&lt;p&gt;It&#39;s the same picture as before except now there&#39;s some \({\delta}\) slack between the linear approximation and the parabola.&lt;br /&gt;
+&lt;p&gt;It's the same picture as before except now there's some \({\delta}\) slack between the linear approximation and the parabola.&lt;br /&gt;
 With this notion at hand, what DGN show is that given access to \({\delta}\)-inexact first-order oracle Gradient Descent spits out a point \({x^t}\) after \({t}\) steps so that&lt;/p&gt;
 &lt;p style=&quot;text-align: center;&quot;&gt;\(\displaystyle f(x^t) - \min_x f(x) \le O\big(L/t\big) + \delta\,. \)&lt;/p&gt;
 &lt;p&gt;The big-oh notation is hiding the squared distance between the optimum and the starting point. Accelerated Gradient Descent on the other hand gives you&lt;/p&gt;
@@ -555,9 +893,9 @@ With this notion at hand, what DGN show is that given access to \({\delta}\)-ine
 &lt;p&gt;Moreover, you cannot improve this-tradeoff between acceleration and error accumulation. That is any method that converges as \({1/t^2}\) must accumulate errors as \({t\delta.}\)&lt;/p&gt;
 &lt;h2&gt;Open questions&lt;/h2&gt;
 &lt;ol&gt;
-&lt;li&gt;The lower bound I just mentioned in the previous paragraph stems from the fact that an inexact first-order oracle can embed non-smooth optimization problems for which a speedup is not possible. This is interesting, but it doesn&#39;t resolve, for example, the question of whether there could be a speedup in the simple gaussian noise addition model that I mentioned above. This isn&#39;t even a toy model---as you might object---since gaussian noise addition is what you would do to make gradient descent privacy preserving. See for example an upcoming FOCS &lt;a href=&quot;http://arxiv.org/pdf/1405.7085.pdf&quot;&gt;paper by Bassily, Smith, Thakurta&lt;/a&gt; for an analysis of gradient descent with gaussian noise.&lt;/li&gt;
+&lt;li&gt;The lower bound I just mentioned in the previous paragraph stems from the fact that an inexact first-order oracle can embed non-smooth optimization problems for which a speedup is not possible. This is interesting, but it doesn't resolve, for example, the question of whether there could be a speedup in the simple gaussian noise addition model that I mentioned above. This isn't even a toy model---as you might object---since gaussian noise addition is what you would do to make gradient descent privacy preserving. See for example an upcoming FOCS &lt;a href=&quot;http://arxiv.org/pdf/1405.7085.pdf&quot;&gt;paper by Bassily, Smith, Thakurta&lt;/a&gt; for an analysis of gradient descent with gaussian noise.&lt;/li&gt;
 &lt;li&gt;Is there an analog of the DGN result in the eigenvalue world? More formally, can we show that any Krylov subspace method that converges asymptotically faster than the &lt;a href=&quot;http://mrtz.org/blog/power-method/&quot;&gt;power method&lt;/a&gt; must accumulate errors?&lt;/li&gt;
-&lt;li&gt;The cycle example above is often used to show that any blackbox gradient method requires at least \({t\ge \Omega(1/\sqrt{\epsilon})}\) steps to converge to error \({\epsilon}\) provided that \({t}\) is less than the number of vertices of the cycle, that is the dimension \({n}\) of the domain. (See, for example, Theorem 3.9. in Sebastien Bubeck&#39;s &lt;a href=&quot;http://arxiv.org/pdf/1405.4980v1.pdf&quot;&gt;book&lt;/a&gt;.) Are there any lower bounds that hold for \({t\gg n}\)?&lt;/li&gt;
+&lt;li&gt;The cycle example above is often used to show that any blackbox gradient method requires at least \({t\ge \Omega(1/\sqrt{\epsilon})}\) steps to converge to error \({\epsilon}\) provided that \({t}\) is less than the number of vertices of the cycle, that is the dimension \({n}\) of the domain. (See, for example, Theorem 3.9. in Sebastien Bubeck's &lt;a href=&quot;http://arxiv.org/pdf/1405.4980v1.pdf&quot;&gt;book&lt;/a&gt;.) Are there any lower bounds that hold for \({t\gg n}\)?&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2&gt;Pointers:&lt;/h2&gt;
 &lt;p&gt;The code for these examples is available &lt;a href=&quot;http://nbviewer.ipython.org/gist/mrtzh/4dc77fb84c3ba8b8b220&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
@@ -587,7 +925,7 @@ With this notion at hand, what DGN show is that given access to \({\delta}\)-ine
       </item>
     
       <item>
-        <title>Pearson&#39;s polynomial</title>
+        <title>Pearson's polynomial</title>
         <description>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;em&gt;A 120 year old algorithm for learning mixtures of gaussians turns out to be optimal&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;So, how was math writing in 1894? I’d imagined it to be a lot like one of Nietzsche’s last diary entries except with nouns replaced by German fraktur symbols, impenetrable formalisms and mind-bending passive voice constructions. I was in for no small surprise when I started reading Karl Pearson’s &lt;a href=&quot;https://archive.org/details/philtrans02543681&quot;&gt;Contributions to the Mathematical Theory of Evolution&lt;/a&gt;. The paper is quite enjoyable! The math is rigorous yet not overly formal. Examples and philosophical explanations motivate various design choices and definitions. A careful experimental evaluation gives credibility to the theory.&lt;/p&gt;
@@ -600,7 +938,7 @@ the &lt;em&gt;computational&lt;/em&gt; theory of evolution. This already strik
 visionary as it remains a hot research area today. The Simons Institute in
 Berkeley just devoted a &lt;a href=&quot;http://simons.berkeley.edu/programs/evolution2014&quot;&gt;semester-long program&lt;/a&gt; to it.&lt;/p&gt;
 
-&lt;p&gt;In his paper, he considers the distribution of a single measurement among a population, more concretely, the forehead width to body length ratio among a population of crabs. The crab data had been collected by zoologist Weldon and his wife during their 1892 &lt;a href=&quot;http://statprob.com/encyclopedia/WalterFrankRaphaelWeldon.html&quot;&gt;easter vacation&lt;/a&gt; on Malta. Wikipedia describes the crab (&lt;a href=&quot;http://en.wikipedia.org/wiki/Carcinus_maenas&quot;&gt;carcinus maenas&lt;/a&gt;) as one of the &quot;&lt;em&gt;world&#39;s worst alien invasive species&quot;&lt;/em&gt;, but fails to acknowledge the crab&#39;s academic contributions.&lt;/p&gt;
+&lt;p&gt;In his paper, he considers the distribution of a single measurement among a population, more concretely, the forehead width to body length ratio among a population of crabs. The crab data had been collected by zoologist Weldon and his wife during their 1892 &lt;a href=&quot;http://statprob.com/encyclopedia/WalterFrankRaphaelWeldon.html&quot;&gt;easter vacation&lt;/a&gt; on Malta. Wikipedia describes the crab (&lt;a href=&quot;http://en.wikipedia.org/wiki/Carcinus_maenas&quot;&gt;carcinus maenas&lt;/a&gt;) as one of the &quot;&lt;em&gt;world's worst alien invasive species&quot;&lt;/em&gt;, but fails to acknowledge the crab's academic contributions.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/crab1.jpg&quot; alt=&quot;Pearson-Weldon crab&quot; /&gt;&lt;/p&gt;
 
@@ -617,10 +955,10 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p&gt;Pearson derived a ninth degree polynomial \({p_5}\) in the first \({5}\) moments and located the real roots of this polynomial over a carefully chosen interval. Each root gives a candidate mixture that matches the first \({5}\) moments; there were two valid solutions, among which Pearson selected the one whose \({6}\)-th moment was closest to the observed empirical \({6}\)-th moment.&lt;/p&gt;
 &lt;p&gt;Pearson goes on to evaluate this method numerically on the crab samples---by hand. In doing so he touches on a number of issues such as &lt;em&gt;numerical stability&lt;/em&gt; and &lt;em&gt;number of floating point operations&lt;/em&gt; that seem to me as being well ahead of their time. Pearson was clearly aware of computational constraints and optimized his algorithm to be computationally tractable.&lt;/p&gt;
 &lt;h2&gt;Learning mixtures of gaussians&lt;/h2&gt;
-&lt;p&gt;Pearson&#39;s seminal paper proposes a problem and a method, but it doesn&#39;t give an analysis of the method. Does the method really work on &lt;em&gt;all&lt;/em&gt; instances or did he get lucky on the crab population? Is there &lt;em&gt;any&lt;/em&gt; efficient method that works on all instances? The sort of theorem we would like to have is: Given \({n}\) samples from a mixture of two gaussians, we can estimate each parameter up to small additive distance in polynomial time.&lt;/p&gt;
+&lt;p&gt;Pearson's seminal paper proposes a problem and a method, but it doesn't give an analysis of the method. Does the method really work on &lt;em&gt;all&lt;/em&gt; instances or did he get lucky on the crab population? Is there &lt;em&gt;any&lt;/em&gt; efficient method that works on all instances? The sort of theorem we would like to have is: Given \({n}\) samples from a mixture of two gaussians, we can estimate each parameter up to small additive distance in polynomial time.&lt;/p&gt;
 &lt;p&gt;Eric Price and I have a &lt;a href=&quot;http://arxiv.org/abs/1404.4997&quot;&gt;recent result&lt;/a&gt; that resolves this problem by giving a computationally efficient estimator that achieves an optimal bound on the number of samples:&lt;/p&gt;
 &lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;strong&gt;Theorem.&lt;/strong&gt; Denoting by \({\sigma^2}\) the overall variance of the mixture, \({\Theta(\sigma^{12})}\) samples are necessary and sufficient to estimate each parameter to constant additive distance. The estimator is computationally efficient and extends to the \({d}\)-dimensional mixture problem up to a necessary factor of \({O(\log d)}\) in the sample requirement.&lt;/p&gt;
-&lt;p&gt;Strikingly, our one-dimensional estimator turns out to be very closely related to Pearson&#39;s approach. Some extensions are needed, but I&#39;m inclined to say that our result can be interpreted as showing that Pearson&#39;s original estimator is in fact an optimal solution to the problem he proposed.&lt;/p&gt;
+&lt;p&gt;Strikingly, our one-dimensional estimator turns out to be very closely related to Pearson's approach. Some extensions are needed, but I'm inclined to say that our result can be interpreted as showing that Pearson's original estimator is in fact an optimal solution to the problem he proposed.&lt;/p&gt;
 
 &lt;p&gt;Until a recent breakthrough result by &lt;a href=&quot;http://people.csail.mit.edu/moitra/docs/2g-full.pdf&quot;&gt;Kalai, Moitra and Valiant&lt;/a&gt; (2010), no polynomial bounds for the problem were known except under stronger assumptions on the gaussian components.&amp;lt;&lt;/p&gt;
 
@@ -630,18 +968,18 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 &lt;p align=&quot;center&quot;&gt;\(\displaystyle \max\left( \big|\mu_i-\mu_{\pi(i)}\big|^2, \big|\sigma_i^2-\sigma_{\pi(i)}^2\big|\right)\le\epsilon \cdot \sigma^2. \)&lt;/p&gt;
 &lt;p&gt;Here, \({\sigma^2}\) is the overall variance of the mixture. The definition extends to the \({d}\)-dimensional problem for suitable notion of variance (essentially the maximum variance in each coordinate) and by replacing absolute values with \({\ell_\infty}\)-norms.&lt;/p&gt;
 &lt;h2&gt;Some intuition for the proof&lt;/h2&gt;
-&lt;p&gt;While the main difficulty in the proof is the upper bound, let&#39;s start with some intuition for why we can&#39;t hope to do better than \({\sigma^{12}}\). Just like Pearson&#39;s estimator and that of Kalai, Moitra and Valiant, our estimator is based on the first six moments of the distribution. It is not hard to show that estimating the \({k}\)-th moment up to error \({\epsilon\sigma^k}\) requires \({\Omega(1/\epsilon^2)}\) samples. Hence, learning each of the first six moments to constant error needs \({\Omega(\sigma^{12})}\) samples. This doesn&#39;t directly imply a lower bound for the mixture problem. After all, learning mixtures could be strictly easier than estimating the first six moments. Nevertheless, we know from Pearson that there are two mixtures that have matching first \({5}\) moments. This turns out to give you a huge hint as to how to prove a lower bound for the mixture problem. The key observation is that two mixtures that have matching first \({5}\) moments and constant parameters are extremely close to each other after adding a gaussian variable \({N(0,\sigma^2)}\) to both mixtures for large enought \({\sigma^2}\). Note that we still have two mixtures of gaussians after this operation and the total variance is \({O(\sigma^2).}\)&lt;/p&gt;
+&lt;p&gt;While the main difficulty in the proof is the upper bound, let's start with some intuition for why we can't hope to do better than \({\sigma^{12}}\). Just like Pearson's estimator and that of Kalai, Moitra and Valiant, our estimator is based on the first six moments of the distribution. It is not hard to show that estimating the \({k}\)-th moment up to error \({\epsilon\sigma^k}\) requires \({\Omega(1/\epsilon^2)}\) samples. Hence, learning each of the first six moments to constant error needs \({\Omega(\sigma^{12})}\) samples. This doesn't directly imply a lower bound for the mixture problem. After all, learning mixtures could be strictly easier than estimating the first six moments. Nevertheless, we know from Pearson that there are two mixtures that have matching first \({5}\) moments. This turns out to give you a huge hint as to how to prove a lower bound for the mixture problem. The key observation is that two mixtures that have matching first \({5}\) moments and constant parameters are extremely close to each other after adding a gaussian variable \({N(0,\sigma^2)}\) to both mixtures for large enought \({\sigma^2}\). Note that we still have two mixtures of gaussians after this operation and the total variance is \({O(\sigma^2).}\)&lt;/p&gt;
 &lt;p&gt;Making this statement formal requires choosing the right probability metric. In our case this turns out to be the squared Hellinger distance. Sloppily identifying distributions with density functions like only a true computer scientist would do, the squared Hellinger distance is defined as&lt;/p&gt;
 
 &lt;p&gt;\[\mathrm{H}^2(f,g) = \frac12\int_{-\infty}^{\infty}
 \Big(\sqrt{f(x)}-\sqrt{g(x)}\Big)^2 \mathrm{d}x\,. \]&lt;/p&gt;
 
 &lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;strong&gt;Lemma.&lt;/strong&gt; Let \({f,g}\) be mixtures with matching first \({k}\) moments and constant parameters. Let \({p,q}\) be the distributions obtained by adding \({N(0,\sigma^2)}\) to each distribution. Then, \({\mathrm{H}^2(p,q)\le O(1/\sigma^{2k+2})}\).&lt;/p&gt;
-&lt;p&gt;The lemma immediately gives the lower bound we need. Indeed, the squared Hellinger distance is sub-additive on product distributions. So, it&#39;s easy to see what happens for \({n}\) independent samples from each distribution. This can increase the squared Hellinger distance by at most a factor \({n}\). In particular, for any \({n=o(\sigma^{2k+2})}\) the squared Hellinger distance between \({n}\) samples from each distribution is at most \({o(1)}\). Owing to a useful relation between the Hellinger distance and total variation, this implies that also the total variation distance is at most \({o(1)}\). Using the definition of total variation distance, this means no estimator (efficient or not) can tell apart the two distributions from \({n=o(\sigma^{2k+2})}\) samples with constant success probability. In particular, parameter estimation is impossible.&lt;/p&gt;
+&lt;p&gt;The lemma immediately gives the lower bound we need. Indeed, the squared Hellinger distance is sub-additive on product distributions. So, it's easy to see what happens for \({n}\) independent samples from each distribution. This can increase the squared Hellinger distance by at most a factor \({n}\). In particular, for any \({n=o(\sigma^{2k+2})}\) the squared Hellinger distance between \({n}\) samples from each distribution is at most \({o(1)}\). Owing to a useful relation between the Hellinger distance and total variation, this implies that also the total variation distance is at most \({o(1)}\). Using the definition of total variation distance, this means no estimator (efficient or not) can tell apart the two distributions from \({n=o(\sigma^{2k+2})}\) samples with constant success probability. In particular, parameter estimation is impossible.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/moo32.png&quot; alt=&quot;Mixtures with identical first 5 moments&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;This lemma is an example of a broader phenomenon: Matching moments plus &quot;noise&quot; implies tiny Hellinger distance. A great reference is Pollard&#39;s &lt;a href=&quot;http://books.google.com/books/about/A_User_s_Guide_to_Measure_Theoretic_Prob.html?id=B7Ch-c2G21MC&quot;&gt;book&lt;/a&gt; and &lt;a href=&quot;http://www.stat.yale.edu/~pollard/Books/Asymptopia/Metrics.pdf&quot;&gt;lecture notes&lt;/a&gt;. By the way, Pollard&#39;s expository writing is generally wonderful. For instance, check out his (unrelated) paper on &lt;a href=&quot;http://www.stat.yale.edu/~jtc5/papers/ConditioningAsDisintegration.pdf&quot;&gt;&lt;em&gt;guilt-free manipulation of conditional densities&lt;/em&gt;&lt;/a&gt; if you ever wondered about how to condition on a measure zero event without regret. Not that computer scientists are generally concerned about it.&lt;/p&gt;
+&lt;p&gt;This lemma is an example of a broader phenomenon: Matching moments plus &quot;noise&quot; implies tiny Hellinger distance. A great reference is Pollard's &lt;a href=&quot;http://books.google.com/books/about/A_User_s_Guide_to_Measure_Theoretic_Prob.html?id=B7Ch-c2G21MC&quot;&gt;book&lt;/a&gt; and &lt;a href=&quot;http://www.stat.yale.edu/~pollard/Books/Asymptopia/Metrics.pdf&quot;&gt;lecture notes&lt;/a&gt;. By the way, Pollard's expository writing is generally wonderful. For instance, check out his (unrelated) paper on &lt;a href=&quot;http://www.stat.yale.edu/~jtc5/papers/ConditioningAsDisintegration.pdf&quot;&gt;&lt;em&gt;guilt-free manipulation of conditional densities&lt;/em&gt;&lt;/a&gt; if you ever wondered about how to condition on a measure zero event without regret. Not that computer scientists are generally concerned about it.&lt;/p&gt;
 &lt;h3&gt;Matching upper bound&lt;/h3&gt;
 &lt;p&gt;The matching upper bound is a bit trickier. The proof uses a convenient notion of &lt;em&gt;excess moments&lt;/em&gt; that was introduced by Pearson. You might have heard of excess kurtosis (the fourth excess moment) as it appears in the info box on every Wikipedia article about distributions. Excess moments have the appealing property that they are invariant under adding and subtracting a common term from the variance of each component.&lt;/p&gt;
 
@@ -653,10 +991,10 @@ that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which de
 
 &lt;p&gt;\[ \big\{p_5(y)=0,\quad p_6(y)=0,\quad 0&amp;lt; y\leq B\big\}. \]&lt;/p&gt;
 
-&lt;p&gt;This approach isn&#39;t yet robust to small perturbations in the moments; for example, if \({p_5}\) has a double root at \({\alpha}\), it may have no nearby root after perturbation. We therefore consider the polynomial \({r(y) = p_5^2(y)+p_6^2(y)}\) which we know is zero at \({\alpha.}\) We argue that \({r(y)}\) is significantly nonzero for any \({y}\) significantly far from \({\alpha}\). This is the main difficulty in the proof, but if you really read this far, it&#39;s perhaps not a bad point to switch to reading &lt;a href=&quot;http://arxiv.org/abs/1404.4997&quot;&gt;our paper.&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This approach isn't yet robust to small perturbations in the moments; for example, if \({p_5}\) has a double root at \({\alpha}\), it may have no nearby root after perturbation. We therefore consider the polynomial \({r(y) = p_5^2(y)+p_6^2(y)}\) which we know is zero at \({\alpha.}\) We argue that \({r(y)}\) is significantly nonzero for any \({y}\) significantly far from \({\alpha}\). This is the main difficulty in the proof, but if you really read this far, it's perhaps not a bad point to switch to reading &lt;a href=&quot;http://arxiv.org/abs/1404.4997&quot;&gt;our paper.&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;Conclusions&lt;/h2&gt;
-&lt;p&gt;I sure drooled enough over how much I like Pearson&#39;s paper. Let me conclude with a different practical thought. There were a bunch of tools (as in actual computer programs---&lt;em&gt;gasp!&lt;/em&gt;) that made the work a lot easier. Before we proved the lower bound we had verified it using arbitrary floating point precision numerical integration to accuracy \({10^{-300}}\) for \({\sigma^2=10,100,1000,\dots}\) and the decrease in Hellinger distance was exactly what it should be. We used a Python package called &lt;a href=&quot;https://code.google.com/p/mpmath/&quot;&gt;mpmath&lt;/a&gt; for that.&lt;/p&gt;
-&lt;p&gt;Similarly, for the upper bound we used a symbolic computation package in Python called &lt;a href=&quot;http://sympy.org/en/index.html&quot;&gt;SymPy&lt;/a&gt; to factor various polynomials, perform substitutions and multiplications. It would&#39;ve been tedious, time-consuming and error prone to do everything by hand (even if the final result is not too hard to check by hand).&lt;/p&gt;
+&lt;p&gt;I sure drooled enough over how much I like Pearson's paper. Let me conclude with a different practical thought. There were a bunch of tools (as in actual computer programs---&lt;em&gt;gasp!&lt;/em&gt;) that made the work a lot easier. Before we proved the lower bound we had verified it using arbitrary floating point precision numerical integration to accuracy \({10^{-300}}\) for \({\sigma^2=10,100,1000,\dots}\) and the decrease in Hellinger distance was exactly what it should be. We used a Python package called &lt;a href=&quot;https://code.google.com/p/mpmath/&quot;&gt;mpmath&lt;/a&gt; for that.&lt;/p&gt;
+&lt;p&gt;Similarly, for the upper bound we used a symbolic computation package in Python called &lt;a href=&quot;http://sympy.org/en/index.html&quot;&gt;SymPy&lt;/a&gt; to factor various polynomials, perform substitutions and multiplications. It would've been tedious, time-consuming and error prone to do everything by hand (even if the final result is not too hard to check by hand).&lt;/p&gt;
 &lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;em&gt;To stay on top of future posts, subscribe
 to the &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://blog.mrtz.org/feed.xml&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 </description>
@@ -681,210 +1019,6 @@ to the &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://blog.mrtz.org/
         <category>gaussian</category>
         
         <category>learning</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>False Discovery and Differential Privacy</title>
-        <description>&lt;p&gt;The Simons program on Big Data wrapped up about a month ago with a workshop on &lt;a href=&quot;http://simons.berkeley.edu/workshops/bigdata2013-4&quot;&gt;Big Data and Differential Privacy&lt;/a&gt;. With the possible exception of one talk on the last day after lunch, it was a really fabulous workshop. You would&#39;ve enjoyed attending even if you were neither interested in Big Data nor Differential Privacy. One reason is that the organizers aimed to address a problem that transcends both machine learning and privacy, a problem relevant to all empirical sciences. The problem is &lt;strong&gt;false discovery&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;If you&#39;ve never seen it, you should check out this XKCD comic explaining why &lt;a href=&quot;http://imgs.xkcd.com/comics/significant.png&quot;&gt;green jelly beans cause acne&lt;/a&gt;. The idea is that if you evaluate enough hypotheses on the same data set, eventually you will find something significant. The availability of public data sets used by thousands of scientists greatly exacerbates the problem. An important example is the area of &lt;a href=&quot;http://en.wikipedia.org/wiki/Genome-wide_association_study&quot;&gt;Genome Wide Association Studies&lt;/a&gt; (GWAS).&lt;/p&gt;
-&lt;p&gt;A typical study has a few hundred or perhaps a few thousands patient DNA sequences. Each sequence contains a few hundred thousands so-called &lt;a href=&quot;http://en.wikipedia.org/wiki/Single-nucleotide_polymorphism&quot;&gt;SNPs&lt;/a&gt;. Scientists check each SNP for possible correlation with a particular phenotype. Significance tests and p-values are part of the standard method. But what p-value is reasonable? In GWAS typical p-values are as small as \({10^{-6}}\) or even \({10^{-7}.}\) They get smaller ever year as the SNP resolution of the sequenced genome increases. How many SNPs are incorrectly declared significant? How do we interpret these scientific findings?&lt;/p&gt;
-&lt;p&gt;A similar discussion arose recently in the FDA induced &lt;a href=&quot;http://www.bioedge.org/index.php/bioethics/bioethics_article/10799&quot;&gt;shutdown of 23andMe&lt;/a&gt;. Lior Pachter started a &lt;a href=&quot;http://liorpachter.wordpress.com/2013/11/30/23andme-genotypes-are-all-wrong/&quot;&gt;heated discussion&lt;/a&gt; on his blog about why the findings of of 23andMe are unreliable. In short: Too many hypotheses evaluated against a single genome. Meanwhile, Scott Aaronson asserts his right to &lt;a href=&quot;http://www.scottaaronson.com/blog/?p=1615&quot;&gt;misinterpret probabilities&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;GWAS is certainly not the only example. Some think a major &lt;a href=&quot;http://www.economist.com/news/briefing/21588057-scientists-think-science-self-correcting-alarming-degree-it-not-trouble&quot;&gt;scientific crisis is upon us.&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;So, what can we do about it? A person who has spent at least two decades thinking about this problem is Yoav Benjamini. Luckily, he agreed to give a tutorial about his work at the privacy workshop revolving around the idea of &lt;a href=&quot;http://en.wikipedia.org/wiki/False_discovery_rate&quot;&gt;False Discovery Rate&lt;/a&gt;.&lt;/p&gt;
-&lt;h1&gt;False Discovery Rate&lt;/h1&gt;
-&lt;p&gt;The basic setup is this. There are \({m}\) null hypotheses \({h_1,\dots,h_m}\) that we would like to test. A discovery corresponds to a rejected null hypothesis. Let \({V}\) be the random variable counting the number of false discoveries, i.e., rejected null hypotheses that are actually true. We also let \({R}\) denote the total number of rejected hypothesis, i.e., all discoveries both true and false. The false discovery rate (FDR) is the expectation of the ratio \({V/R,}\) where we define the ratio as \({0}\) if \({R=0.}\)&lt;/p&gt;
-&lt;p&gt;The idea behind this definition is that if there are many discoveries, it might be tolerable to make some false discoveries. However, if all null hypotheses are true, all discoveries are false. So, even a single discovery brings the FDR up to \({1}\) (the largest possible value).&lt;/p&gt;
-&lt;p&gt;I encourage you to check out Omer Reingold&#39;s &lt;a href=&quot;http://simons.berkeley.edu/talks/omer-reingold-2013-12-11&quot;&gt;Musings on False Discovery Rate&lt;/a&gt; from a Computer Scientist&#39;s point of view.&lt;/p&gt;
-&lt;p&gt;Now, suppose we want to design an experiment while controlling the FDR. That is we want to make sure that the FDR is at most some \({\alpha&amp;lt; 1.}\) Benjamini and Hochberg suggested an algorithm for doing exactly that. With more than 20000 citations this might be one of the most widely cited algorithms:&lt;/p&gt;
-&lt;p&gt;Let \({p_1,\dots,p_m}\) be \({p}\)-values corresponding to our \({m}\) hypotheses. Sort these \({p}\)-values in increasing order \({p_{(1)}\le \dots\le p_{(m)}.}\)&lt;/p&gt;
-&lt;p&gt;1. Find the largest \({k}\) such that \({p_{(k)} \le \frac{k}{m}\cdot \alpha}\).&lt;/p&gt;
-&lt;p&gt;2. Reject \({h_{(1)},\dots,h_{(k)}.}\)&lt;/p&gt;
-&lt;p&gt;An important theorem they proved is that indeed this procedure controls the false discovery rate under certain assumptions. For example, if our test statistics are independent of each other, this holds. Of course, independence is a very strong assumption and a lot of work in statistics aims to weaken these assumptions.&lt;/p&gt;
-&lt;p&gt;My general feeling about this definition is that it is optimistic in several regards. The first is that we only talk about expectations. It is easy to come up with examples where the expectation is small but the with small but non-negligible probability there are many false discoveries. Second, we need several fairly strong assumptions to be able to prove that such a procedure actually controls the false discovery rate. Finally, the method puts lot of faith in careful experimental design and proper execution. In particular to apply the methodology we need knowledge of what hypotheses we might test.&lt;/p&gt;
-&lt;p&gt;Nevertheless, this optimism in the definition leads to usable and realistic answers as to how large the sample should be in concrete experimental setups. This must have been a major factor in the success of this methodology.&lt;/p&gt;
-&lt;h1&gt;Differential Privacy&lt;/h1&gt;
-&lt;p&gt;How is any of this related to privacy? The short answer is that Differential Privacy by itself controls false discovery in a certain precise sense---though formally different from the above. Indeed, I will formally show below that Differential Privacy implies small &lt;a href=&quot;http://en.wikipedia.org/wiki/Generalization_error&quot;&gt;&quot;generalization error&quot;&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;This is by no means an accident of the definition. There is a deeper reason for it. Intuitively, Differential Privacy ensures that the outcome of a statistical analysis does not depend on the specifics of the data set but rather the underlying properties of the population. This is why it gives privacy. I may be able to learn from the data that smoking causes cancer, but I wouldn&#39;t be able to learn that a particular individual in the database, say Donald Draper, smokes and has cancer. The flip side is that Differential Privacy does not allow you to access the data set arbitrarily often. Instead it attaches a cost to each operation and an overall budget that you better not exceed. The most common complain about Differential Privacy is that it doesn&#39;t allow you to do whatever the heck you want with the data. My response is usually that neither does statistics. A data set has limited explanatory power. Use it carelessly and you&#39;ll end up with false discovery. I think it&#39;s a feature of Differential Privacy---not a shortcoming---that it makes this fundamental fact of nature explicit.&lt;/p&gt;
-&lt;p&gt;If this philosophical excursion struck you as unconvincing, let me try the formal route. This argument is folklore by the way. I learned it from Guy Rothblum a few years ago who attributed it to Frank McSherry at the time. Let me know if I&#39;m missing the right attribution.&lt;/p&gt;
-&lt;p&gt;Suppose we want to learn a concept \({c\colon\{0,1\}^d \rightarrow \{0,1\}}\) from labeled examples \({D=\{(x_1,l_1),\dots,(x_m,l_m)\}}\) drawn from some underlying distribution \({P}\).&lt;/p&gt;
-&lt;p&gt;Now, suppose we use an \({\epsilon}\)-differentially private learning algorithm \(\) for the task. That is \(\) is a randomized algorithm such that changing one example has little effect on the output distribution of the algorithm. Formally, for any set of examples \({D&#39;}\) that differs from \({D}\) in only one pair, we have for any set of output hypotheses \({H}\):&lt;/p&gt;
-
-&lt;p&gt;\[\Pr \{ A(D) \in H \} \ge e^{-\epsilon}\Pr\{ A(D’) \in H \}. \]&lt;/p&gt;
-
-&lt;p&gt;Furthermore, assume that \(\) is \({\alpha}\)-useful in the sense that it always outputs a hypothesis \({h}\) that has error at most \({\alpha}\) on the training examples. Here, \({\epsilon,\alpha \ll 1.}\) (By the way, I&#39;m using the word &quot;hypothesis&quot; here in its learning theory sense not the &quot;null hypothesis&quot; sense.)&lt;/p&gt;
-&lt;p&gt;I claim that with the output of \(\) must have error at most \({O(\epsilon + \alpha)}\) on the underlying distribution \({P.}\) This means precisely that the output generalizes. Importantly, we didn&#39;t assume anything about the hypothesis class! We only assume that the learner is differentially private.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Proof sketch:&lt;/strong&gt; Pick a fresh example \({(x^*,l^*)}\) from the distribution \({P.}\) Let \({H^*= \{ h \colon h(x^*) = c(x^*) \}}\) be the set of hypotheses that agree with the concept \({c}\) on this example \({x^*.}\) Let \({D&#39;}\) be the example set where we remove a random element from \({D}\) and replace it with \({(x^*,l^*).}\) Since, \(\) is useful, it must be the case that \({h&#39; = {\cal A}(D&#39;)}\) has error at most \({\alpha}\) on \({D&#39;}\). In particular, it classifies \({x^*}\) correctly with probability \({1-\alpha.}\) This is because all examples in \({D&#39;}\) are identically distributed. Formally, \({\Pr\{ {\cal A}(D&#39;) \in H^* \}\ge 1-\alpha.}\) Note the randomness is now over both \(\) and the replacement we did. Appealing to the definition of Differential Privacy above, it follows that&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle \Pr\{ A(D) \in H^*\} \ge e^{-\epsilon}(1-\alpha) \ge 1 - O(\epsilon + \alpha). \)&lt;/p&gt;
-&lt;p&gt;That means \({A(D)}\) is correct on an *unseen* example from \({D}\) with high probability.&lt;/p&gt;
-&lt;p&gt;The above is just a simple example of a broader phenomenon showing that &lt;a href=&quot;http://jmlr.org/papers/v2/bousquet02a.html&quot;&gt;stability of a learning algorithm implies generalization bounds&lt;/a&gt;. Differential Privacy is a strong form of stability that implies most notions of stability studied in learning theory.&lt;/p&gt;
-&lt;h1&gt;What&#39;s next?&lt;/h1&gt;
-&lt;p&gt;False discovery and privacy loss are two persistent issues we&#39;re facing in the era of data analysis. The two problems share some fundamental characteristics. It could be very fruitful think about both problems in relation to each other, or, even as &lt;em&gt;facets of the same underlying problem&lt;/em&gt;. Technically, there seems to be some unexplored middle ground between FDR and Differential Privacy that I&#39;d like to understand better.&lt;/p&gt;
-&lt;p&gt;The discussion here is also closely related to my first post of the semester in which I asked: &lt;a href=&quot;http://mrtz.org/blog/what-should-a-theory-of-big-data-do/&quot;&gt;What should a theory of big data do?&lt;/a&gt; I argued that besides posing concrete technical challenges, big data poses a deep conceptual problem. We seem to have difficulty capturing the way people interact with data today. This makes it hard for us to get control over the things that can go wrong. I seem to have come a full circle asking the same question again. Of course, I knew that this was too broad a question to be resolved in the span of four months.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 13 Jan 2014 13:05:52 -0800</pubDate>
-        <link>http://blog.mrtz.org/2014/01/13/false-discovery.html</link>
-        <guid isPermaLink="true">http://blog.mrtz.org/2014/01/13/false-discovery.html</guid>
-        
-        <category>simons</category>
-        
-        <category>big data</category>
-        
-        <category>tcs</category>
-        
-        <category>privacy</category>
-        
-        <category>false discovery</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Power Method still Powerful </title>
-        <description>&lt;p&gt;The Power Method is the oldest practical method for finding the eigenvector of a matrix corresponding to the eigenvalue of largest modulus. Most of us will live to celebrate the Power Method&#39;s 100th birthday around 2029. I plan to throw a party. What&#39;s surprising is that the Power Method continues to be highly relevant in a number of recent applications in algorithms and machine learning. I see primarily two reasons for this. One is computational efficiency. The Power Method happens to be  highly efficient both in terms of memory footprint and running time. A few iterations often suffice to find a good approximate solution. The second less appreciated but no less important aspect is &lt;em&gt;robustness&lt;/em&gt;. The Power Method is quite well-behaved in the presence of noise making it an ideal candidate for a number of applications. It&#39;s also easy to modify and to extend it without breaking it. Robust algorithms live longer. The Power Method is a great example. We saw another good one before. (Hint: &lt;a href=&quot;http://mrtz.org/blog/the-zen-of-gradient-descent/&quot;&gt;Gradient Descent&lt;/a&gt;) In this post I&#39;ll describe a very useful robust analysis of the Power Method that is not as widely known as it sould be. It characterizes the convergence behavior of the algorithm in a strong noise model and comes with a neat geometric intuition.&lt;/p&gt;
-&lt;h2&gt;Power Method: Basics&lt;/h2&gt;
-&lt;p&gt;Let&#39;s start from scratch. The problem that the power method solves is this:&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;Given \({A,}\) find the rank \({1}\) matrix \({B}\) that minimizes \({\|A-B\|_F^2.}\)&lt;/p&gt;
-&lt;p&gt;Here, \({\|A-B\|_F^2}\) is the squared Frobenius norm of the difference between \({A}\) and \({B.}\) (Recall that this is the sum of squared entries of \(A-B\)). Any rank \({1}\) matrix can of course be written as \({xy^T}\) (allowing for rectangular \({A}\)). On the face of it, this is a non-convex optimization problem and there is no a priori reason that it should be easy! Still, if we think of \({f(x,y) = \|A-xy^T\|_F^2}\) as our objective function, we can check that setting the gradient of \({f}\) with respect to \({x}\) to zero gives us the equation by \({x=Ay}\) provided that we normalized \({y}\) to be a unit vector. Likewise taking the gradient of \({f}\) with respect to \({y}\) after normalizing \({x}\) to have unit norm leads to the equation \(y={A^T x.}\) The Power Method is the simple algorithm which repeatedly performs these update steps. As an aside, this idea of solving a non-convex low-rank optimization problem via alternating minimization steps is a powerful heuristic for a number of related problems.&lt;/p&gt;
-&lt;p&gt;For simplicity from here on we&#39;ll assume that \({A}\) is symmetric. In this case there is only one update rule: \({x_{t+1} = Ax_{t}.}\) It is also prudent to normalize \({x_t}\) after each step by dividing the vector by its norm.&lt;/p&gt;
-&lt;p&gt;The same derivation of the Power Method applies to the more general problem: Given a symmetric \({n\times n}\) matrix \({A,}\) find the rank \({k}\) matrix \({B}\) that minimizes \({\|A-B\|_F^2}\). Note that the optimal rank \({k}\) matrix is also given by the a truncated singular value decomposition of \({A.}\) Hence, the problem is equivalent to finding the first \({k}\) singular vectors of \({A.}\)&lt;/p&gt;
-&lt;p&gt;A symmetric rank \({k}\) matrix can be written as \({B= XX^T}\) where \({X}\) is an \({n\times k}\) matrix. The update rule is therefore \({X_{t+1} = AX_{t}}\). There are multiple ways to normalize \({X_t}\). The one we choose here is to ensure that \({X_t}\) has orthonormal columns. That is each column has unit norm and is orthogonal to the other columns. This is can be done using good ol&#39; boys  &lt;a title=&quot;Gram Schmidt&quot; href=&quot;http://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process&quot;&gt;Gram-Schmidt&lt;/a&gt; (though in practice people prefer the Householder method).&lt;/p&gt;
-&lt;p&gt;The resulting algorithm is often called Subspace Iteration. I like this name. It stresses the point that the only thing that will matter to us is the subspace spanned by the columns of \({X_t}\) and not the particular basis that the algorithm happens to produce. This viewpoint is important in the analysis of the algorithm that we&#39;ll see next.&lt;/p&gt;
-&lt;h2&gt;A Robust Geometric Analysis of Subspace Iteration&lt;/h2&gt;
-&lt;p&gt;Most of us know one analysis of the power method. You write your vector \({x_t}\) in the eigenbasis of \({A}\) and keep track of how matrix vector multiplication manipulates the coefficients of the vector in this basis. It works and it&#39;s simple, but it has a couple of issues. First, it doesn&#39;t generalize easily to the case of Subspace Iteration. Second, it becomes messy in the presence of errors. So what is a better way? What I&#39;m going to describe was possibly done by numerical analysts in the sixties before the community moved on to analyze more modern eigenvalue methods.&lt;/p&gt;
-&lt;h3&gt;Principal Angles&lt;/h3&gt;
-&lt;p&gt;To understand what happens in Subspace Iteration at each step, it&#39;ll be helpful to have a potential function and to understand under which circumstances it decreases. As argued before the potential function should be basis free to avoid syntactic arguments. The tool we&#39;re going to use is the &lt;strong&gt;principal angle&lt;/strong&gt; between subspaces. Before we see a formal definition, it turns out that much of what&#39;s true for the angle between two vectors can be lifted to the case of subspaces of equal dimension. In fact, much of what&#39;s true for the angle between spaces of equal dimension generalizes to unequal dimensions with some extra care.&lt;/p&gt;
-&lt;p&gt;The two subspaces we want to compare are the space spanned by the \({k}\) columns of \({X_t}\) and the space \({U}\) spanned by the \({r}\) dominant singular vectors of \({A.}\) For now, we&#39;ll discuss the case where \({r=k.}\) I&#39;ll be a bit sloppy in my notation and use the letters \({U,X_t}\) for these subspaces.&lt;/p&gt;
-&lt;p&gt;Let&#39;s start with \({k=1}\). Here the cosine of the angle \({\theta}\) between the two unit vectors \({X_t}\) and \({U}\) is of course defined as \({\cos\theta(U,X_t)= |U^T X_t|.}\) It turns out that the natural generalization for \({k&amp;gt;1}\) is to define&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;\(\displaystyle \cos\theta(U,X_t)=\sigma_{\mathrm{min}}(U^T X_t). \)&lt;/p&gt;
-&lt;p&gt;In words, the cosine of the angle between \({U}\) and \({X_t}\) is the smallest singular value of the \({k\times k}\) matrix \({U^T X_t}\). Here&#39;s a sanity check on our definition. If the smallest singular value is \({0}\) then there is a nonzero vector in the range of the matrix \({X_t}\) that is orthogonal to the range of \({U}\). In an intuitive sense this shows that the subspaces are quite dissimilar. To get some more intuition, consider a basis \({V}\) for the orthogonal complement of \({U.}\) It makes sense to define \({\sin\theta(U,X_t)= \sigma_{\mathrm{max}}(V^T X_t)}\). Indeed, we can convince ourselves that this satisfies the familiar rule \({1= \sin^2\theta + \cos^2\theta}\). Finally, we define \({\tan\theta}\) as the ratio of sine to cosine.&lt;/p&gt;
-&lt;h3&gt;A strong noise model&lt;/h3&gt;
-&lt;p&gt;Let&#39;s be ambitious and analyze Subspace Iteration in a strong noise model. It turns out that this will not actually make the analysis a lot harder, but a lot more general. The noise model I like is one in which each matrix-vector product is followed by the addition of a possibly adversarial noise term. Specifically, the only way we can access the matrix \(A\) is through an operation of the form&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;\(\displaystyle Y = AX + G. \)&lt;/p&gt;
-&lt;p&gt;Here, \({X}\) is what we get to choose and \({G}\) is the noise matrix we may not get to choose. We assume that \(G$ is the only source of error and that arithmetic is exact. In this model our algorithm proceeds as follows:&lt;/p&gt;
-
-&lt;div style=&quot;margin:10px;border: 1px solid #bbb; padding: 10px;&quot;&gt;Pick \({X_0.}\) For \({t = 1}\) to \({t=L:}\)
-&lt;ol&gt;
-&lt;li&gt;\({Y_t = AX_{t-1} + G_t}\)&lt;/li&gt;
-&lt;li&gt;\({X_t = \text{Orthonormalize}(Y_t)}\)&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-
-&lt;h3&gt;The main geometric lemma&lt;/h3&gt;
-&lt;p&gt;To analyze the above algorithm, we will consider the potential function \({\tan\theta(U,X_t).}\) If we pick \({X_0}\) randomly it&#39;s not so hard to show that it starts out being something like \({O(\sqrt{kn})}\) with high probability. We&#39;ll argue that \({\tan\theta(U,X_t)}\) decreases geometrically at the rate of \({\sigma_{k+1}/\sigma_{k}}\) under some assumptions on \({G_t}\). Here, \({\sigma_k}\) is the \({k}\)-th largest singular value. The analysis therefore requires a separation between \({\sigma_k}\) and \({\sigma_{k+1}}\). (NB: We can get around that by taking the dimension \({r}\) of \({U}\) to be larger than \({k.}\) In that case we&#39;d get a convergence rate of the form \({\sigma_{r+1}/\sigma_k.}\) The argument is a bit more complicated, but can be found &lt;a title=&quot;Robust Subspace Iteration and Privacy-Preserving Spectral Analysis&quot; href=&quot;http://arxiv.org/abs/1311.2495&quot;&gt;here&lt;/a&gt;.)&lt;/p&gt;
-&lt;p&gt;Now the lemma we&#39;ll prove is this:&lt;/p&gt;
-&lt;p style=&quot;text-align: left;&quot;&gt;&lt;strong&gt;Lemma.&lt;/strong&gt; For every \({t\ge 1,}\)&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;\(\displaystyle \tan\theta(U,X_t) \le \frac{\sigma_{k+1}\sin\theta(U,X_{t-1})+\|V^T G_t\|} {\sigma_k\cos\theta(U,X_{t-1})-\|U^T G_t\|}. \)&lt;/p&gt;
-&lt;p&gt;This lemma is quite neat. First of all if \({G_t=0,}\) then we recover the noise-free convergence rate of Subspace Iteration that I claimed above. Second what this lemma tells us is that the sine of the angle between \({U}\) and \({X_{t-1}}\) gets perturbed by the norm of the projection of \({G_t}\) onto \({V}\), the orthogonal complement of \({U.}\) This should not surprise us, since \({\sin\theta(U,X_{t-1})=\|V^T X_{t-1}\|.}\) Similarly, the cosine of the angle is only perturbed by the projection of \({G_t}\) onto \({U.}\) This again seems intuitive given the definition of the cosine. An important consequence is this. Initially, the cosine between \({U}\) and \({X_0}\) might be very small, e.g. \({\Omega(\sqrt{k/n})}\) if we pick \({X_0}\) randomly. Fortunately, the cosine is only affected by a \({k}\)-dimensional projection of \({G_t}\) which we expect to be much smaller than the total norm of \({G_t.}\)&lt;/p&gt;
-&lt;p&gt;The lemma has an intuitive geometric interpretation expressed in the following picture:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/power-method.png&quot; alt=&quot;Power method&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;It&#39;s straightforward to prove the lemma when \({k=1}\). We simply write out the definition on the left hand side, plug in the update rule that generated \({X_t}\) and observe that the normalization terms in the numerator and denominator cancel. This leaves us with the stated expression after some simple manipulations. For larger dimension we might be troubled by the fact that we applied the Gram-Schmidt algorithm. Why would that cancel out? Interestingly it does. Here&#39;s why. The tangent satisfies the identity:&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;\(\displaystyle \tan\theta(U,X_t) = \|(V^T X_t)(U^TX_t)^{-1}\|. \)&lt;/p&gt;
-&lt;p&gt;It&#39;s perhaps not obvious, but not more than an exercise to check this. On the other hand, \({X_t = Y_t R}\) for some invertible linear transformation \({R.}\) This is a property of orthonormalization. Namely, \({X_t}\) and \({Y_t}\) must have the same range. But \({(U^TY_tR)^{-1}=R^{-1}(U^T Y_t)^{-1}}\). Hence&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;\(\displaystyle \|(V^T X_t)(U^TX_t)^{-1}\| = \|(V^T Y_t)(U^TY_t)^{-1}\|. \)&lt;/p&gt;
-&lt;p&gt;It&#39;s now easy to proceed. First, by the submultiplicativity of the spectral norm,&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;\(\displaystyle \|(V^T Y_t)(U^TY_t)^{-1}\| \le \|(V^T Y_t)\|\cdot\|(U^TY_t)^{-1}\|. \)&lt;/p&gt;
-&lt;p&gt;Consider the first term on the right hand side. We can bound it as follows:&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;\(\displaystyle \|(V^T Y_t)\|\!\le\!\|V^TAX_{t-1}\| + \|V^T G_t\|\!\le\! \sigma_{k+1}\sin\theta(U,X_{t-1}) + \|V^T G_t\|. \)&lt;/p&gt;
-&lt;p&gt;Here we used that the operation \({V^T A}\) eliminates the first \({k}\) singular vectors of \({A.}\) The resulting matrix has spectral norm at most \({\sigma_{k+1}}\).&lt;/p&gt;
-&lt;p&gt;The second term follows similarly. We have \({\|(U^T Y_t)^{-1}\| = 1/\sigma_{\mathrm{min}}(U^TY_t)}\) and&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;\(\displaystyle\!\!\!\sigma_{\mathrm{min}}(U^TY_{t})\!\ge\!\sigma_{\mathrm{min}}(U^TAX_{t-1})\!-\!\|U^T G_t\|\!\ge\! \sigma_k\cos\theta(U,X_{t-1})\!-\!\|U^T G_t\|\!\!\!\)&lt;/p&gt;
-&lt;p&gt;This concludes the proof of the lemma.&lt;/p&gt;
-&lt;h2&gt;Applications and Pointers&lt;/h2&gt;
-&lt;p&gt;It&#39;s been a long post, but it&#39;d be a shame not to mention some applications. There are primarily three applications that sparked my interest in the robustness of the Power Method.&lt;/p&gt;
-&lt;p&gt;The first application is in &lt;strong&gt;privacy-preserving singular vector computation&lt;/strong&gt;. Here the goal is to compute the dominant singular vectors of a matrix without leaking too much information about individual entries of the matrix. We can formalize this constraint using the notion of Differential Privacy. To get a differentially private version of the Power Method we must add a significant amount of Gaussian noise at each step. To get tight error bounds it&#39;s essential to distinguish between the projections of the noise term onto the space spanned by the top singular vectors and its orthogonal complement. You can see the full analysis &lt;a href=&quot;http://arxiv.org/abs/1311.2495&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Another exciting motivation comes from the area of &lt;strong&gt;Matrix Completion&lt;/strong&gt;. Here, we only see a subsample of the matrix \({A}\) and we wish to compute its dominant singular vectors from this subsample. Alternating Minimization (as briefly mentioned above) is a popular and successful heuristic in this setting, but rather difficult to analyze. &lt;a href=&quot;http://dl.acm.org/citation.cfm?doid=2488608.2488693&quot;&gt;Jain, Netrapalli and Sanghavi&lt;/a&gt; observed that it can be seen and analyzed as an instance of the noisy power method that we discussed here. The error term in this case arises because we only see a subsample of the matrix and cannot evaluate exact inner products with \({A.}\) These observations lead to rigorous convergence bounds for Alternating Minimization. I recently &lt;a href=&quot;http://arxiv.org/abs/1312.0925&quot;&gt;posted some improvements&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Surprisingly, there&#39;s a fascinating connection between the privacy setting and the matrix completion setting. In both cases the fundamental parameter that controls the error rate is the &lt;em&gt;coherence&lt;/em&gt; of the matrix \({A}\). Arguing about the coherence of various intermediate solutions in the Power Method is a non-trivial issue that arises in both settings and is beyond the scope of this post.&lt;/p&gt;
-&lt;p&gt;Finally, there are very interesting &lt;strong&gt;tensor generalizations of the Power Method &lt;/strong&gt;and robustness continues to be a key concern. See, for example, &lt;a href=&quot;http://arxiv.org/abs/1210.7559&quot;&gt;here &lt;/a&gt;and &lt;a href=&quot;http://arxiv.org/abs/1311.2972&quot;&gt;here&lt;/a&gt;. These tensor methods have a number of applications in algorithms and machine learning that are becoming increasingly relevant. While there has been some progress, I think it is fair to say that much remains to be understood in the tensor case. I may decide to work on this once my fear of tensor notation recedes to bearable levels.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 04 Dec 2013 08:20:16 -0800</pubDate>
-        <link>http://blog.mrtz.org/2013/12/04/power-method.html</link>
-        <guid isPermaLink="true">http://blog.mrtz.org/2013/12/04/power-method.html</guid>
-        
-        <category>algorithms</category>
-        
-        <category>tcs</category>
-        
-        <category>theory</category>
-        
-        <category>power method</category>
-        
-        <category>eigenvalues</category>
-        
-        <category>matrix completion</category>
-        
-        <category>robustness</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>The Geometric View on Sparse Recovery</title>
-        <description>&lt;p&gt;&lt;span style=&quot;line-height: 1.5;&quot;&gt;Sparsity is of fundamental importance in much of signal processing, optimization, computer science and statistics. It was also a major theme in both workshops so far in the &lt;a href=&quot;http://simons.berkeley.edu/programs/bigdata2013&quot;&gt;Simons Big Data&lt;/a&gt; program. The second workshop on succinct representations ended a few weeks ago. Those still barely conscious after a week of technical talks were rewarded by this sunset over Berkeley. (Technically, you still would have had to climb up to the top of Centennial Dr somehow.) &lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/sunset3.jpg&quot; alt=&quot;Sunset&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Sparsity is a solution concept and not just a technical term. Sparse solutions to an optimization problem are often more well-behaved as they explain a phenomenon with fewer parameters. In high-dimensional settings where there are more variables than constraints, enforcing sparsity makes sense of problems that would otherwise be underdetermined.&lt;/p&gt;
-&lt;p&gt;There&#39;s been so much work on sparsity it seems hard to find a place to start. Fortunately, there&#39;s a simple and elegant---yet powerful---geometric approach underlying many results in sparse recovery that I&#39;ll focus on here.&lt;/p&gt;
-&lt;h2&gt;The Basic Picture&lt;/h2&gt;
-&lt;p&gt;Perhaps the simplest example is solving an underdetermined system of linear equations \({Ax=b.}\) Assume \({A}\) is an \({m\times n}\) matrix and \({b=Ax_0}\) for some \({k}\)-sparse vector \({x_0}\) (i.e., \({x_0}\) has at most \({k}\) nonzero entries). We can hope to recover \({x_0}\) provided that \({A}\) has more than \({k}\) linearly independent rows. How do we do this efficiently? The problem of solving \({Ax=b}\) s.t. \({x}\) is \({k}\)-sparse is NP-hard. We will instead consider the problem&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle \min f(x)\quad\mathrm{s.t.}\,\, Ax=b \)&lt;/p&gt;
-&lt;p&gt;for some convex function \({f\colon\mathbb{R}^n\rightarrow\mathbb{R}.}\) The function \({f}\) has no easy job. It needs to favor sparse solutions and yet be convex! Why should such a creature exist? Let&#39;s think about what we&#39;re asking for formally. We know that all the solutions to \({Ax=b}\) can be written as \({x_0+h}\) where \({h}\) is in the null space of \({A}\). Hence, \({x_0}\) is the solution to our problem if for all \({h}\) in the null space of \({A,}\) we have \({f(x_0+h) &amp;gt; f(x_0).}\) Consider therefore the set of all directions that would actually decrease the function value. These directions form a cone, called tangent cone, formally defined as:&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle T(x_0) = \{ d \colon \exists \alpha&amp;gt;0\quad f(x_0 + \alpha d) \le f(x_0) \}. \)&lt;/p&gt;
-&lt;h3&gt;The Restricted Nullspace Property&lt;/h3&gt;
-&lt;p&gt;The central geometric question can then be phrased as: When is it the case that the tangent cone intersects the nullspace &lt;em&gt;only&lt;/em&gt; at the origin? Formally, we&#39;re asking:&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(T(x_0)\cap \mathrm{null}(A)=\{ 0 \}\quad \)?&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/restricted.png&quot; alt=&quot;Restricted nullspace property&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Restricted Nullspace Property is actually the name of a closely related property. Nevertheless I decided to run with this name for the purpose of this blog post.&lt;/p&gt;
-&lt;p&gt;It is helpful to think of \({\mathrm{null}(A)}\) as a random subspace. This happens, for example, when \({A}\) is a random Gaussian matrix. On intuitive grounds, we should aim to make \({T(x_0)}\) as  &quot;small&quot; as possible to avoid any non-trivial intersection with the random nullspace while maintaining convexity. A natural choice is to let \({f}\) be the familiar \({\ell_1}\)-norm \({f(x)=\|x\|_1.}\) Even with these two choices though it&#39;s not obvious how to analyze the intersection of tangent cone and nullspace. We&#39;d have to argue about all points in the tangent cone. You can probably guess what&#39;s next. Instead of proving the condition directly, we&#39;ll exhibit a &quot;dual certificate&quot;. Duality is really easy here. The negative of the dual cone of \({T(x_0)}\) is the set&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle G = \{ g \colon f(y) \ge f(x_0) + \langle g,y-x\rangle \}. \)&lt;/p&gt;
-&lt;p&gt;If \({f}\) were differentiable at \({x_0,}\) then \({G}\) would be the singleton set containing the gradient of \({f}\) at \({x_0.}\) Since this is not the case for the \({\ell_1}\)-norm, there is an entire cone of vectors satisfying the relation. This cone is often called the subdifferential of the \({\ell_1}\)-norm at \({x_0.}\) Its members are called &lt;a href=&quot;http://www.stanford.edu/class/ee364b/notes/subgradients_notes.pdf&quot;&gt;subgradients&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Now, suppose we had a vector \({g\in G}\) such that \({g}\) was a linear combination of the rows of \({A,}\) i.e., \({g = A^t \lambda}\) for some vector \({\lambda.}\) In this case, for all \({y=x_0+h}\) with \({h}\) in the null space of \({A,}\) it must be the case that&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle f(y) \ge f(x_0) + (A^t\lambda)^t (y-x_0) = f(x_0) + \lambda^t(Ah) = f(x_0). \)&lt;/p&gt;
-&lt;p&gt;In other words, such a vector \({g}\) would certify the optimality of \({x_0.}\)&lt;/p&gt;
-&lt;p&gt;What we&#39;ve done so far has just been basic convex analysis and holds in great generality. Nevertheless, it makes sense to internalize this Ansatz as it is the starting point of many results in the area. (Note also my flawless command of the German language. Only Eric Price argues that I misuse the term.)&lt;/p&gt;
-&lt;h3&gt;Construction of the Dual Certificate&lt;/h3&gt;
-&lt;p&gt;Let&#39;s see why this approach is powerful. First, the subdifferential of the \({\ell_1}\)-norm is easy to characterize. Using some &lt;a href=&quot;http://www.stanford.edu/class/ee364b/notes/subgradients_notes.pdf&quot;&gt;basic rules&lt;/a&gt; it turns out that \({G}\) contains all the vectors \({g}\) such that:&lt;/p&gt;
-&lt;p&gt;1. \({g_i}\) equals the sign of \({(x_0)_i}\) for all \({i}\) in the support of \({x_0}\) which we&#39;ll denote by \({S,}\) and&lt;/p&gt;
-&lt;p&gt;2. \({g_i\in[-1,1]}\) for all \({i\in S^c.}\)&lt;/p&gt;
-&lt;p&gt;So, the first condition is a set of \({|S|}\) linear equations on \({A^t\lambda.}\) Since \({A}\) has more than \({|S|}\) rows and a random Gaussian matrix is in general position, this set of equations has a solution! The second constraint bounds the \({\ell_\infty}\)-norm of \({A^t\lambda}\) outside the support of \({x_0.}\)&lt;/p&gt;
-&lt;p&gt;Remarkably, the way people find a suitable \({\lambda}\) is by solving, again, a convex optimization problem! In this case, we&#39;re going to find the least squares solution to (1) and hope that magically it will satisfy (2). Actually, there isn&#39;t too much magic. A reason for this choice is this. Suppose we partition the columns of \({A}\) as \({A = [ A_1 | A_2 ]}\) according to the support of \({x_0.}\) For simplicity we assume that the support is on the first \({|S|}\) columns of \({A.}\) The least squares solution has the following appealing property. Of course, it satisfies the linear equations on \({A_1}\). Moreover, the \({\ell_\infty}\)-norm of \({A_2^t \lambda}\) is dictated by the \({\ell_2}\)-norm of \({\lambda}\). This is because \({A_1}\) and \({A_2}\) are statistically independent and \({A_2}\) is distributed as a random Gaussian matrix. This interpretation of why least squares is conceptually the right thing to look at in the Gaussian case was pointed out to me by Sushant Sachdeva.&lt;/p&gt;
-&lt;p&gt;What&#39;s left is to use some probability theory to work out the parameters that we get.  For those details check out Ben Recht&#39;s talk &lt;a href=&quot;http://simons.berkeley.edu/talks/ben-recht-2013-09-05&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h3&gt;The Issue of Noise&lt;/h3&gt;
-&lt;p&gt;Alas, the picture isn&#39;t quite as simple as suggested so far. In almost any realistic setting we&#39;d like sparse recovery to be robust to noisy observations. This leads to several problems that are beyond the scope of this blog post. In the case of linear equations this leads to the theory of the \({\ell_1}\)-regularized least squares, usually called LASSO. Here the goal is to minimize a least squares error, while controlling the \({\ell_1}\)-norm of the solution.  Martin Wainwright&#39;s &lt;a href=&quot;http://simons.berkeley.edu/talks/martin-wainwright-2013-09-05a&quot;&gt;first talk&lt;/a&gt;  at the Big Data Boot Camp dealt with the theory of LASSO in detail.&lt;/p&gt;
-&lt;h2&gt;From Vectors to Matrices: Matrix Sensing and Completion&lt;/h2&gt;
-&lt;p&gt;Much of what we discussed is still true when we go from vectors to matrices. All concepts generalize by looking at the spectrum of the matrix. Sparsity in the spectrum means low rank. The \({\ell_1}\)-norm applied to the spectrum of the matrix is called &lt;strong&gt;nuclear norm&lt;/strong&gt; and plays a crucial role in the matrix world. The generalization of the above proof is most direct in the case of Matrix Sensing. Here we are given linear measurements on a matrix \({ {\cal A}(X) = B}\) where \({B={\cal A}(X_0)}\) and \({X_0}\) is a low-rank matrix. Just to be clear, \({ {\cal A}}\) is now a linear operator on matrices. One could define a random Gaussian operator by taking inner products between random Gaussian matrices and the matrix \({X.}\)&lt;/p&gt;
-&lt;p&gt;A particularly well-studied linear operator is the subsampling operator. It takes \({X}\) and projects its entries to some subset \({\Omega.}\) Recovering \({X_0}\) in this case is known as Matrix Completion. It&#39;s a noticeably more difficult problem. Even if \({\Omega}\) is nice, say, uniformly random of some density, the approach can&#39;t work if \({X_0}\) hides its support in a tiny subset of the matrix. That&#39;s why we need additional assumptions. The prevailing assumption is known as incoherence. It states that the singular vectors of \({X_0}\) should be de-localized in the sense of having small inner product with the standard basis. This rules out the pathological example I just mentioned.&lt;/p&gt;
-&lt;p&gt;Incoherence is often justified by saying that otherwise unique recovery were simply not possible. Why should we insist on uniquely recovering a solution? In many cases it might be interesting to find &lt;em&gt;any&lt;/em&gt; low-rank matrix consistent with the observations. Much less is known about matrix completion without an incoherence assumption in the regime where unique recovery is not possible. As far as I know, there are neither convincing hardness results (apart from NP-hardness in full generality) nor strong positive results.&lt;/p&gt;
-&lt;h2&gt;Other Pointers&lt;/h2&gt;
-&lt;p&gt;I&#39;ve only touched on the subject lightly. There is much more to say and several talks I haven&#39;t mentioned. Here are some:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Sometimes the \({\ell_1}\)-norm is just too simple and ignores the structure of the problem in a particular application. Francis Bach &lt;a href=&quot;http://simons.berkeley.edu/talks/francis-bach-2013-09-19&quot;&gt;spoke about using submodular functions&lt;/a&gt; instead of the \({\ell_1}\)-norm. The Lovasz extension leads to a convex relaxation that makes the approach feasible.&lt;/li&gt;
-&lt;li&gt;Sparsity also makes sense in settings where the signal has no coordinate structure. An example is Spectrum Estimation where the observations are combinations of few sinusoids. One could hack this application by some discretization, but a more elegant solution is possible. This was yet &lt;a href=&quot;http://simons.berkeley.edu/talks/benjamin-recht-2013-09-19&quot;&gt;another talk&lt;/a&gt; by Ben Recht.&lt;/li&gt;
-&lt;li&gt;Martin Wainwright&#39;s &lt;a href=&quot;http://simons.berkeley.edu/talks/martin-wainwright-2013-09-05b&quot;&gt;second talk&lt;/a&gt; at the Boot Camp showed a very appealing general statistical framework for reasoning about regularized convex optimization.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;To follow future posts, it’s probably best to subscribe to the &lt;a href=&quot;http://mrtz.org/blog/feed/&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;. It&#39;s some web site that theoreticians don&#39;t use.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 16 Oct 2013 07:58:18 -0700</pubDate>
-        <link>http://blog.mrtz.org/2013/10/16/sparse-recovery.html</link>
-        <guid isPermaLink="true">http://blog.mrtz.org/2013/10/16/sparse-recovery.html</guid>
-        
-        <category>tcs</category>
-        
-        <category>sparsity</category>
-        
-        <category>optimization</category>
-        
-        <category>compressed sensing</category>
-        
-        <category>matrix completion</category>
-        
-        <category>{&quot;id&quot;=&gt;84}</category>
         
         
       </item>

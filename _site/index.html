@@ -9,12 +9,29 @@
   <title>Moody Rd</title>
   <meta name="description" content="A blog about machine learning.">
 
+  <link href='//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Lato:900,300' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="http://blog.mrtz.org/">
   <link rel="alternate" type="application/rss+xml" title="Moody Rd" href="http://blog.mrtz.org/feed.xml" />
 </head>
 
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> 
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\[","\]"], ["\\[","\\]"] ],
+          processEscapes: true
+        },
+        messageStyle: "none",
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js">
+    </script>
 
 
   <body>
@@ -63,6 +80,30 @@
   <ul class="post-list">
     
       <li>
+        <span class="post-meta">Jul 20, 2016</span>
+
+        <h2>
+          <a class="post-link" href="/2016/07/20/demographic-parity.html">Understanding fairness in machine learning</a>
+        </h2>
+      </li>
+    
+      <li>
+        <span class="post-meta">Dec 13, 2015</span>
+
+        <h2>
+          <a class="post-link" href="/2015/12/13/adaptive-data-analysis.html">Adaptive Data Analysis</a>
+        </h2>
+      </li>
+    
+      <li>
+        <span class="post-meta">Aug 06, 2015</span>
+
+        <h2>
+          <a class="post-link" href="/2015/08/06/reusable.html">Navigate the garden of the forking paths</a>
+        </h2>
+      </li>
+    
+      <li>
         <span class="post-meta">Mar 13, 2015</span>
 
         <h2>
@@ -71,7 +112,7 @@
       </li>
     
       <li>
-        <span class="post-meta">Mar 9, 2015</span>
+        <span class="post-meta">Mar 09, 2015</span>
 
         <h2>
           <a class="post-link" href="/2015/03/09/competition.html">Competing in a data science contest without reading the data</a>
@@ -79,7 +120,7 @@
       </li>
     
       <li>
-        <span class="post-meta">Feb 8, 2015</span>
+        <span class="post-meta">Feb 08, 2015</span>
 
         <h2>
           <a class="post-link" href="/2015/02/08/wordpress.html">Goodbye Wordpress, never again</a>
@@ -127,7 +168,7 @@
       </li>
     
       <li>
-        <span class="post-meta">Dec 4, 2013</span>
+        <span class="post-meta">Dec 04, 2013</span>
 
         <h2>
           <a class="post-link" href="/2013/12/04/power-method.html">Power Method still Powerful </a>
@@ -143,7 +184,7 @@
       </li>
     
       <li>
-        <span class="post-meta">Sep 9, 2013</span>
+        <span class="post-meta">Sep 09, 2013</span>
 
         <h2>
           <a class="post-link" href="/2013/09/09/hello-tcs-aggregator.html">Hello TCS Aggregator! </a>
@@ -151,7 +192,7 @@
       </li>
     
       <li>
-        <span class="post-meta">Sep 7, 2013</span>
+        <span class="post-meta">Sep 07, 2013</span>
 
         <h2>
           <a class="post-link" href="/2013/09/07/the-zen-of-gradient-descent.html">The Zen of Gradient Descent</a>
