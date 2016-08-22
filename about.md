@@ -5,5 +5,9 @@ permalink: /about/
 ---
 
 
-This a personal blog maintained by [Moritz Hardt](http://www.mrtz.org). Views are my own and don't necessarily reflect those of my employer.
+A blog by [Moritz Hardt](http://www.mrtz.org).
+
+Follow me on Twitter [@mrtz](https://www.twitter.com/mrtz).
+
+*Views are my own and don't necessarily reflect those of my employer.*
 

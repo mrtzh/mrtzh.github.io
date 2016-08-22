@@ -5,9 +5,9 @@
     <description>A blog about machine learning.</description>
     <link>http://blog.mrtz.org/</link>
     <atom:link href="http://blog.mrtz.org/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 12 Aug 2016 21:51:52 -0700</pubDate>
-    <lastBuildDate>Fri, 12 Aug 2016 21:51:52 -0700</lastBuildDate>
-    <generator>Jekyll v2.5.3</generator>
+    <pubDate>Sun, 21 Aug 2016 18:30:37 -0700</pubDate>
+    <lastBuildDate>Sun, 21 Aug 2016 18:30:37 -0700</lastBuildDate>
+    <generator>Jekyll v3.2.1</generator>
     
       <item>
         <title>Understanding fairness in machine learning</title>
@@ -76,6 +76,192 @@ notion is seriously flawed on two counts.&lt;/p&gt;
         <category>machine learning</category>
         
         <category>statistics</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Stability as a foundation of machine learning</title>
+        <description>&lt;p&gt;&lt;em&gt;Cross-posted at &lt;a href=&quot;http://www.offconvex.org/2016/03/14/stability/&quot;&gt;offconvex.org&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Central to machine learning is our ability to relate how a learning algorithm fares on a sample to its performance on unseen instances. This is called &lt;em&gt;generalization&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;In this post, I will describe a purely algorithmic approach to generalization. The property that makes this possible is &lt;em&gt;stability&lt;/em&gt;. An algorithm is &lt;em&gt;stable&lt;/em&gt;, intuitively speaking, if its output doesn’t change much if we perturb the input sample in a single point. We will see that this property by itself is necessary and sufficient for generalization.&lt;/p&gt;
+
+&lt;h2 id=&quot;example-stability-of-the-perceptron-algorithm&quot;&gt;Example: Stability of the Perceptron algorithm&lt;/h2&gt;
+
+&lt;p&gt;Before we jump into the formal details, let’s consider a simple example of a stable algorithm: The &lt;a href=&quot;https://en.wikipedia.org/wiki/Perceptron&quot;&gt;Perceptron&lt;/a&gt;, aka stochastic gradient descent for learning linear separators! The algorithm aims to separate two classes of points (here circles and triangles) with a linear separator. The algorithm starts with an arbitrary hyperplane. It then repeatedly selects a single example from its input set and updates its hyperplane using the gradient of a certain loss function on the chosen example. How bad might the algorithm screw up if we move around a single example? Let’s find out.&lt;/p&gt;
+
+&lt;p&gt;&lt;!-- begin animation --&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center;&quot;&gt;
+   &lt;img id=&quot;imganim&quot; src=&quot;/assets/sgd/00.png&quot; onclick=&quot;forward_image()&quot; /&gt;
+   &lt;p style=&quot;text-align:center;&quot;&gt;&lt;em&gt;Step &lt;span style=&quot;font-family:monospace;&quot;&gt;&lt;span id=&quot;counter&quot;&gt;1&lt;/span&gt;/30&lt;/span&gt;. Click to advance.&lt;br /&gt; The animation shows two runs of the Perceptron algorithm for learning a linear separator on two data sets that differ in the one point marked green in one data set and purple in the other. The perturbation is indicated by an arrow. The shaded green region shows the difference in the resulting two hyperplanes after some number of steps. &lt;/em&gt;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;//&lt;![CDATA[
+  var images = [
+  &quot;/assets/sgd/00.png&quot;,
+  &quot;/assets/sgd/01.png&quot;,
+  &quot;/assets/sgd/02.png&quot;,
+  &quot;/assets/sgd/03.png&quot;,
+  &quot;/assets/sgd/04.png&quot;,
+  &quot;/assets/sgd/05.png&quot;,
+  &quot;/assets/sgd/06.png&quot;,
+  &quot;/assets/sgd/07.png&quot;,
+  &quot;/assets/sgd/08.png&quot;,
+  &quot;/assets/sgd/09.png&quot;,
+  &quot;/assets/sgd/10.png&quot;,
+  &quot;/assets/sgd/11.png&quot;,
+  &quot;/assets/sgd/12.png&quot;,
+  &quot;/assets/sgd/13.png&quot;,
+  &quot;/assets/sgd/14.png&quot;,
+  &quot;/assets/sgd/15.png&quot;,
+  &quot;/assets/sgd/16.png&quot;,
+  &quot;/assets/sgd/17.png&quot;,
+  &quot;/assets/sgd/18.png&quot;,
+  &quot;/assets/sgd/19.png&quot;,
+  &quot;/assets/sgd/20.png&quot;, 
+  &quot;/assets/sgd/21.png&quot;,
+  &quot;/assets/sgd/22.png&quot;,
+  &quot;/assets/sgd/23.png&quot;,
+  &quot;/assets/sgd/24.png&quot;,
+  &quot;/assets/sgd/25.png&quot;,
+  &quot;/assets/sgd/26.png&quot;,
+  &quot;/assets/sgd/27.png&quot;,
+  &quot;/assets/sgd/28.png&quot;,
+  &quot;/assets/sgd/29.png&quot; ]
+  var i = 0
+  function forward_image(){
+   i = i + 1;
+   document.getElementById('imganim').src = images[i%30];
+   document.getElementById('counter').textContent = (i%30) + 1;
+  }
+  //]]&gt; 
+  &lt;/script&gt;
+
+&lt;p&gt;&lt;!-- end animation --&gt;&lt;/p&gt;
+
+&lt;p&gt;As we can see by clicking impatiently through the example, the algorithm seems pretty stable. Even if we substantially move the first example it encounters, the hyperplane computed by the algorithm changes only slightly. Neat. (You can check out the code &lt;a href=&quot;https://gist.github.com/mrtzh/266c37d3a274376134a6&quot;&gt;here&lt;/a&gt;.)&lt;/p&gt;
+
+&lt;h2 id=&quot;empirical-risk-jargon&quot;&gt;Empirical risk jargon&lt;/h2&gt;
+
+&lt;p&gt;Let’s introduce some terminology to relate the behavior of an algorithm on a sample to its behavior on unseen instances. Imagine we have a sample $S=(z_1,\dots,z_n)$ drawn i.i.d. from some unknown distribution $D$. There’s a learning algorithm $A(S)$ that takes $S$ and produces some model (e.g., the hyperplane in the above picture). To quantify the quality of the model we crank out a &lt;em&gt;loss function&lt;/em&gt; $\ell$ with the idea that $\ell(A(S), z)$ describes the &lt;em&gt;loss&lt;/em&gt; of the model $A(S)$ on one instance $z$. The &lt;em&gt;empirical risk&lt;/em&gt; or &lt;em&gt;training error&lt;/em&gt; of the algorithm is defined as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;R_S = \frac1n \sum_{i=1}^n \ell(A(S), z_i)&lt;/script&gt;
+
+&lt;p&gt;This captures the average loss of the algorithm on the sample on which it was trained. To quantify &lt;em&gt;out-of-sample&lt;/em&gt; performance, we define the &lt;em&gt;risk&lt;/em&gt; of the algorithm as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;R = \mathop{\mathbb{E}}_{z\sim D}\left[ \ell(A(S), z) \right]&lt;/script&gt;
+
+&lt;p&gt;The difference between risk and empirical risk $R - R_S$ is called &lt;em&gt;generalization error&lt;/em&gt;. You will sometimes encounter that term as a synonym for risk, but I find that confusing. We already have a perfectly short and good name for the risk $R$. Always keep in mind the following tautology&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;R = R_S + (R-R_S).&lt;/script&gt;
+
+&lt;p&gt;Operationally, it states that if we manage to minimize empirical risk all that matters is generalization error.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-fundamental-theorem-of-machine-learning&quot;&gt;A fundamental theorem of machine learning&lt;/h2&gt;
+
+&lt;p&gt;I probably shouldn’t propose fundamental theorems for anything really. But if I had to, this would be the one I’d suggest for machine learning:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;In expectation, generalization equals stability.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Somewhat more formally, we will encounter a natural measure of stability, denoted $\Delta$ such that the difference between risk and empirical risk in expectation equals $\Delta.$ Formally,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathbb{E}[R - R_S] = \Delta&lt;/script&gt;
+
+&lt;p&gt;Deferring the exact definition of $\Delta$ to the proof, let’s think about this for a second.
+What I find so remarkable about this theorem is that it turns a statistical problem into a purely algorithmic one: All we need for generalization is an algorithmic notion of robustness. Our algorithm’s output shouldn’t change much if perturb one of the data points. It’s almost like a sanity check. Had you coded up an algorithm and this wasn’t the case, you’d probably go look for a bug.&lt;/p&gt;
+
+&lt;h3 id=&quot;proof&quot;&gt;Proof&lt;/h3&gt;
+
+&lt;p&gt;Consider two data sets of size $n$ drawn independently of each other:
+[
+S = (z_1,\dots,z_n), \qquad S’=(z_1’,\dots,z_n’)
+]
+The idea of taking such a &lt;em&gt;ghost sample&lt;/em&gt; $S’$ is quite old and already arises in the context of &lt;em&gt;symmetrization&lt;/em&gt; in empirical process theory.
+We’re going to couple these two samples in one point by defining
+[
+S^i = (z_1,\dots,z_{i-1},z_i’,z_{i+1},\dots,z_n),\qquad i = 1,\dots, n.
+]
+It’s certainly no coincidence that $S$ and $S^i$ differ in exactly one element. We’re going to use this in just a moment.&lt;/p&gt;
+
+&lt;p&gt;By definition, the &lt;em&gt;expected empirical risk&lt;/em&gt; equals&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathbb{E}[R_S] = \mathbb{E}\left[ \frac1n \sum_{i=1}^n \ell(A(S), z_i) \right].&lt;/script&gt;
+
+&lt;p&gt;Contrasting this to how the algorithm fares on unseen examples, we can rewrite the &lt;em&gt;expected risk&lt;/em&gt; using our ghost sample as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathbb{E}[R] = \mathbb{E}\left[ \frac1n \sum_{i=1}^n \ell(A(S), \color{red}{z_i'}) \right]&lt;/script&gt;
+
+&lt;p&gt;All expectations we encounter are over both $S$ and $S’$. By linearity of expectation, the difference between expected risk and expected empirical risk equals&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathbb{E}[R - R_S] 
+= \frac1n \sum_{i=1}^n 
+\mathbb{E}\left[\ell(A(S), \color{red}{z_i'})-\ell(A(S), z_i)\right].&lt;/script&gt;
+
+&lt;p&gt;It is tempting now to relate the two terms inside the expectation to the stability of the algorithm. We’re going to do exactly that using mathematics’ most trusted proof strategy: &lt;em&gt;pattern matching&lt;/em&gt;. Indeed, since $z_i$ and $z_i’$ are exchangeable, we have&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathbb{E}[\ell(A(S), z_i)] 
+= \mathbb{E}[\ell(A(S^i), z_i')]
+= \mathbb{E}[\ell(A(S), z_i')] - \delta_i,&lt;/script&gt;
+
+&lt;p&gt;where $\delta_i$ is defined to make the second equality true:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\delta_i = \mathbb{E}[\ell(A(\color{red}S), z_i')- \ell(A(\color{red}{S^i}), z_i')]&lt;/script&gt;
+
+&lt;p&gt;Summing up $\Delta = (1/n)\sum_i \delta_i$, we have&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathbb{E}[ R - R_S ] = \Delta.&lt;/script&gt;
+
+&lt;p&gt;The only thing left to do is to interpret the right hand side in terms of stability. Convince yourself that $\delta_i$ measures how differently the algorithm behaves on two data sets $S$ and $S’$ that differ in only one element.&lt;/p&gt;
+
+&lt;h3 id=&quot;uniform-stability&quot;&gt;Uniform stability&lt;/h3&gt;
+
+&lt;p&gt;It can be difficult to analyze the expectation in the definition of $\Delta$ precisely. Fortunately, it is often enough to resolve the expectation by upper bounding it with suprema:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;|\Delta| \le \sup_{S,S'} \sup_{z} \left|\ell(A(S),z)-\ell(A(S'),z)\right|.&lt;/script&gt;
+
+&lt;p&gt;The supremum runs over all valid data sets differing in only one element and all valid sample points $z$. This stronger notion of stability called &lt;em&gt;uniform stability&lt;/em&gt; 
+goes back to a seminal paper by Bousquett and Elisseeff.&lt;/p&gt;
+
+&lt;p&gt;I should say that you can find the above proof in the essssential stability paper by Shalev-Shwartz, Shamir, Srebro and Sridharan &lt;a href=&quot;http://jmlr.csail.mit.edu/papers/volume11/shalev-shwartz10a/shalev-shwartz10a.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;concentration-from-stability&quot;&gt;Concentration from stability&lt;/h3&gt;
+
+&lt;p&gt;The theorem we saw shows that &lt;em&gt;expected&lt;/em&gt; empirical risk equals risk up to a correction that involves the stability of the algorithm. Can we also show that empirical risk is close to its expectation with high probability? Interestingly, we can by appealing to stability once again. I won’t spell out the details, but we can use the &lt;a href=&quot;https://en.wikipedia.org/wiki/Doob_martingale#McDiarmid.27s_inequality&quot;&gt;method of bounded differences&lt;/a&gt; to obtain strong concentration bounds. To apply the method we need a &lt;em&gt;bounded difference&lt;/em&gt; condition which is just another word for &lt;em&gt;stability&lt;/em&gt;. So, we’re really killing two birds with one stone by using stability not only to show that the first moment of the empirical risk is correct but also that it concentrates. The only wrinkle is that, as far as I know, the weak stability notion expressed by $\Delta$ is not enough to get concentration, but uniform stability (for sufficiently small difference) will do.&lt;/p&gt;
+
+&lt;h2 id=&quot;applications-of-stability&quot;&gt;Applications of stability&lt;/h2&gt;
+
+&lt;p&gt;There is much more that stability can do for us. We’ve only scratched on the surface. Here are some of the many applications of stability.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://www.jmlr.org/papers/volume2/bousquet02a/bousquet02a.pdf&quot;&gt;Regularization implies stability&lt;/a&gt;. Specifically, the minimizer of the empirical risk subject to an $\ell_2$-penalty is uniformly stable.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://arxiv.org/abs/1509.01240&quot;&gt;Stochastic gradient descent is stable&lt;/a&gt; provided that we don’t make too many steps.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Differential privacy is nothing but a strong stability guarantee. Any result ever proved about differential privacy is fundamentally about stability.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Differential privacy in turn has applications to preventing overfitting in &lt;a href=&quot;http://blog.mrtz.org/2015/12/14/adaptive-data-analysis.html&quot;&gt;adaptive data analysis&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Stability also has many beautiful applications and connections in statistics. I strongly encourage you to read Bin Yu’s beautiful &lt;a href=&quot;https://www.stat.berkeley.edu/~binyu/ps/papers2013/Yu13.pdf&quot;&gt;overview paper&lt;/a&gt; on the topic.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Looking ahead, I’ve got at least two more posts planned on this.&lt;/p&gt;
+
+&lt;p&gt;In my next post I will go into the stability of stochastic gradient descent in detail. We will see a simple argument to show that stochastic gradient descent is uniformly stable. I will then work towards applying these ideas to the area of deep learning. We will see that stability can help us explain why even huge models sometimes generalize well and how we can make them generalize even better.&lt;/p&gt;
+
+&lt;p&gt;In a second post I will reflect on stability as a paradigm for reliable machine learning. The focus will be on how ideas from stability can help avoid overfitting and false discovery.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 14 Mar 2016 01:00:00 -0700</pubDate>
+        <link>http://blog.mrtz.org/2016/03/14/stability.html</link>
+        <guid isPermaLink="true">http://blog.mrtz.org/2016/03/14/stability.html</guid>
+        
+        <category>machine learning</category>
         
         
       </item>
@@ -652,18 +838,18 @@ To summarize, wacky boosting gives us &lt;em&gt;a bias of \(\sqrt{k}\) standard 
 &lt;p&gt;Before we can apply wacky boosting to the Heritage prize, we need to clear two obstacles.
 First, wacky boosting required the domain to be Boolean whereas the labels could be arbitrary positive real numbers. Second, the algorithm only gave an advantage over random guessing which might be too far from the top of the leaderboard to start out with. It turns out that both of these issues can be resolved nicely with a simple generalization of the previous algorithm. What was really happening in the algorithm is that we had two candidate solutions, the all ones vector and the all zeros vector, and we tried out random coordinate-wise combinations of these vectors. The algorithm ends up finding a coordinate wise combination of the two vectors that improves upon their mean loss, i.e., one half. This way of looking at it generalizes nicely. The resulting algorithm is just a few lines of Julia code.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-julia&quot; data-lang=&quot;julia&quot;&gt;&lt;span class=&quot;c&quot;&gt;# select coordinate from v1 where v is 1 and from v2 where v is 0&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;combine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-julia&quot; data-lang=&quot;julia&quot;&gt;&lt;span class=&quot;c&quot;&gt;# select coordinate from v1 where v is 1 and from v2 where v is 0&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;combine&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.*&lt;/span&gt; &lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;k&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt; wackyboost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;score&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;m&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;score&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;score&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)])&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt; wackyboost&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;score&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;m&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;score&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;score&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)])&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rand&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;))&lt;/span&gt;
     &lt;span class=&quot;c&quot;&gt;# select columns of A that give better than mean score&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;score&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;combine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;score&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;combine&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;[:,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;k&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;])&lt;/span&gt;
     &lt;span class=&quot;c&quot;&gt;# take majority vote over all selected columns&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ones&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;combine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+    &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;[:,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ones&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;combine&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;I worked through the fun exercise of applying this algorithm in a separate &lt;a href=&quot;http://nbviewer.ipython.org/gist/mrtzh/c41fd4c5897fc114a0d6&quot;&gt;Julia notebook&lt;/a&gt;. Here’s one picture that came out of it. Don’t treat the numbers as definitive as they all depend on the modeling assumptions I made.&lt;/p&gt;
 
@@ -920,105 +1106,6 @@ With this notion at hand, what DGN show is that given access to \({\delta}\)-ine
         <category>optimization</category>
         
         <category>robustness</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Pearson's polynomial</title>
-        <description>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;em&gt;A 120 year old algorithm for learning mixtures of gaussians turns out to be optimal&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;So, how was math writing in 1894? I’d imagined it to be a lot like one of Nietzsche’s last diary entries except with nouns replaced by German fraktur symbols, impenetrable formalisms and mind-bending passive voice constructions. I was in for no small surprise when I started reading Karl Pearson’s &lt;a href=&quot;https://archive.org/details/philtrans02543681&quot;&gt;Contributions to the Mathematical Theory of Evolution&lt;/a&gt;. The paper is quite enjoyable! The math is rigorous yet not overly formal. Examples and philosophical explanations motivate various design choices and definitions. A careful experimental evaluation gives credibility to the theory.&lt;/p&gt;
-
-&lt;p&gt;The utterly mind-boggling aspect of the paper however is not how well-written it is, but rather what Pearson actually did in it and how far ahead of his time he was. This is the subject of this post.&lt;/p&gt;
-
-&lt;p&gt;Pearson was interested in building a mathematical theory for evolutionary
-biology. In hindsight, his work is also one of the earliest contributions to
-the &lt;em&gt;computational&lt;/em&gt; theory of evolution. This already strikes me as
-visionary as it remains a hot research area today. The Simons Institute in
-Berkeley just devoted a &lt;a href=&quot;http://simons.berkeley.edu/programs/evolution2014&quot;&gt;semester-long program&lt;/a&gt; to it.&lt;/p&gt;
-
-&lt;p&gt;In his paper, he considers the distribution of a single measurement among a population, more concretely, the forehead width to body length ratio among a population of crabs. The crab data had been collected by zoologist Weldon and his wife during their 1892 &lt;a href=&quot;http://statprob.com/encyclopedia/WalterFrankRaphaelWeldon.html&quot;&gt;easter vacation&lt;/a&gt; on Malta. Wikipedia describes the crab (&lt;a href=&quot;http://en.wikipedia.org/wiki/Carcinus_maenas&quot;&gt;carcinus maenas&lt;/a&gt;) as one of the &quot;&lt;em&gt;world's worst alien invasive species&quot;&lt;/em&gt;, but fails to acknowledge the crab's academic contributions.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/crab1.jpg&quot; alt=&quot;Pearson-Weldon crab&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;span style=&quot;line-height: 1.5;&quot;&gt;The Weldons had taken 1000 samples each with 23 attributes of wich all but the one attribute describing forehead to body length ratio seemed to follow a single normal distribution. Regarding this peculiar deviation from normal, Pearson notes:&lt;/span&gt;&lt;/p&gt;
-&lt;blockquote&gt;&lt;p&gt;In the case of certain biological, sociological, and economic
-measurements there is, however, a well-marked deviation from this normal
-shape, and it becomes important to determine the direction and amount of such
-deviation. The asymmetry may arise from the fact that the units grouped
-together in the measured material are not really homogeneous. It may happen
-that we have a mixture of \(2, 3,\dots, n\) homogeneous groups, each of which deviates about its own mean symmetrically and in a manner represented with sufficient accuracy by the normal curve.&lt;/p&gt;&lt;/blockquote&gt;
-&lt;p&gt;What the paragraph describes is the problem of &lt;em&gt;learning a mixture of gaussians&lt;/em&gt;: Each sample is drawn from one of several unknown gaussian distributions. Each distribution is selected with an unknown mixture probability. The goal is to find the parameters of each gaussian distribution as well as the mixing probabilities. Pearson focuses on the case of two gaussians which he believes is of special importance in the context of evolutionary biology:&lt;/p&gt;
-&lt;blockquote&gt;&lt;p&gt;A family probably breaks up first into two species, rather than three or more, owing to the pressure at a given time of some particular form of natural selection.&lt;/p&gt;&lt;/blockquote&gt;
-&lt;p&gt;With this reasoning he stipulates that the crab measurements are drawn from a mixture of two gaussians and aims to recover the parameters of this mixture. Learning a mixture of two gaussians at the time was a formidable task that lead Pearson to come up with a powerful approach. His approach is based on the method of moments which uses the empirical moments of a distribution to distinguish between competing models. Given \(n\) samples \(x_1,...,x_n\) the \(k\)-th empirical moment is defined as \(\frac1n\sum_ix_i^k\), which for sufficiently large \({n}\) will approximate the true moment \({\mathbb{E}\,x_i^k}\). A mixture of two one-dimensional gaussians has \({5}\) parameters so one might hope that \({5}\) moments are sufficient to identify the parameters.&lt;/p&gt;
-&lt;p&gt;Pearson derived a ninth degree polynomial \({p_5}\) in the first \({5}\) moments and located the real roots of this polynomial over a carefully chosen interval. Each root gives a candidate mixture that matches the first \({5}\) moments; there were two valid solutions, among which Pearson selected the one whose \({6}\)-th moment was closest to the observed empirical \({6}\)-th moment.&lt;/p&gt;
-&lt;p&gt;Pearson goes on to evaluate this method numerically on the crab samples---by hand. In doing so he touches on a number of issues such as &lt;em&gt;numerical stability&lt;/em&gt; and &lt;em&gt;number of floating point operations&lt;/em&gt; that seem to me as being well ahead of their time. Pearson was clearly aware of computational constraints and optimized his algorithm to be computationally tractable.&lt;/p&gt;
-&lt;h2&gt;Learning mixtures of gaussians&lt;/h2&gt;
-&lt;p&gt;Pearson's seminal paper proposes a problem and a method, but it doesn't give an analysis of the method. Does the method really work on &lt;em&gt;all&lt;/em&gt; instances or did he get lucky on the crab population? Is there &lt;em&gt;any&lt;/em&gt; efficient method that works on all instances? The sort of theorem we would like to have is: Given \({n}\) samples from a mixture of two gaussians, we can estimate each parameter up to small additive distance in polynomial time.&lt;/p&gt;
-&lt;p&gt;Eric Price and I have a &lt;a href=&quot;http://arxiv.org/abs/1404.4997&quot;&gt;recent result&lt;/a&gt; that resolves this problem by giving a computationally efficient estimator that achieves an optimal bound on the number of samples:&lt;/p&gt;
-&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;strong&gt;Theorem.&lt;/strong&gt; Denoting by \({\sigma^2}\) the overall variance of the mixture, \({\Theta(\sigma^{12})}\) samples are necessary and sufficient to estimate each parameter to constant additive distance. The estimator is computationally efficient and extends to the \({d}\)-dimensional mixture problem up to a necessary factor of \({O(\log d)}\) in the sample requirement.&lt;/p&gt;
-&lt;p&gt;Strikingly, our one-dimensional estimator turns out to be very closely related to Pearson's approach. Some extensions are needed, but I'm inclined to say that our result can be interpreted as showing that Pearson's original estimator is in fact an optimal solution to the problem he proposed.&lt;/p&gt;
-
-&lt;p&gt;Until a recent breakthrough result by &lt;a href=&quot;http://people.csail.mit.edu/moitra/docs/2g-full.pdf&quot;&gt;Kalai, Moitra and Valiant&lt;/a&gt; (2010), no polynomial bounds for the problem were known except under stronger assumptions on the gaussian components.&amp;lt;&lt;/p&gt;
-
-&lt;h3&gt; A word about definitions&lt;/h3&gt;
-&lt;p&gt;Of course, we need to be a bit more careful with the above statements. Clearly we can only hope to recover the parameters up to permutation of the two gaussian components as any permutation gives an identical mixture. Second, we cannot hope to learn the mixture probabilities in general up to small error. If, for example, the two gaussian components are indistinguishable, there is no way of learning the mixture probabilities---even though we can estimate means and variances easily by treating the distribution as one gaussian. On the other hand, if the gaussian components are distinguishable then it is not hard to estimate the mixture probabilities from the other parameters and the overall mean and variance of the mixture. For this reason it makes some sense to treat the mixture probabilities separately and focus on learning means and variances of the mixture.&lt;/p&gt;
-&lt;p&gt;Another point to keep in mind is that our notion of parameter distance should be scale-free. A reasonable goal is therefore to learn parameters \({\hat \mu_1,\hat \mu_2,\hat\sigma_1,\hat\sigma_2}\) such that if \({\mu_1,\mu_2,\sigma_1,\sigma_2}\) are the unknown parameters, there is a permutation \({\pi\colon\{1,2\}\rightarrow\{1,2\}}\) such that for all \({i\in\{1,2\},}\)&lt;/p&gt;
-&lt;p align=&quot;center&quot;&gt;\(\displaystyle \max\left( \big|\mu_i-\mu_{\pi(i)}\big|^2, \big|\sigma_i^2-\sigma_{\pi(i)}^2\big|\right)\le\epsilon \cdot \sigma^2. \)&lt;/p&gt;
-&lt;p&gt;Here, \({\sigma^2}\) is the overall variance of the mixture. The definition extends to the \({d}\)-dimensional problem for suitable notion of variance (essentially the maximum variance in each coordinate) and by replacing absolute values with \({\ell_\infty}\)-norms.&lt;/p&gt;
-&lt;h2&gt;Some intuition for the proof&lt;/h2&gt;
-&lt;p&gt;While the main difficulty in the proof is the upper bound, let's start with some intuition for why we can't hope to do better than \({\sigma^{12}}\). Just like Pearson's estimator and that of Kalai, Moitra and Valiant, our estimator is based on the first six moments of the distribution. It is not hard to show that estimating the \({k}\)-th moment up to error \({\epsilon\sigma^k}\) requires \({\Omega(1/\epsilon^2)}\) samples. Hence, learning each of the first six moments to constant error needs \({\Omega(\sigma^{12})}\) samples. This doesn't directly imply a lower bound for the mixture problem. After all, learning mixtures could be strictly easier than estimating the first six moments. Nevertheless, we know from Pearson that there are two mixtures that have matching first \({5}\) moments. This turns out to give you a huge hint as to how to prove a lower bound for the mixture problem. The key observation is that two mixtures that have matching first \({5}\) moments and constant parameters are extremely close to each other after adding a gaussian variable \({N(0,\sigma^2)}\) to both mixtures for large enought \({\sigma^2}\). Note that we still have two mixtures of gaussians after this operation and the total variance is \({O(\sigma^2).}\)&lt;/p&gt;
-&lt;p&gt;Making this statement formal requires choosing the right probability metric. In our case this turns out to be the squared Hellinger distance. Sloppily identifying distributions with density functions like only a true computer scientist would do, the squared Hellinger distance is defined as&lt;/p&gt;
-
-&lt;p&gt;\[\mathrm{H}^2(f,g) = \frac12\int_{-\infty}^{\infty}
-\Big(\sqrt{f(x)}-\sqrt{g(x)}\Big)^2 \mathrm{d}x\,. \]&lt;/p&gt;
-
-&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;strong&gt;Lemma.&lt;/strong&gt; Let \({f,g}\) be mixtures with matching first \({k}\) moments and constant parameters. Let \({p,q}\) be the distributions obtained by adding \({N(0,\sigma^2)}\) to each distribution. Then, \({\mathrm{H}^2(p,q)\le O(1/\sigma^{2k+2})}\).&lt;/p&gt;
-&lt;p&gt;The lemma immediately gives the lower bound we need. Indeed, the squared Hellinger distance is sub-additive on product distributions. So, it's easy to see what happens for \({n}\) independent samples from each distribution. This can increase the squared Hellinger distance by at most a factor \({n}\). In particular, for any \({n=o(\sigma^{2k+2})}\) the squared Hellinger distance between \({n}\) samples from each distribution is at most \({o(1)}\). Owing to a useful relation between the Hellinger distance and total variation, this implies that also the total variation distance is at most \({o(1)}\). Using the definition of total variation distance, this means no estimator (efficient or not) can tell apart the two distributions from \({n=o(\sigma^{2k+2})}\) samples with constant success probability. In particular, parameter estimation is impossible.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/moo32.png&quot; alt=&quot;Mixtures with identical first 5 moments&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This lemma is an example of a broader phenomenon: Matching moments plus &quot;noise&quot; implies tiny Hellinger distance. A great reference is Pollard's &lt;a href=&quot;http://books.google.com/books/about/A_User_s_Guide_to_Measure_Theoretic_Prob.html?id=B7Ch-c2G21MC&quot;&gt;book&lt;/a&gt; and &lt;a href=&quot;http://www.stat.yale.edu/~pollard/Books/Asymptopia/Metrics.pdf&quot;&gt;lecture notes&lt;/a&gt;. By the way, Pollard's expository writing is generally wonderful. For instance, check out his (unrelated) paper on &lt;a href=&quot;http://www.stat.yale.edu/~jtc5/papers/ConditioningAsDisintegration.pdf&quot;&gt;&lt;em&gt;guilt-free manipulation of conditional densities&lt;/em&gt;&lt;/a&gt; if you ever wondered about how to condition on a measure zero event without regret. Not that computer scientists are generally concerned about it.&lt;/p&gt;
-&lt;h3&gt;Matching upper bound&lt;/h3&gt;
-&lt;p&gt;The matching upper bound is a bit trickier. The proof uses a convenient notion of &lt;em&gt;excess moments&lt;/em&gt; that was introduced by Pearson. You might have heard of excess kurtosis (the fourth excess moment) as it appears in the info box on every Wikipedia article about distributions. Excess moments have the appealing property that they are invariant under adding and subtracting a common term from the variance of each component.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/moo4.png&quot; alt=&quot;Identical excess moments&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The second excess moment is always \({0.}\) As the picture suggests, we can make one component increasingly spiky and think of it as a distribution that places all its weight on a single point. In accordance with this notion of excess moments it makes sense to reparametrize the mixture in such a way that the parameters are also independent of adding and subtracting a common variance term. Assuming the overall mean of the mixture is \({0,}\) this leaves us with three free parameters \({\alpha,\beta,\gamma.}\) The third through sixth excess moment give us four equations in these three parameters.&lt;/p&gt;
-&lt;p&gt;Expressing the excess moments in terms of our new parameters \({\alpha,\beta,\gamma,}\) we can derive in a fairly natural manner a ninth degree polynomial \({p_5(y)}\) whose coefficients depend on the first \({5}\) excess moments so that \({\alpha}\) has to satisfy \({p_5(\alpha)=0.}\) The polynomial \({p_5}\) was already used by Pearson. Unfortunately, \({p_5}\) can have multiple roots and this is to be expected since \({5}\) moments are not sufficient to identify a mixture of two gaussians. Pearson computed the mixtures associated with each of the roots and threw out the invalid solutions (e.g. the ones that give imaginary variances), getting two valid mixtures that matched on the first five moments. He then chose the one whose sixth moment was closest to the observed sixth moment.&lt;/p&gt;
-&lt;p&gt;We proceed somewhat differently from Pearson after computing \({p_5}\). We derive another polynomial \({p_6}\) (depending on all six moments) and a bound \({B}\) such that \({\alpha}\) is the only solution to the system of equations&lt;/p&gt;
-
-&lt;p&gt;\[ \big\{p_5(y)=0,\quad p_6(y)=0,\quad 0&amp;lt; y\leq B\big\}. \]&lt;/p&gt;
-
-&lt;p&gt;This approach isn't yet robust to small perturbations in the moments; for example, if \({p_5}\) has a double root at \({\alpha}\), it may have no nearby root after perturbation. We therefore consider the polynomial \({r(y) = p_5^2(y)+p_6^2(y)}\) which we know is zero at \({\alpha.}\) We argue that \({r(y)}\) is significantly nonzero for any \({y}\) significantly far from \({\alpha}\). This is the main difficulty in the proof, but if you really read this far, it's perhaps not a bad point to switch to reading &lt;a href=&quot;http://arxiv.org/abs/1404.4997&quot;&gt;our paper.&lt;/a&gt;&lt;/p&gt;
-&lt;h2&gt;Conclusions&lt;/h2&gt;
-&lt;p&gt;I sure drooled enough over how much I like Pearson's paper. Let me conclude with a different practical thought. There were a bunch of tools (as in actual computer programs---&lt;em&gt;gasp!&lt;/em&gt;) that made the work a lot easier. Before we proved the lower bound we had verified it using arbitrary floating point precision numerical integration to accuracy \({10^{-300}}\) for \({\sigma^2=10,100,1000,\dots}\) and the decrease in Hellinger distance was exactly what it should be. We used a Python package called &lt;a href=&quot;https://code.google.com/p/mpmath/&quot;&gt;mpmath&lt;/a&gt; for that.&lt;/p&gt;
-&lt;p&gt;Similarly, for the upper bound we used a symbolic computation package in Python called &lt;a href=&quot;http://sympy.org/en/index.html&quot;&gt;SymPy&lt;/a&gt; to factor various polynomials, perform substitutions and multiplications. It would've been tedious, time-consuming and error prone to do everything by hand (even if the final result is not too hard to check by hand).&lt;/p&gt;
-&lt;p style=&quot;padding-left: 30px;&quot;&gt;&lt;em&gt;To stay on top of future posts, subscribe
-to the &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://blog.mrtz.org/feed.xml&quot;&gt;RSS feed&lt;/a&gt; or follow me on &lt;a style=&quot;color: #bc360a;&quot; href=&quot;http://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
-</description>
-        <pubDate>Mon, 21 Apr 2014 18:02:37 -0700</pubDate>
-        <link>http://blog.mrtz.org/2014/04/21/pearsons-polynomial.html</link>
-        <guid isPermaLink="true">http://blog.mrtz.org/2014/04/21/pearsons-polynomial.html</guid>
-        
-        <category>algorithms</category>
-        
-        <category>simons</category>
-        
-        <category>tcs</category>
-        
-        <category>theory</category>
-        
-        <category>polynomials</category>
-        
-        <category>statistics</category>
-        
-        <category>mixtures</category>
-        
-        <category>gaussian</category>
-        
-        <category>learning</category>
         
         
       </item>
