@@ -5,8 +5,8 @@
     <description>A blog about machine learning.</description>
     <link>http://blog.mrtz.org/</link>
     <atom:link href="http://blog.mrtz.org/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 21 Aug 2016 18:30:37 -0700</pubDate>
-    <lastBuildDate>Sun, 21 Aug 2016 18:30:37 -0700</lastBuildDate>
+    <pubDate>Sat, 27 Aug 2016 08:19:39 -0700</pubDate>
+    <lastBuildDate>Sat, 27 Aug 2016 08:19:39 -0700</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -768,7 +768,7 @@ challenges that while fundamental have only recently seen increased attention. A
 
 &lt;p&gt;At first sight, the Kaggle mechanism looks like the classic &lt;em&gt;holdout method&lt;/em&gt;. Kaggle partitions the data into two sets: a training set and a holdout set. The training set is publicly available with both the individual instances and their corresponding class labels. The instances of the holdout set are publicly available as well, but the class labels are withheld. Predicting these missing class labels is the goal of the participant and a valid submission is a list of labels—one for each point in the holdout set.&lt;/p&gt;
 
-&lt;p&gt;Kaggle specifies a score function that maps a submission consisting of N labels to a numerical score, which we assume to be in [0,1]. Think of the score as prediction error (smaller is better). For concreteness, let’s fix it to be the &lt;em&gt;misclassification rate&lt;/em&gt;. That is a prediction incurs loss 0 if it matches the corresponding unknown label and loss 1 if it does not match it. We divide by the number of predictions to get a score in [0,1].&lt;/p&gt;
+&lt;p&gt;Kaggle specifies a score function that maps a submission consisting of N labels to a numerical score, which we assume to be in &lt;script type=&quot;math/tex&quot;&gt;[0,1]&lt;/script&gt;. Think of the score as prediction error (smaller is better). For concreteness, let’s fix it to be the &lt;em&gt;misclassification rate&lt;/em&gt;. That is a prediction incurs loss 0 if it matches the corresponding unknown label and loss 1 if it does not match it. We divide by the number of predictions to get a score in &lt;script type=&quot;math/tex&quot;&gt;[0,1]&lt;/script&gt;.&lt;/p&gt;
 
 &lt;p&gt;Kaggle further splits its \(N\) private labels randomly into \(n\) holdout labels and \(N-n\) test labels. Typically, \(n=0.3N\). The public leaderboard is a sorting of all teams according to their score computed only on the \(n\) holdout labels (without using the test labels), while the private leaderboard is the ranking induced by the test labels.  I will let \(s_H(y)\) denote the public score of a submission \(y\), i.e., the score according to the public leaderboard. Typically, Kaggle rounds all scores to 5 or 6 digits of precision.&lt;/p&gt;
 

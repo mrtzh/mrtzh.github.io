@@ -76,12 +76,11 @@ a {
  * Blockquotes
  */
 blockquote {
-  color: #828282;
+  color: #424242;
   border-left: 4px solid #e8e8e8;
   padding-left: 15px;
-  font-size: 18px;
-  letter-spacing: -1px;
-  font-style: italic; }
+  font-style: italic;
+  font-size: 16pt; }
   blockquote > :last-child {
     margin-bottom: 0; }
 
@@ -285,6 +284,7 @@ pre {
   margin-bottom: 30px; }
 
 .post-title {
+  margin-top: 12px;
   font-size: 36px;
   letter-spacing: -2px;
   line-height: 1; }

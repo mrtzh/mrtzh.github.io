@@ -200,6 +200,7 @@
 }
 
 .post-title {
+    margin-top: 12px;
     font-size: 36px;
     letter-spacing: -2px;
     line-height: 1;
@@ -210,7 +211,7 @@
 }
 
 .post-content {
-    font-size:14pt;
+    font-size: $content-font-size;
     margin-bottom: $spacing-unit;
 
     h2 {
