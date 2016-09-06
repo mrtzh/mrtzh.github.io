@@ -2,7 +2,7 @@
 layout: post
 status: publish
 published: true
-title: The Geometric View on Sparse Recovery
+title: The geometric view on sparse recovery
 author: Moritz Hardt
 date: '2013-10-16 07:58:18 -0700'
 comments: true

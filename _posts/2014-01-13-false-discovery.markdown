@@ -2,7 +2,7 @@
 layout: post
 status: publish
 published: true
-title: False Discovery and Differential Privacy
+title: False discovery and differential privacy
 author: Moritz Hardt
 date: '2014-01-13 13:05:52 -0800'
 comments: true

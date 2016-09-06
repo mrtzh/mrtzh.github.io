@@ -5,7 +5,7 @@ permalink: /about/
 ---
 
 
-A blog by [Moritz Hardt](http://www.mrtz.org).
+A blog on machine learning very broadly construed by [Moritz Hardt](http://www.mrtz.org).
 
 Follow me on Twitter [@mrtz](https://www.twitter.com/mrtz).
 

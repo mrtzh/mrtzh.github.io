@@ -2,7 +2,7 @@
 layout: post
 status: publish
 published: true
-title: Is Differential Privacy practical?
+title: Is differential privacy practical?
 author: Moritz Hardt
 date: '2013-08-21 15:25:52 -0700'
 comments: true

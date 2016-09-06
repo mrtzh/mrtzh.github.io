@@ -1,7 +1,7 @@
 ---
 layout: post
 published: true
-title: Adaptive Data Analysis
+title: Adaptive data analysis
 author: Moritz Hardt
 comments: true
 date: '2015-12-13 18:00:00 -0800'

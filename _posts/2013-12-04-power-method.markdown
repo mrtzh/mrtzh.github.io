@@ -2,7 +2,7 @@
 layout: post
 status: publish
 published: true
-title: 'Power Method still Powerful '
+title: Power method still powerful
 author: Moritz Hardt
 date: '2013-12-04 08:20:16 -0800'
 comments: true

@@ -2,7 +2,7 @@
 layout: post
 status: publish
 published: true
-title: Robustness versus Acceleration
+title: Robustness versus acceleration
 author: Moritz Hardt
 date: '2014-08-18 12:31:57 -0700'
 comments: true
@@ -16,6 +16,7 @@ tags:
 - optimization
 - robustness
 ---
+
 <p>My blog post on the <a href="http://mrtz.org/blog/the-zen-of-gradient-descent/">Zen of Gradient Descent</a> hit the front page of <a href="https://news.ycombinator.com/item?id=8182991">Hacker News</a> the other day. I don't know how that happened. It got me more views in one day than this most humble blog usually gets in half a year. I thought I should take this as an excuse to extend the post a bit by elaborating on one remark I made only in passing. You don't need to go back to reading that post unless you want to. This one will be self contained.</p>
 <p>The point I made is that basic Gradient Descent (GD) is noise tolerant in a way that Accelerated Gradient Descent (AGD) is not. That is to say, if we don't have exact but rather approximate gradient information, GD might very well outperform AGD even though its convergence rate is worse in the exact setting. The truth is I was sort of bluffing. I didn't actually have a proof of a formal statement that would nail down this point in a compelling way. It was more of a gut feeling based on some simple observations.</p>
 <p>To break the suspense, I still haven't proved the statement I vaguely thought was true back then, but fortunately somebody else had already done that. This is a thought provoking <a href="http://www.optimization-online.org/DB_FILE/2010/12/2865.pdf">paper by Devolder, Glineur and Nesterov </a>(DGN). Thanks to Cristobal Guzman for pointing me to this paper. Roughly, what they show is that any method that converges faster than the basic gradient descent method must accumulate errors linearly with the number of iterations. Hence, in various noisy settings auch as are common in applications acceleration may not help---in fact, it can actually make things worse!</p>

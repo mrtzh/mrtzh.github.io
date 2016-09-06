@@ -5,19 +5,21 @@
     <description>A blog about machine learning.</description>
     <link>http://blog.mrtz.org/</link>
     <atom:link href="http://blog.mrtz.org/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 27 Aug 2016 08:19:39 -0700</pubDate>
-    <lastBuildDate>Sat, 27 Aug 2016 08:19:39 -0700</lastBuildDate>
+    <pubDate>Mon, 05 Sep 2016 15:58:37 -0700</pubDate>
+    <lastBuildDate>Mon, 05 Sep 2016 15:58:37 -0700</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
-        <title>Understanding fairness in machine learning</title>
-        <description>&lt;p&gt;As machine learning increasingly affects domains protected by anti-discrimination law, there is much interest in the problem of algorithmically measuring and ensuring fairness in machine learning. Across academia and industry, machine learning experts are finally embracing this important research direction that has long been marred by sensationalist clickbait overshadowing scientific efforts.&lt;/p&gt;
+        <title>Approaching fairness in machine learning</title>
+        <description>&lt;p&gt;As machine learning increasingly affects domains protected by anti-discrimination law, there is much interest in the problem of algorithmically measuring and ensuring fairness in machine learning. Across academia and industry, experts are finally embracing this important research direction that has long been marred by sensationalist clickbait overshadowing scientific efforts.&lt;/p&gt;
 
 &lt;p&gt;This sequence of posts is a sober take on the subtleties and difficulties in engaging productively with the issue of fairness in machine learning. Prudence is necessary, since a poor regulatory proposal could easily do more harm than doing nothing at all.&lt;/p&gt;
 
-&lt;p&gt;In this first post, I will focus on a sticky idea I call &lt;em&gt;demographic parity&lt;/em&gt; that through its many variants has been proposed as a fairness criterion in dozens of papers. I will argue that demographic parity not only cripples the utility of machine learning, it also fails to guarantee fairness.&lt;/p&gt;
+&lt;p&gt;In this first post, I will focus on a sticky idea I call &lt;em&gt;demographic parity&lt;/em&gt; that through its many variants has been proposed as a fairness criterion in dozens of papers. I will argue that demographic parity not only cripples machine learning, it also fails to guarantee fairness.&lt;/p&gt;
 
-&lt;p&gt;In a second post, I will introduce you to a measure of fairness put forward in a recent joint work with &lt;a href=&quot;http://www.cs.utexas.edu/~ecprice/&quot;&gt;Price&lt;/a&gt; and &lt;a href=&quot;http://ttic.uchicago.edu/~nati/&quot;&gt;Srebro&lt;/a&gt; that addresses the main conceptual shortcomings of demographic parity, while being easy enough to apply and to interpret. A third post will use our framework to unravel the recent controversy on COMPAS scores. Finally, I’ll devote an entire post on limitations of our work, and avenues for future research.&lt;/p&gt;
+&lt;p&gt;In a second post, I will introduce you to a measure of fairness put forward in a recent joint work with &lt;a href=&quot;http://www.cs.utexas.edu/~ecprice/&quot;&gt;Price&lt;/a&gt; and &lt;a href=&quot;http://ttic.uchicago.edu/~nati/&quot;&gt;Srebro&lt;/a&gt; that addresses the main conceptual shortcomings of demographic parity, while being fairly easy to apply and to interpret. A third post will use our framework to unravel the recent controversy on COMPAS scores. Finally, I’ll devote an entire post on limitations of our work, and avenues for future research. My claims of future posts have been mostly wrong in the past except these posts are actually already written.&lt;/p&gt;
+
+&lt;p&gt;So, if you’re interested in the topic, but less so in seeing pictures of Terminator alongside vague claims about AI, stay on for this blog post series and join the discussion.&lt;/p&gt;
 
 &lt;h2 id=&quot;a-call-to-action&quot;&gt;A call to action&lt;/h2&gt;
 
@@ -25,51 +27,48 @@
 data technologies are structured and used&quot; and pointed toward &quot;the potential
 of encoding discrimination in automated decisions&quot;.&lt;/p&gt;
 
-&lt;p&gt;It’s important to understand on technical grounds how decisions based on machine learning might &lt;a href=&quot;https://medium.com/@mrtz/how-big-data-is-unfair-9aa544d739de#.llzo69u3p&quot;&gt;wind up being unfair without any explicit wrongdoing&lt;/a&gt;. Some will be disappointed to find that the core issues have little to do with Silicon Valley billionaires or the singularity, and more to do with fundamental conceptual and technical challenges.&lt;/p&gt;
+&lt;p&gt;It’s important to understand on technical grounds how decisions based on machine learning might wind up being unfair without any explicit wrongdoing. I wrote a post on this &lt;a href=&quot;https://medium.com/@mrtz/how-big-data-is-unfair-9aa544d739de#.llzo69u3p&quot;&gt;a while back&lt;/a&gt;. Some will be disappointed to find that the core issues have little to do with Silicon Valley billionaires or the singularity, and more to do with fundamental conceptual and technical challenges.&lt;/p&gt;
 
-&lt;p&gt;But it’s also important to understand that often the use of algorithms exposes biases present in society rather than creating new ones. There is an exciting opportunity of eliminating biases as we move to an algorithmic ecosystem.&lt;/p&gt;
+&lt;p&gt;But it’s also important to understand that often the use of algorithms exposes biases present in society rather than creating new ones. There is an exciting opportunity of reducing bias as we move to an algorithmic ecosystem.&lt;/p&gt;
 
-&lt;p&gt;Despite the need and the opportunity, a vetted methodology for ensuring fairness in machine learning is lacking. Historically, the uninformed approach to fairness has been to say that the algorithm simply doesn’t look at &lt;em&gt;protected attributes&lt;/em&gt; such as race, color, religion, gender, disability, or family status. So, how could it discriminate? This idea of &lt;em&gt;fairness through ignorance&lt;/em&gt;, however, fails due to the existence of &lt;em&gt;redundant encodings&lt;/em&gt;, ways of predicting protected attributes from other features. After all, this is what machine learning is good at. It’s very likely that a representation rich enough to predict, say, future crimes of an individual would also in one way or the other encode race.&lt;/p&gt;
+&lt;p&gt;Despite the need, a vetted methodology for measuring fairness in machine learning is lacking. Historically, the naive approach to fairness has been to assert that the algorithm simply doesn’t look at &lt;em&gt;protected attributes&lt;/em&gt; such as race, color, religion, gender, disability, or family status. So, how could it discriminate? This idea of &lt;em&gt;fairness through blindness&lt;/em&gt;, however, fails due to the existence of &lt;em&gt;redundant encodings&lt;/em&gt;. There are almost always ways of predicting unknown protected attributes from other seemingly innocuous features.&lt;/p&gt;
 
 &lt;h2 id=&quot;demographic-parity&quot;&gt;Demographic parity&lt;/h2&gt;
 
-&lt;p&gt;After ruling out &lt;em&gt;fairness through ignorance&lt;/em&gt;, the next idea that comes to mind is &lt;em&gt;demographic parity&lt;/em&gt;. Demographic parity requires that a decision—such as accepting or denying a loan application—be independent of the protected attribute. In the case of a binary decision &lt;script type=&quot;math/tex&quot;&gt;C\in\{0,1\}&lt;/script&gt; and a binary protected attribute &lt;script type=&quot;math/tex&quot;&gt;A\in\{0,1\},&lt;/script&gt; this constraint can be formalized by asking that&lt;/p&gt;
+&lt;p&gt;After ruling out &lt;em&gt;fairness through blindness&lt;/em&gt;, the next idea that springs to mind is &lt;em&gt;demographic parity&lt;/em&gt;. Demographic parity requires that a decision—such as accepting or denying a loan application—be independent of the protected attribute. In the case of a binary decision &lt;script type=&quot;math/tex&quot;&gt;C\in\{0,1\}&lt;/script&gt; and a binary protected attribute &lt;script type=&quot;math/tex&quot;&gt;A\in\{0,1\}&lt;/script&gt;, this constraint can be formalized by asking that&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;\mathbb{P}\{C=1 \mid A=0\}=\mathbb{P}\{C=1 \mid A=1\}.&lt;/script&gt;
 
 &lt;p&gt;In other words, membership in a protected class should have no correlation with the decision. Through its various equivalent formalizations and other variants this idea appears in numerous papers. For example, in the context of representation learning, it is tempting to ask that the 
 learned representation has zero &lt;a href=&quot;https://en.wikipedia.org/wiki/Mutual_information&quot;&gt;mutual information&lt;/a&gt; with the protected attribute. Any classifier based on the learned representation will then inevitably satisfy demographic parity.&lt;/p&gt;
 
-&lt;p&gt;Unfortunately, as my colleagues and I &lt;a href=&quot;https://arxiv.org/abs/1104.3913&quot;&gt;argued&lt;/a&gt; long ago, the
-notion is seriously flawed on two counts.&lt;/p&gt;
+&lt;p&gt;Unfortunately, the notion is seriously flawed on two counts.&lt;/p&gt;
 
-&lt;h3 id=&quot;demographic-parity-doesnt-ensure-fairness&quot;&gt;Demographic parity doesn’t ensure fairness.&lt;/h3&gt;
+&lt;h3 id=&quot;demographic-parity-doesnt-ensure-fairness&quot;&gt;Demographic parity doesn’t ensure fairness&lt;/h3&gt;
 
-&lt;p&gt;Indeed, the notion permits that we accept qualified applicants in the demographic A=0, but unqualified individuals in A=1, so long as the percentages of acceptance match. Consider, for example, a lender that accepts proportionally fewer qualified black applicants, but makes up for it by accepting more unqualified black applicants. This situation should strike you as unfair, but demographic parity is completely fine with it so long as the bias against qualified black applicants cancels the bias in favor of unqualified black applicants.&lt;/p&gt;
+&lt;p&gt;The notion permits that a classifier selects qualified applicants in the demographic &lt;script type=&quot;math/tex&quot;&gt;A=0&lt;/script&gt;, but unqualified individuals in &lt;script type=&quot;math/tex&quot;&gt;A=1&lt;/script&gt;, so long as the percentages of acceptance match. Consider, for example, a luxury hotel chain that renders a promotion to wealthy whites (who are likely to visit the hotel) and much less affluent blacks (who are very unlikely to visit the hotel). The situation is obviously quite icky, but demographic parity is completely fine with it so long as the same fraction of people in each group see the promotion.&lt;/p&gt;
 
-&lt;p&gt;You might argue that it’s never in the lender’s interest to reject qualified applicants. This is a good point that we’ll return to shortly. However, the above scenario can arise naturally, when there is little or no training data available about a minority population as I illustrated in a &lt;a href=&quot;https://medium.com/@mrtz/how-big-data-is-unfair-9aa544d739de#.llzo69u3p&quot;&gt;previous post&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;You might argue that it’s never in the advertiser’s interest to lose potential customers. But the above scenario can arise naturally when there is less training data available about a minority group. As a result, the advertiser might have a much better understanding of who to target in the majority group, while essentially random guessing within the minority.&lt;/p&gt;
 
-&lt;h3 id=&quot;demographic-parity-cripples-the-utility-of-machine-learning&quot;&gt;Demographic parity cripples the utility of machine learning.&lt;/h3&gt;
+&lt;h3 id=&quot;demographic-parity-cripples-machine-learning&quot;&gt;Demographic parity cripples machine learning&lt;/h3&gt;
 
-&lt;p&gt;Imagine we could actually see into the future, or, equivalently we had a perfect predictor of future events. Formally, this predictor C would always equal the target variable Y. In the context of loans, this predictor would tell us precisely who will actually default and who doesn’t. We assume for a moment that such a perfect predictor exists. Using C to make loan decision can then hardly be considered discriminatory as it represents the actual outcome. Unfortunately, for loans (and many other problems) the variable Y is (anti-)correlated with the protected group A. As a consequence, demographic parity would rule out the ideal predictor C = Y. So, even if we could see into the future and know who exactly will default on a loan or not, we still couldn’t make that our classification outcome. As a result, the loss in utility of imposing demographic parity can be substantial for &lt;em&gt;no good reason&lt;/em&gt;. Demographic parity is simply misaligned with the fundamental goal of achieving higher prediction accuracy.&lt;/p&gt;
+&lt;p&gt;Imagine we could actually see into the future, or, equivalently we had a perfect predictor of future events. Formally, this predictor &lt;script type=&quot;math/tex&quot;&gt;C&lt;/script&gt; would equal the &lt;em&gt;target variable&lt;/em&gt; &lt;script type=&quot;math/tex&quot;&gt;Y&lt;/script&gt; that we’re trying to predict with probability one. Oversimplifying the example of advertising, this predictor would tell us precisely who will actually purchase the product and who won’t. Assuming for a moment that such a perfect predictor exists, using &lt;script type=&quot;math/tex&quot;&gt;C&lt;/script&gt; for targeted advertising can then hardly be considered discriminatory as it reflects actual purchase intent. But in advertising, and many other problems, the variable &lt;script type=&quot;math/tex&quot;&gt;Y&lt;/script&gt; usually has some positive or negative correlation with membership in the protected group &lt;script type=&quot;math/tex&quot;&gt;A&lt;/script&gt;. This isn’t by itself a cause for concern as interests naturally vary from one group to another. But in any such setting, demographic parity would rule out the ideal predictor &lt;script type=&quot;math/tex&quot;&gt;C = Y&lt;/script&gt;. As a result, the loss in utility of imposing demographic parity can be substantial &lt;em&gt;for no good reason&lt;/em&gt;. Demographic parity is simply misaligned with the fundamental goal of achieving higher prediction accuracy.&lt;/p&gt;
 
-&lt;p&gt;To be sure, there is a set of applications for which demographic parity is not unreasonable, but this is often a subtle case to make. Any paper adopting demographic parity without making a compelling case for it should strike you as dubious.&lt;/p&gt;
+&lt;p&gt;To be sure, there is a set of applications for which demographic parity is not unreasonable, but this seems to be a subtle case to make. Any paper adopting demographic parity as a general measure of fairness is fundamentally flawed.&lt;/p&gt;
 
-&lt;h3 id=&quot;simpsons-paradox&quot;&gt;Simpson’s paradox&lt;/h3&gt;
-
-&lt;p&gt;I shall note in passing that demographic parity is also quite sensitive to &lt;a href=&quot;https://en.wikipedia.org/wiki/Simpson%27s_paradox&quot;&gt;Simpson’s paradox&lt;/a&gt;. A classic paper by Bickel et al. studying gender bias in college admissions showed how violations to demographic parity can disappear (or even reverse in sign) when data is binned differently. Roughly speaking, what seemed to be a bias against women at the university-wide admissions level, reversed to be a slight bias against men when stratified by department. According to Pearl, the actual paradox about Simpson’s paradox is that there is no easy resolution. Depending on causal relations, sometimes aggregate data is preferable for decision-making compared with further subdivision, but sometimes it is not.&lt;/p&gt;
-
-&lt;h3 id=&quot;moving-forward&quot;&gt;Moving forward&lt;/h3&gt;
+&lt;h2 id=&quot;moving-forward&quot;&gt;Moving forward&lt;/h2&gt;
 
 &lt;p&gt;As I argued, demographic parity is both too strong and too weak. Hence, if you find a different condition that’s strictly stronger, it’ll still be flawed. If you come up with something strictly weaker, it’ll still be flawed. You also won’t salvage demographic parity by finding more impressive ways of achieving it such as backpropping through a 1200 layer neural net with spatial attention and unconscious sigmund activations.&lt;/p&gt;
 
-&lt;p&gt;If demographic parity is simply broken, why did I belabor its failure at such great length? One reason is simply to discourage people from writing more and more papers about it without a compelling explanation of why it makes sense for their application. The more important reason, however, is that the failure of demographic parity is actually quite an instructive lesson to learn. In particular, we will see how it suggests a much more reasonable notion that I will introduce in my next post.&lt;/p&gt;
+&lt;p&gt;If demographic parity is broken, why did I belabor its failure at such length?&lt;/p&gt;
+
+&lt;p&gt;One reason is to discourage people from writing more and more papers about it without a compelling explanation of why it makes sense for their application. The more important reason, however, is that the failure of demographic parity is actually quite an instructive lesson to learn. In particular, we will see how it suggests a much more reasonable notion that I will introduce in my next post.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Stay on top of future posts. Subscribe to the &lt;a href=&quot;http://blog.mrtz.org/feed.xml&quot;&gt;RSS feed&lt;/a&gt;, or follow me on &lt;a href=&quot;https://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 </description>
-        <pubDate>Wed, 20 Jul 2016 10:00:00 -0700</pubDate>
-        <link>http://blog.mrtz.org/2016/07/20/demographic-parity.html</link>
-        <guid isPermaLink="true">http://blog.mrtz.org/2016/07/20/demographic-parity.html</guid>
+        <pubDate>Thu, 01 Sep 2016 10:00:00 -0700</pubDate>
+        <link>http://blog.mrtz.org/2016/09/01/approaching-fairness.html</link>
+        <guid isPermaLink="true">http://blog.mrtz.org/2016/09/01/approaching-fairness.html</guid>
         
         <category>fairness</category>
         
@@ -267,7 +266,7 @@ goes back to a seminal paper by Bousquett and Elisseeff.&lt;/p&gt;
       </item>
     
       <item>
-        <title>Adaptive Data Analysis</title>
+        <title>Adaptive data analysis</title>
         <description>&lt;p&gt;I just returned from &lt;a href=&quot;https://nips.cc/Conferences/2015/&quot;&gt;NIPS 2015&lt;/a&gt;, a joyful week 
 of corporate parties featuring deep learning themed cocktails, &lt;a href=&quot;http://www.nytimes.com/2015/12/12/science/artificial-intelligence-research-center-is-founded-by-silicon-valley-investors.html?_r=0&quot;&gt;money
 talk&lt;/a&gt;,
@@ -885,10 +884,10 @@ or follow me on &lt;a href=&quot;https://www.twitter.com/mrtz&quot;&gt;Twitter&l
         <description>&lt;p&gt;Some may have noticed that this blog was an utter mess for about two weeks.
 This was due to an exploited vulnerability in Wordpress leaving my blog 
 in a state most curiously difficult to recover from. The only thing not
-corrupted by this horrific cyberattack (possibly of North Korean origin) 
-was an SQL database dump of my blog
-that turned out to be inconsistent with a fresh Wordpress install. The
-Wordpress support team thankfully pointed me to a number of videos
+corrupted by this hack was an SQL database dump of my blog
+that turned out to be inconsistent with a fresh Wordpress install.&lt;/p&gt;
+
+&lt;p&gt;The Wordpress support team thankfully pointed me to a number of videos
 explaning carefully how to move my mouse
 cursor from one point to another. I feel a lot more confident now with the mouse
 cursor. In the
@@ -897,9 +896,16 @@ end, I more or less manually moved my blog to &lt;a href=&quot;http://jekyllrb.c
 It’s a pretty decent combination that a lot of people seem to be transitioning
 to.&lt;/p&gt;
 
-&lt;p&gt;If you ever think about starting a blog, &lt;em&gt;do not&lt;/em&gt; go with Wordpress. If you absolutely
+&lt;p&gt;If you ever think about starting a blog, &lt;em&gt;do not&lt;/em&gt; go with Wordpress. 
+If you absolutely
 cannot resist the temptation, by all means do not maintain your own Wordpress
-install. Wordpress is slow, clunky and insecure. I had to install updates
+install.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Wordpress is slow, clunky and insecure.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I had to install updates
 multiple times a month and even that was evidently not enough to stay on top.&lt;/p&gt;
 
 &lt;p&gt;On a positive note, I appear to be on paternity leave right now—for another
@@ -920,7 +926,7 @@ or follow me on &lt;a href=&quot;https://www.twitter.com/mrtz&quot;&gt;Twitter&l
       </item>
     
       <item>
-        <title>The NIPS Experiment</title>
+        <title>The NIPS experiment</title>
         <description>&lt;p&gt;&lt;em&gt;This is a guest post by &lt;a href=&quot;http://cs.utexas.edu/~ecprice/&quot;&gt;Eric Price&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;I was at NIPS (one of the two main machine learning conferences) in Montreal last week, which has a really advanced format relative to the theory conferences. The double blind reviewing, rebuttal phase, and poster+lightning talk system all seem like improvements on the standard in my normal area (theoretical computer science), and having 2400 attendees is impressive and overwhelming. But the most amazing thing about the conference organization this year was the &lt;a href=&quot;http://inverseprobability.com/2014/12/16/the-nips-experiment/&quot;&gt;NIPS consistency experiment&lt;/a&gt;.&lt;/p&gt;
@@ -1042,7 +1048,7 @@ accountability and transparency that Solon Barocas and I organized.&lt;/p&gt;
       </item>
     
       <item>
-        <title>Robustness versus Acceleration</title>
+        <title>Robustness versus acceleration</title>
         <description>&lt;p&gt;My blog post on the &lt;a href=&quot;http://mrtz.org/blog/the-zen-of-gradient-descent/&quot;&gt;Zen of Gradient Descent&lt;/a&gt; hit the front page of &lt;a href=&quot;https://news.ycombinator.com/item?id=8182991&quot;&gt;Hacker News&lt;/a&gt; the other day. I don't know how that happened. It got me more views in one day than this most humble blog usually gets in half a year. I thought I should take this as an excuse to extend the post a bit by elaborating on one remark I made only in passing. You don't need to go back to reading that post unless you want to. This one will be self contained.&lt;/p&gt;
 &lt;p&gt;The point I made is that basic Gradient Descent (GD) is noise tolerant in a way that Accelerated Gradient Descent (AGD) is not. That is to say, if we don't have exact but rather approximate gradient information, GD might very well outperform AGD even though its convergence rate is worse in the exact setting. The truth is I was sort of bluffing. I didn't actually have a proof of a formal statement that would nail down this point in a compelling way. It was more of a gut feeling based on some simple observations.&lt;/p&gt;
 &lt;p&gt;To break the suspense, I still haven't proved the statement I vaguely thought was true back then, but fortunately somebody else had already done that. This is a thought provoking &lt;a href=&quot;http://www.optimization-online.org/DB_FILE/2010/12/2865.pdf&quot;&gt;paper by Devolder, Glineur and Nesterov &lt;/a&gt;(DGN). Thanks to Cristobal Guzman for pointing me to this paper. Roughly, what they show is that any method that converges faster than the basic gradient descent method must accumulate errors linearly with the number of iterations. Hence, in various noisy settings auch as are common in applications acceleration may not help---in fact, it can actually make things worse!&lt;/p&gt;

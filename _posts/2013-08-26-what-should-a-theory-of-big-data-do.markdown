@@ -2,7 +2,7 @@
 layout: post
 status: publish
 published: true
-title: What should a theory of Big Data say?
+title: What should a theory of big data say?
 author: Moritz Hardt
 date: '2013-08-26 11:36:29 -0700'
 comments: true

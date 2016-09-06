@@ -2,7 +2,7 @@
 layout: post
 status: publish
 published: true
-title: 'Occupy Algorithms: Will Algorithms Serve the 99%?'
+title: 'Occupy algorithms: Will algorithms serve the 99%?'
 author: Moritz Hardt
 date: '2013-08-12 20:22:26 -0700'
 comments: true

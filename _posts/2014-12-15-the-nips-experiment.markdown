@@ -2,7 +2,7 @@
 layout: post
 status: publish
 published: true
-title: The NIPS Experiment
+title: The NIPS experiment
 author: Eric Price
 comments: true
 date: '2014-12-15 11:45:39 -0800'

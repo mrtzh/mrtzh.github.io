@@ -298,13 +298,13 @@ pre {
   .post-content h2 {
     font-size: 30px;
     letter-spacing: -1px;
-    margin-top: 50px; }
+    margin-top: 30px; }
     @media screen and (max-width: 780px) {
       .post-content h2 {
         font-size: 26px; } }
   .post-content h3 {
     font-size: 24px;
-    margin-top: 30px; }
+    margin-top: 20px; }
     @media screen and (max-width: 780px) {
       .post-content h3 {
         font-size: 22px; } }
