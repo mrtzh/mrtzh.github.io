@@ -4,7 +4,7 @@ title: Approaching fairness in machine learning
 author: Moritz Hardt
 published:  true
 comments: true
-date: '2016-09-06 08:00:00 -0800'
+date: '2016-09-06 07:30:00 -0800'
 tags:
 - fairness
 - machine learning
