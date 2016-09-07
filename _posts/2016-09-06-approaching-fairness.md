@@ -17,7 +17,7 @@ This sequence of posts is a sober take on the subtleties and difficulties in eng
 
 In this first post, I will focus on a sticky idea I call *demographic parity* that through its many variants has been proposed as a fairness criterion in dozens of papers. I will argue that demographic parity not only cripples machine learning, it also fails to guarantee fairness.
 
-In a second post, I will introduce you to a measure of fairness put forward in a recent joint work with [Price](http://www.cs.utexas.edu/~ecprice/) and [Srebro](http://ttic.uchicago.edu/~nati/) that addresses the main conceptual shortcomings of demographic parity, while being fairly easy to apply and to interpret. A third post will use our framework to interpret the recent controversy on COMPAS scores. Finally, I’ll devote an entire post on limitations of our work, and avenues for future research. My claims of future posts have been mostly wrong in the past except these posts are actually already written.
+In a second post, I will introduce you to a measure of fairness put forward in a recent joint work with [Price](http://www.cs.utexas.edu/~ecprice/) and [Srebro](http://ttic.uchicago.edu/~nati/) that addresses the main conceptual shortcomings of demographic parity, while being fairly easy to apply and to interpret. A third post will use our framework to interpret the recent controversy on COMPAS scores. Finally, I’ll have an entire post on limitations of our work, and avenues for future research. My claims of future posts have been mostly wrong in the past except these posts are actually already written.
 
 So, if you're interested in the topic, but less so in seeing pictures of Terminator alongside vague claims about AI, stay on for this blog post series and join the discussion.
 
