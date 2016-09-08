@@ -46,7 +46,7 @@ Unfortunately, the notion is seriously flawed on two counts.
 
 ### Demographic parity doesn't ensure fairness
 
-The notion permits that a classifier selects qualified applicants in the demographic $$A=0$$, but unqualified individuals in $$A=1$$, so long as the percentages of acceptance match. Consider, for example, a luxury hotel chain that renders a promotion to wealthy whites (who are likely to visit the hotel) and much less affluent blacks (who are very unlikely to visit the hotel). The situation is obviously quite icky, but demographic parity is completely fine with it so long as the same fraction of people in each group see the promotion.
+The notion permits that a classifier selects qualified applicants in the demographic $$A=0$$, but unqualified individuals in $$A=1$$, so long as the percentages of acceptance match. Consider, for example, a luxury hotel chain that renders a promotion to a subset of wealthy whites (who are likely to visit the hotel) and a subset of less affluent blacks (who are unlikely to visit the hotel). The situation is obviously quite icky, but demographic parity is completely fine with it so long as the same fraction of people in each group see the promotion.
 
 You might argue that it’s never in the advertiser’s interest to lose potential customers. But the above scenario can arise naturally when there is less training data available about a minority group. As a result, the advertiser might have a much better understanding of who to target in the majority group, while essentially random guessing within the minority.
 
