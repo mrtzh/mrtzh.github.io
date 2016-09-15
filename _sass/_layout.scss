@@ -2,16 +2,15 @@
  * Site header
  */
 .site-header {
-    border-top: 3px solid $grey-color-dark;
-    border-bottom: 1px solid $grey-color-light;
+    border-top: 3px solid $grey-color-light;
     min-height: 56px;
-
     // Positioning context for the mobile navigation icon
     position: relative;
+    margin-bottom:15px;
 }
 
 .site-title {
-    font-size: 28px;
+    font-size: 74px;
     line-height: 56px;
     letter-spacing: -1px;
     margin-bottom: 0;
@@ -19,7 +18,7 @@
 
     &,
     &:visited {
-        color: $grey-color-dark;
+        color: $grey-color-light;
     }
 }
 
@@ -94,6 +93,7 @@
  */
 .site-footer {
     border-top: 1px solid $grey-color-light;
+    border-top: 3px solid $grey-color-light;
     padding: $spacing-unit 0;
 }
 

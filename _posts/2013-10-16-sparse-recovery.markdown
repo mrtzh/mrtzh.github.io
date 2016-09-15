@@ -16,7 +16,10 @@ tags:
 ---
 <p><span style="line-height: 1.5;">Sparsity is of fundamental importance in much of signal processing, optimization, computer science and statistics. It was also a major theme in both workshops so far in the <a href="http://simons.berkeley.edu/programs/bigdata2013">Simons Big Data</a> program. The second workshop on succinct representations ended a few weeks ago. Those still barely conscious after a week of technical talks were rewarded by this sunset over Berkeley. (Technically, you still would have had to climb up to the top of Centennial Dr somehow.) </span></p>
 
-![Sunset](/assets/sunset3.jpg)
+<div style="display: inline-block; width:1200px; position:relative; right: -50%;">
+<img style="position: relative; left:-50%;" src="/assets/sunset3.jpg" /> 
+<!-- ![Sunset](/assets/sunset3.jpg)-->
+</div>
 
 <p>Sparsity is a solution concept and not just a technical term. Sparse solutions to an optimization problem are often more well-behaved as they explain a phenomenon with fewer parameters. In high-dimensional settings where there are more variables than constraints, enforcing sparsity makes sense of problems that would otherwise be underdetermined.</p>
 <p>There's been so much work on sparsity it seems hard to find a place to start. Fortunately, there's a simple and elegant---yet powerful---geometric approach underlying many results in sparse recovery that I'll focus on here.</p>

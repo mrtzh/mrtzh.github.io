@@ -5,8 +5,8 @@
     <description>A blog about machine learning.</description>
     <link>http://blog.mrtz.org/</link>
     <atom:link href="http://blog.mrtz.org/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 05 Sep 2016 15:58:37 -0700</pubDate>
-    <lastBuildDate>Mon, 05 Sep 2016 15:58:37 -0700</lastBuildDate>
+    <pubDate>Wed, 14 Sep 2016 22:29:30 -0700</pubDate>
+    <lastBuildDate>Wed, 14 Sep 2016 22:29:30 -0700</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -17,7 +17,7 @@
 
 &lt;p&gt;In this first post, I will focus on a sticky idea I call &lt;em&gt;demographic parity&lt;/em&gt; that through its many variants has been proposed as a fairness criterion in dozens of papers. I will argue that demographic parity not only cripples machine learning, it also fails to guarantee fairness.&lt;/p&gt;
 
-&lt;p&gt;In a second post, I will introduce you to a measure of fairness put forward in a recent joint work with &lt;a href=&quot;http://www.cs.utexas.edu/~ecprice/&quot;&gt;Price&lt;/a&gt; and &lt;a href=&quot;http://ttic.uchicago.edu/~nati/&quot;&gt;Srebro&lt;/a&gt; that addresses the main conceptual shortcomings of demographic parity, while being fairly easy to apply and to interpret. A third post will use our framework to unravel the recent controversy on COMPAS scores. Finally, I’ll devote an entire post on limitations of our work, and avenues for future research. My claims of future posts have been mostly wrong in the past except these posts are actually already written.&lt;/p&gt;
+&lt;p&gt;In a second post, I will introduce you to a measure of fairness put forward in a recent joint work with &lt;a href=&quot;http://www.cs.utexas.edu/~ecprice/&quot;&gt;Price&lt;/a&gt; and &lt;a href=&quot;http://ttic.uchicago.edu/~nati/&quot;&gt;Srebro&lt;/a&gt; that addresses the main conceptual shortcomings of demographic parity, while being fairly easy to apply and to interpret. A third post will use our framework to interpret the recent controversy on COMPAS scores. Finally, I’ll have an entire post on limitations of our work, and avenues for future research. My claims of future posts have been mostly wrong in the past except these posts are actually already written.&lt;/p&gt;
 
 &lt;p&gt;So, if you’re interested in the topic, but less so in seeing pictures of Terminator alongside vague claims about AI, stay on for this blog post series and join the discussion.&lt;/p&gt;
 
@@ -46,7 +46,7 @@ learned representation has zero &lt;a href=&quot;https://en.wikipedia.org/wiki/M
 
 &lt;h3 id=&quot;demographic-parity-doesnt-ensure-fairness&quot;&gt;Demographic parity doesn’t ensure fairness&lt;/h3&gt;
 
-&lt;p&gt;The notion permits that a classifier selects qualified applicants in the demographic &lt;script type=&quot;math/tex&quot;&gt;A=0&lt;/script&gt;, but unqualified individuals in &lt;script type=&quot;math/tex&quot;&gt;A=1&lt;/script&gt;, so long as the percentages of acceptance match. Consider, for example, a luxury hotel chain that renders a promotion to wealthy whites (who are likely to visit the hotel) and much less affluent blacks (who are very unlikely to visit the hotel). The situation is obviously quite icky, but demographic parity is completely fine with it so long as the same fraction of people in each group see the promotion.&lt;/p&gt;
+&lt;p&gt;The notion permits that a classifier selects qualified applicants in the demographic &lt;script type=&quot;math/tex&quot;&gt;A=0&lt;/script&gt;, but unqualified individuals in &lt;script type=&quot;math/tex&quot;&gt;A=1&lt;/script&gt;, so long as the percentages of acceptance match. Consider, for example, a luxury hotel chain that renders a promotion to a subset of wealthy whites (who are likely to visit the hotel) and a subset of less affluent blacks (who are unlikely to visit the hotel). The situation is obviously quite icky, but demographic parity is completely fine with it so long as the same fraction of people in each group see the promotion.&lt;/p&gt;
 
 &lt;p&gt;You might argue that it’s never in the advertiser’s interest to lose potential customers. But the above scenario can arise naturally when there is less training data available about a minority group. As a result, the advertiser might have a much better understanding of who to target in the majority group, while essentially random guessing within the minority.&lt;/p&gt;
 
@@ -66,9 +66,9 @@ learned representation has zero &lt;a href=&quot;https://en.wikipedia.org/wiki/M
 
 &lt;p&gt;&lt;em&gt;Stay on top of future posts. Subscribe to the &lt;a href=&quot;http://blog.mrtz.org/feed.xml&quot;&gt;RSS feed&lt;/a&gt;, or follow me on &lt;a href=&quot;https://twitter.com/mrtz&quot;&gt;Twitter&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 </description>
-        <pubDate>Thu, 01 Sep 2016 10:00:00 -0700</pubDate>
-        <link>http://blog.mrtz.org/2016/09/01/approaching-fairness.html</link>
-        <guid isPermaLink="true">http://blog.mrtz.org/2016/09/01/approaching-fairness.html</guid>
+        <pubDate>Tue, 06 Sep 2016 08:30:00 -0700</pubDate>
+        <link>http://blog.mrtz.org/2016/09/06/approaching-fairness.html</link>
+        <guid isPermaLink="true">http://blog.mrtz.org/2016/09/06/approaching-fairness.html</guid>
         
         <category>fairness</category>
         
